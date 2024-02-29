@@ -8,13 +8,18 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AgeScroll from '@components/ScroolAge';
+import { ButtonFocus } from '@components/ButtonFocus';
 
 export function CreateAccount() {
   const {goBack} = useNavigation();
   const [step, setStep] = useState('selecionar_sexo');
   const [selectedAge, setSelectedAge] = useState(18);
   const [selectedWeight, setSelectedWeight] = useState(50);
+  const [selectedOption, setSelectedOption] = useState("");
 
+  const handleSelect = (option) => {
+    setSelectedOption(option);
+  };
   const [state, dispatch] = useReducer(createAccountReducer, {
     sexo: '',
     age: '',
@@ -169,7 +174,10 @@ export function CreateAccount() {
               width={350}
               borderRadius={8}
               height={50}
-              onPress={() => handleSaveWeight()}
+              onPress={() => {
+                handleSaveWeight();
+                setStep('selecionar_foco');
+              }}
             />
             <Button
               label="Voltar"
@@ -189,10 +197,10 @@ export function CreateAccount() {
         </Box>
       </Box>
       )}
-      {step === 'selecionar_focus' && (
+      {step === 'selecionar_foco' && (
          <Box padding="l" flex={1}>
          <Text variant="bold" color="shape">
-           Selecione seu peso {state.weight}
+           Selecione seu foco
          </Text>
          <Text variant='body' color='textBody'>
            Ajude-nos a montar seu melhor treino {"\n"}
@@ -203,8 +211,31 @@ export function CreateAccount() {
            justifyContent="space-between"
            flex={1}
            mt="s">
-           <Box height={450}>
-             <AgeScroll initialValue={selectedWeight} onSave={setSelectedWeight} metric="Kg" />
+           <Box height={450} width={350} gap='s' mt='m'>
+             <ButtonFocus 
+               text='Sou Iniciante' 
+               description={`Não sei nada de treino, mas meu objetivo${"\n"}não é treinar todos os dias!`}
+               onSelect={() => handleSelect("Sou Iniciante")} // Passando a opção quando selecionado
+               selected={selectedOption === "Sou Iniciante"} // Verificando se a opção está selecionada
+              />
+              <ButtonFocus 
+               text='Sou Entusiasta' 
+               description={`Tenho vontade de aprender e treinar pelo menos alguns dias da semana.`}
+               onSelect={() => handleSelect("Sou Entusiasta'")} // Passando a opção quando selecionado
+               selected={selectedOption === "Sou Entusiasta'"} // Verificando se a opção está selecionada
+              />
+              <ButtonFocus 
+               text='Sou Focado' 
+               description={`Já treino faz um tempo, mas meu objetivo ${"\n"}não ser muito musculoso`}
+               onSelect={() => handleSelect("Sou Focado")} // Passando a opção quando selecionado
+               selected={selectedOption === "Sou Focado"} // Verificando se a opção está selecionada
+              />
+              <ButtonFocus 
+               text='Sou Viciado' 
+               description={`Eu treino muito e meu foco ${"\n"}é ficar com shape muito massa`}
+               onSelect={() => handleSelect("Sou Viciado")} // Passando a opção quando selecionado
+               selected={selectedOption === "Sou Viciado"} // Verificando se a opção está selecionada
+              />
            </Box>
            <Box>
              <Button

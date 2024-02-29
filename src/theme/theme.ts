@@ -38,6 +38,10 @@ const theme = createTheme({
       fontSize : 11,
       fontFamily : 'Poppins-Light'
     },
+    bodyMin : {
+      fontSize : 11,
+      fontFamily : 'Poppins-Regular'
+    },
     bold : {
       fontSize : 15,
       fontFamily : 'Poppins-Bold'
