@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator  } from "@react-navigation/stack";
+import { CreateAccount } from "@screens/CreateAccount";
 import { Home } from "@screens/Home";
 import { Login } from "@screens/Login";
 import { SendCode } from "@screens/SendCode";
@@ -15,8 +16,9 @@ export const Navigation = () => {
       headerShown : false
     }}>
       <S.Screen name="Login" component={Login} />
+      <S.Screen name="Create" component={CreateAccount} />
       <S.Screen name="SendCode" component={SendCode} />
-        <S.Screen name="Home" component={Home} />
+      <S.Screen name="Home" component={Home} />
     </S.Navigator>
   );
 }

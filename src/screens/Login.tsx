@@ -10,8 +10,6 @@ import {useNavigation} from '@react-navigation/native';
 import cover from '../assets/cover.png';
 import {submit} from '@services/api';
 import {useUser} from '../store/auth';
-import {startTransition} from 'react';
-import {Storage} from '@services/storage';
 
 export function Login() {
   const setUser = useUser(state => state.setUser);
@@ -135,7 +133,7 @@ export function Login() {
           <Box alignItems="center" marginTop="m">
             <Text variant="body" color="textBody">
               Não tem conta ?{' '}
-              <Text variant="bold" color="greenPrimary">
+              <Text variant="bold" color="greenPrimary" onPress={() => navigate("Create")}>
                 Crie uma.
               </Text>
             </Text>

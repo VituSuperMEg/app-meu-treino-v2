@@ -22,5 +22,5 @@ interface INoticafion {
   // user_country: string;
 }
 export const useNoticafion = create<INoticafion>((set) => ({
-  count : 70,
+  count : 1,
 }));
