@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import WheelPicker from 'react-native-wheel-scrollview-picker';
 
-const AgePicker = ({ initialValue = 18, onSave }) => {
+const AgePicker = ({ initialValue = 18, onSave, metric = ""}) => {
   const ages = Array.from({ length: 100 }, (_, index) => 18 + index);
 
   const handleAgeChange = age => {
@@ -20,6 +20,7 @@ const AgePicker = ({ initialValue = 18, onSave }) => {
         highlightColor='#5ED25C'
         highlightBorderWidth={3}
         itemHeight={80}
+        allowCustomMetric={metric}
       />
     </View>
   );

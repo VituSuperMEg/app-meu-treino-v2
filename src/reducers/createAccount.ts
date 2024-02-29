@@ -10,6 +10,11 @@ export function createAccountReducer(state: any, action : any) {
       ...state,
         age: action.value,
       };
+    case 'SET_WEIGHT':
+      return {
+        ...state,
+        weight: action.value,
+      }
     default:
       return state;
   }

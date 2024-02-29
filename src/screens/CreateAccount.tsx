@@ -13,15 +13,20 @@ export function CreateAccount() {
   const {goBack} = useNavigation();
   const [step, setStep] = useState('selecionar_sexo');
   const [selectedAge, setSelectedAge] = useState(18);
+  const [selectedWeight, setSelectedWeight] = useState(50);
+
   const [state, dispatch] = useReducer(createAccountReducer, {
     sexo: '',
     age: '',
+    weight : '',
   });
 
   const handleSave = () => {
     dispatch({type: 'SET_AGE', value: selectedAge});
   };
-
+  const handleSaveWeight = () => {
+    dispatch({type: 'SET_WEIGHT', value: selectedWeight});
+  }
   return (
     <Box backgroundColor="mainBackground" flex={1} paddingTop="l">
       {step === 'selecionar_sexo' && (
@@ -93,14 +98,18 @@ export function CreateAccount() {
       {step === 'selecionar_idade' && (
         <Box padding="l" flex={1}>
           <Text variant="bold" color="shape">
-            Selecione sua idade {state.age}
+            Selecione sua idade 
+          </Text>
+          <Text variant='body' color='textBody'>
+            Ajude-nos a montar seu melhor treino {"\n"}
+            marque alguma opção abaixo e clique em continuar
           </Text>
           <Box
             alignItems="center"
             justifyContent="space-between"
             flex={1}
-            mt="xl">
-            <Box height={500}>
+            mt="s">
+            <Box height={450}>
               <AgeScroll initialValue={selectedAge} onSave={setSelectedAge} />
             </Box>
             <Box>
@@ -113,7 +122,7 @@ export function CreateAccount() {
                 width={350}
                 borderRadius={8}
                 height={50}
-                onPress={() => handleSave()}
+                onPress={() => {handleSave(); setStep("selecionar_peso")}}
               />
               <Button
                 label="Voltar"
@@ -132,6 +141,100 @@ export function CreateAccount() {
             </Box>
           </Box>
         </Box>
+      )}
+      {step === 'selecionar_peso' && (
+        <Box padding="l" flex={1}>
+        <Text variant="bold" color="shape">
+          Selecione seu peso {state.weight}
+        </Text>
+        <Text variant='body' color='textBody'>
+          Ajude-nos a montar seu melhor treino {"\n"}
+          marque alguma opção abaixo e clique em continuar.
+        </Text>
+        <Box
+          alignItems="center"
+          justifyContent="space-between"
+          flex={1}
+          mt="s">
+          <Box height={450}>
+            <AgeScroll initialValue={selectedWeight} onSave={setSelectedWeight} metric="Kg" />
+          </Box>
+          <Box>
+            <Button
+              label="Continuar"
+              backgroundColor="shape"
+              textColor="black"
+              alignItems="center"
+              justifyContent="center"
+              width={350}
+              borderRadius={8}
+              height={50}
+              onPress={() => handleSaveWeight()}
+            />
+            <Button
+              label="Voltar"
+              backgroundColor="mainBackground"
+              borderColor="greenPrimary"
+              borderWidth={1}
+              textColor="shape"
+              alignItems="center"
+              justifyContent="center"
+              width={350}
+              borderRadius={8}
+              height={50}
+              marginTop="s"
+              onPress={() => setStep('selecionar_idade')}
+            />
+          </Box>
+        </Box>
+      </Box>
+      )}
+      {step === 'selecionar_focus' && (
+         <Box padding="l" flex={1}>
+         <Text variant="bold" color="shape">
+           Selecione seu peso {state.weight}
+         </Text>
+         <Text variant='body' color='textBody'>
+           Ajude-nos a montar seu melhor treino {"\n"}
+           marque alguma opção abaixo e clique em continuar.
+         </Text>
+         <Box
+           alignItems="center"
+           justifyContent="space-between"
+           flex={1}
+           mt="s">
+           <Box height={450}>
+             <AgeScroll initialValue={selectedWeight} onSave={setSelectedWeight} metric="Kg" />
+           </Box>
+           <Box>
+             <Button
+               label="Continuar"
+               backgroundColor="shape"
+               textColor="black"
+               alignItems="center"
+               justifyContent="center"
+               width={350}
+               borderRadius={8}
+               height={50}
+               onPress={() => handleSaveWeight()}
+             />
+             <Button
+               label="Voltar"
+               backgroundColor="mainBackground"
+               borderColor="greenPrimary"
+               borderWidth={1}
+               textColor="shape"
+               alignItems="center"
+               justifyContent="center"
+               width={350}
+               borderRadius={8}
+               height={50}
+               marginTop="s"
+               onPress={() => setStep('selecionar_idade')}
+             />
+           </Box>
+         </Box>
+       </Box>
       )}
     </Box>
   );
