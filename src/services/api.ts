@@ -1,0 +1,31 @@
+import  axios from 'axios';
+
+interface IAxios {
+  controller : string;
+  params : any;
+}
+const api = axios.create({
+  baseURL : 'http://192.168.0.24:3000/api/v1/'
+});
+
+export const getData = async (controller : IAxios) => {
+  try {
+    const response = await api.get(`${controller}`);
+    return console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const submit = async ({
+   controller,
+   params
+}:IAxios) => {
+  try {
+    const response = await api.post(`${controller}`, 
+      params
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
