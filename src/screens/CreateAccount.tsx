@@ -640,7 +640,7 @@ export function CreateAccount() {
         </Box>
       )}
       {step === 'criar_conta' && (
-        <ImageBackground source={create} style={styles.background}>
+        <Box backgroundColor='mainBackground' flex={1} alignItems='center' justifyContent='center'>
           <Box padding="m" alignItems="center">
             <Text variant="body" color="shape" fontSize={30}>
               Criar Conta
@@ -801,7 +801,7 @@ export function CreateAccount() {
               onPress={() => setStep('validar_dados')}
             />
           </Box>
-        </ImageBackground>
+        </Box>
       )}
     </Box>
   );
