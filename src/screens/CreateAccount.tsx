@@ -9,6 +9,7 @@ import {
   User,
   Envelope,
   Lock,
+  CheckCircle,
 } from 'phosphor-react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ImageBackground, StyleSheet} from 'react-native';
@@ -22,7 +23,7 @@ import { submit } from '@services/api';
 import { useToast } from 'react-native-toast-notifications';
 
 export function CreateAccount() {
-  const {goBack} = useNavigation();
+  const {goBack, navigate} = useNavigation();
   const toast = useToast();
   const {
     control,
@@ -77,7 +78,12 @@ export function CreateAccount() {
         level : ""
       }
     });
-    toast.show("Conta Criada com Sucesso");
+    toast.show("Task finished successfully", {
+      type: "success",
+      icon: <CheckCircle />,
+      duration: 4000,
+    });
+    navigate("Login");
   }
   return (
     <Box backgroundColor="mainBackground" flex={1} paddingTop="l">
