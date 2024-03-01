@@ -10,6 +10,7 @@ import {
   Envelope,
   Lock,
   CheckCircle,
+  XCircle,
 } from 'phosphor-react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ImageBackground, StyleSheet} from 'react-native';
@@ -40,12 +41,15 @@ export function CreateAccount() {
   const [step, setStep] = useState('selecionar_sexo');
   const [selectedAge, setSelectedAge] = useState(18);
   const [selectedWeight, setSelectedWeight] = useState(50);
+  const [selectedHeight, setSelectedHeight] = useState(100);
 
   const [state, dispatch] = useReducer(createAccountReducer, {
     sexo: '',
     age: '',
     weight: '',
     focus: '',
+    height : '',
+    level : '',
   });
 
   const handleSave = () => {
@@ -66,21 +70,28 @@ export function CreateAccount() {
         premium : ''
       },
     });
+    if(!result) {
+      toast.show("E-mail já existe!", {
+        type: 'error',
+        icon : <XCircle color='#fff'/>,
+        duration: 4000
+      })
+    }
     await submit({
       controller : "profille",
       params : {
         user_id : result?.id,
         sexo : state.sexo,
         age : state.age,
-        height : "167",
+        height : state.height,
         weight : state.weight,
         focus : state.focus,
-        level : ""
+        level : state.level
       }
     });
-    toast.show("Task finished successfully", {
+    toast.show("Conta Criada com Sucesso", {
       type: "success",
-      icon: <CheckCircle />,
+      icon: <CheckCircle color='#fff'/>,
       duration: 4000,
     });
     navigate("Login");
@@ -218,7 +229,7 @@ export function CreateAccount() {
       {step === 'selecionar_peso' && (
         <Box padding="l" flex={1}>
           <Text variant="bold" color="shape">
-            Selecione seu peso {state.weight}
+            Selecione seu peso
           </Text>
           <Text variant="body" color="textBody">
             Ajude-nos a montar seu melhor treino {'\n'}
@@ -248,7 +259,7 @@ export function CreateAccount() {
                 height={50}
                 onPress={() => {
                   handleSaveWeight();
-                  setStep('selecionar_foco');
+                  setStep('selecionar_altura');
                 }}
               />
               <Button
@@ -268,6 +279,60 @@ export function CreateAccount() {
             </Box>
           </Box>
         </Box>
+      )}
+      {step === 'selecionar_altura' && (
+        <Box padding="l" flex={1}>
+        <Text variant="bold" color="shape">
+          Selecione sua Altura
+        </Text>
+        <Text variant="body" color="textBody">
+          Ajude-nos a montar seu melhor treino {'\n'}
+          marque alguma opção abaixo e clique em continuar.
+        </Text>
+        <Box
+          alignItems="center"
+          justifyContent="space-between"
+          flex={1}
+          mt="s">
+          <Box height={450}>
+            <AgeScroll
+              initialValue={selectedHeight}
+              onSave={setSelectedHeight}
+              metric="CM"
+            />
+          </Box>
+          <Box>
+            <Button
+              label="Continuar"
+              backgroundColor="shape"
+              textColor="black"
+              alignItems="center"
+              justifyContent="center"
+              width={350}
+              borderRadius={8}
+              height={50}
+              onPress={() => {
+                dispatch({ type : "SET_HEIGHT", value : selectedHeight});
+                setStep('selecionar_foco');
+              }}
+            />
+            <Button
+              label="Voltar"
+              backgroundColor="mainBackground"
+              borderColor="greenPrimary"
+              borderWidth={1}
+              textColor="shape"
+              alignItems="center"
+              justifyContent="center"
+              width={350}
+              borderRadius={8}
+              height={50}
+              marginTop="s"
+              onPress={() => setStep('selecionar_idade')}
+            />
+          </Box>
+        </Box>
+      </Box>
       )}
       {step === 'selecionar_foco' && (
         <Box padding="l" flex={1}>
@@ -315,6 +380,86 @@ export function CreateAccount() {
                   dispatch({type: 'SET_FOCUS', value: 'Sou Viciado'})
                 }
                 selected={state.focus === 'Sou Viciado'}
+              />
+            </Box>
+            <Box>
+              <Button
+                label="Continuar"
+                backgroundColor="shape"
+                textColor="black"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                onPress={() => {
+                  setStep('selecionar_nivel');
+                }}
+              />
+              <Button
+                label="Voltar"
+                backgroundColor="mainBackground"
+                borderColor="greenPrimary"
+                borderWidth={1}
+                textColor="shape"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                marginTop="s"
+                onPress={() => setStep('selecionar_altura')}
+              />
+            </Box>
+          </Box>
+        </Box>
+      )}
+      {step === 'selecionar_nivel' && (
+        <Box padding="l" flex={1}>
+          <Text variant="bold" color="shape">
+            Selecione seu Nivel
+          </Text>
+          <Text variant="body" color="textBody">
+            Ajude-nos a montar seu melhor treino {'\n'}
+            marque alguma opção abaixo e clique em continuar.
+          </Text>
+          <Box
+            alignItems="center"
+            justifyContent="space-between"
+            flex={1}
+            mt="s">
+            <Box height={450} width={350} gap="s" mt="m">
+              <ButtonFocus
+                text="Leve"
+                description={`Não sei nada de treino, mas meu objetivo${'\n'}não é treinar todos os dias!`}
+                onSelect={() =>
+                  dispatch({type: 'SET_LEVEL', value: 'Leve'})
+                }
+                selected={state.level === 'Leve'}
+              />
+              <ButtonFocus
+                text="Moderado"
+                description={`Tenho vontade de aprender e treinar pelo menos alguns dias da semana.`}
+                onSelect={() =>
+                  dispatch({type: 'SET_LEVEL', value: 'Moderado'})
+                }
+                selected={state.level === 'Moderado'}
+              />
+              <ButtonFocus
+                text="Pesado"
+                description={`Já treino faz um tempo, mas meu objetivo ${'\n'}não ser muito musculoso`}
+                onSelect={() =>
+                  dispatch({type: 'SET_LEVEL', value: 'Pesado'})
+                }
+                selected={state.level === 'Pesado'}
+              />
+              <ButtonFocus
+                text="Intenso"
+                description={`Eu treino muito e meu foco ${'\n'}é ficar com shape muito massa`}
+                onSelect={() =>
+                  dispatch({type: 'SET_LEVEL', value: 'Intenso'})
+                }
+                selected={state.level === 'Intenso'}
               />
             </Box>
             <Box>

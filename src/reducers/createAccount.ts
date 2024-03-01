@@ -20,6 +20,16 @@ export function createAccountReducer(state: any, action : any) {
       ...state,
         focus: action.value,
       }
+    case 'SET_HEIGHT':
+      return {
+        ...state,
+         height: action.value,
+      }
+    case 'SET_LEVEL':
+      return {
+      ...state,
+         level: action.value,
+      }
     default:
       return state;
   }
