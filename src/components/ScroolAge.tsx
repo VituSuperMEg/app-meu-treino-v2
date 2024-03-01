@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import WheelPicker from 'react-native-wheel-scrollview-picker';
 
 const AgePicker = ({ initialValue = 18, onSave, metric = ""}) => {
-  const ages = Array.from({ length: 100 }, (_, index) => 18 + index);
+  const ages = Array.from({ length: 230 }, (_, index) => 18 + index);
 
   const handleAgeChange = age => {
     onSave(age);

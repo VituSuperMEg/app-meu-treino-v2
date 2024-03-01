@@ -328,7 +328,7 @@ export function CreateAccount() {
               borderRadius={8}
               height={50}
               marginTop="s"
-              onPress={() => setStep('selecionar_idade')}
+              onPress={() => setStep('selecionar_peso')}
             />
           </Box>
         </Box>
