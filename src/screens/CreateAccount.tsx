@@ -17,7 +17,6 @@ import {ImageBackground, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ButtonFocus} from '@components/ButtonFocus';
 import AgeScroll from '@components/ScroolAge';
-import create from '@assets/create.png';
 import {useForm, Controller} from 'react-hook-form';
 import {TextInputRestyle} from '@components/TextInput';
 import {submit} from '@services/api';
