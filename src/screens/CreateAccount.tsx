@@ -3,27 +3,40 @@ import {Button} from '@components/Button';
 import {Text} from '@components/Text';
 import {useReducer, useState} from 'react';
 import {createAccountReducer} from '../reducers/createAccount';
-import {GenderMale, GenderFemale} from 'phosphor-react-native';
+import {GenderMale, GenderFemale, User, Envelope, Lock} from 'phosphor-react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {StyleSheet} from 'react-native';
+import {ImageBackground, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {ButtonFocus} from '@components/ButtonFocus';
 import AgeScroll from '@components/ScroolAge';
-import { ButtonFocus } from '@components/ButtonFocus';
+import create from '@assets/create.png';
+import { useForm, Controller } from 'react-hook-form';
+import { TextInputRestyle } from '@components/TextInput';
 
 export function CreateAccount() {
+
   const {goBack} = useNavigation();
+  const { 
+     control,
+     handleSubmit,
+     formState: {errors},
+  } = useForm({
+    defaultValues : {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    }
+  })
   const [step, setStep] = useState('selecionar_sexo');
   const [selectedAge, setSelectedAge] = useState(18);
   const [selectedWeight, setSelectedWeight] = useState(50);
-  const [selectedOption, setSelectedOption] = useState("");
 
-  const handleSelect = (option) => {
-    setSelectedOption(option);
-  };
   const [state, dispatch] = useReducer(createAccountReducer, {
     sexo: '',
     age: '',
-    weight : '',
+    weight: '',
+    focus: '',
   });
 
   const handleSave = () => {
@@ -31,7 +44,7 @@ export function CreateAccount() {
   };
   const handleSaveWeight = () => {
     dispatch({type: 'SET_WEIGHT', value: selectedWeight});
-  }
+  };
   return (
     <Box backgroundColor="mainBackground" flex={1} paddingTop="l">
       {step === 'selecionar_sexo' && (
@@ -39,8 +52,8 @@ export function CreateAccount() {
           <Text variant="bold" color="shape">
             Selecione seu sexo
           </Text>
-          <Text variant='body' color='textBody'>
-            Ajude-nos a montar seu melhor treino {"\n"}
+          <Text variant="body" color="textBody">
+            Ajude-nos a montar seu melhor treino {'\n'}
             marque alguma opção abaixo e clique em continuar
           </Text>
           <Box
@@ -54,8 +67,14 @@ export function CreateAccount() {
                 onPress={() => {
                   dispatch({type: 'SET_SEXO', value: 'F'});
                 }}>
-                <GenderFemale color={state.sexo === 'F' ? "#5ED25C" : "#fff"} size={50} />
-                <Text variant={state.sexo === "F" ? "bold" : "body"} color={state.sexo === 'F' ? "greenPrimary" : "shape" } marginTop="m">
+                <GenderFemale
+                  color={state.sexo === 'F' ? '#5ED25C' : '#fff'}
+                  size={50}
+                />
+                <Text
+                  variant={state.sexo === 'F' ? 'bold' : 'body'}
+                  color={state.sexo === 'F' ? 'greenPrimary' : 'shape'}
+                  marginTop="m">
                   Feminino
                 </Text>
               </TouchableOpacity>
@@ -64,8 +83,14 @@ export function CreateAccount() {
                 onPress={() => {
                   dispatch({type: 'SET_SEXO', value: 'M'});
                 }}>
-                <GenderMale color={state.sexo === 'M' ? "#5ED25C" : "#fff"}  size={50} />
-                <Text variant={state.sexo === "M" ? "bold" : "body"} color={state.sexo === 'M' ? "greenPrimary" : "shape" } marginTop="m">
+                <GenderMale
+                  color={state.sexo === 'M' ? '#5ED25C' : '#fff'}
+                  size={50}
+                />
+                <Text
+                  variant={state.sexo === 'M' ? 'bold' : 'body'}
+                  color={state.sexo === 'M' ? 'greenPrimary' : 'shape'}
+                  marginTop="m">
                   Masculino
                 </Text>
               </TouchableOpacity>
@@ -103,10 +128,10 @@ export function CreateAccount() {
       {step === 'selecionar_idade' && (
         <Box padding="l" flex={1}>
           <Text variant="bold" color="shape">
-            Selecione sua idade 
+            Selecione sua idade
           </Text>
-          <Text variant='body' color='textBody'>
-            Ajude-nos a montar seu melhor treino {"\n"}
+          <Text variant="body" color="textBody">
+            Ajude-nos a montar seu melhor treino {'\n'}
             marque alguma opção abaixo e clique em continuar
           </Text>
           <Box
@@ -127,7 +152,10 @@ export function CreateAccount() {
                 width={350}
                 borderRadius={8}
                 height={50}
-                onPress={() => {handleSave(); setStep("selecionar_peso")}}
+                onPress={() => {
+                  handleSave();
+                  setStep('selecionar_peso');
+                }}
               />
               <Button
                 label="Voltar"
@@ -149,123 +177,283 @@ export function CreateAccount() {
       )}
       {step === 'selecionar_peso' && (
         <Box padding="l" flex={1}>
-        <Text variant="bold" color="shape">
-          Selecione seu peso {state.weight}
-        </Text>
-        <Text variant='body' color='textBody'>
-          Ajude-nos a montar seu melhor treino {"\n"}
-          marque alguma opção abaixo e clique em continuar.
-        </Text>
-        <Box
-          alignItems="center"
-          justifyContent="space-between"
-          flex={1}
-          mt="s">
-          <Box height={450}>
-            <AgeScroll initialValue={selectedWeight} onSave={setSelectedWeight} metric="Kg" />
-          </Box>
-          <Box>
-            <Button
-              label="Continuar"
-              backgroundColor="shape"
-              textColor="black"
-              alignItems="center"
-              justifyContent="center"
-              width={350}
-              borderRadius={8}
-              height={50}
-              onPress={() => {
-                handleSaveWeight();
-                setStep('selecionar_foco');
-              }}
-            />
-            <Button
-              label="Voltar"
-              backgroundColor="mainBackground"
-              borderColor="greenPrimary"
-              borderWidth={1}
-              textColor="shape"
-              alignItems="center"
-              justifyContent="center"
-              width={350}
-              borderRadius={8}
-              height={50}
-              marginTop="s"
-              onPress={() => setStep('selecionar_idade')}
-            />
+          <Text variant="bold" color="shape">
+            Selecione seu peso {state.weight}
+          </Text>
+          <Text variant="body" color="textBody">
+            Ajude-nos a montar seu melhor treino {'\n'}
+            marque alguma opção abaixo e clique em continuar.
+          </Text>
+          <Box
+            alignItems="center"
+            justifyContent="space-between"
+            flex={1}
+            mt="s">
+            <Box height={450}>
+              <AgeScroll
+                initialValue={selectedWeight}
+                onSave={setSelectedWeight}
+                metric="Kg"
+              />
+            </Box>
+            <Box>
+              <Button
+                label="Continuar"
+                backgroundColor="shape"
+                textColor="black"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                onPress={() => {
+                  handleSaveWeight();
+                  setStep('selecionar_foco');
+                }}
+              />
+              <Button
+                label="Voltar"
+                backgroundColor="mainBackground"
+                borderColor="greenPrimary"
+                borderWidth={1}
+                textColor="shape"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                marginTop="s"
+                onPress={() => setStep('selecionar_idade')}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
       )}
       {step === 'selecionar_foco' && (
-         <Box padding="l" flex={1}>
-         <Text variant="bold" color="shape">
-           Selecione seu foco
-         </Text>
-         <Text variant='body' color='textBody'>
-           Ajude-nos a montar seu melhor treino {"\n"}
-           marque alguma opção abaixo e clique em continuar.
-         </Text>
-         <Box
-           alignItems="center"
-           justifyContent="space-between"
-           flex={1}
-           mt="s">
-           <Box height={450} width={350} gap='s' mt='m'>
-             <ButtonFocus 
-               text='Sou Iniciante' 
-               description={`Não sei nada de treino, mas meu objetivo${"\n"}não é treinar todos os dias!`}
-               onSelect={() => handleSelect("Sou Iniciante")} // Passando a opção quando selecionado
-               selected={selectedOption === "Sou Iniciante"} // Verificando se a opção está selecionada
+        <Box padding="l" flex={1}>
+          <Text variant="bold" color="shape">
+            Selecione seu foco
+          </Text>
+          <Text variant="body" color="textBody">
+            Ajude-nos a montar seu melhor treino {'\n'}
+            marque alguma opção abaixo e clique em continuar.
+          </Text>
+          <Box
+            alignItems="center"
+            justifyContent="space-between"
+            flex={1}
+            mt="s">
+            <Box height={450} width={350} gap="s" mt="m">
+              <ButtonFocus
+                text="Sou Iniciante"
+                description={`Não sei nada de treino, mas meu objetivo${'\n'}não é treinar todos os dias!`}
+                onSelect={() =>
+                  dispatch({type: 'SET_FOCUS', value: 'Sou Iniciante'})
+                }
+                selected={state.focus === 'Sou Iniciante'}
               />
-              <ButtonFocus 
-               text='Sou Entusiasta' 
-               description={`Tenho vontade de aprender e treinar pelo menos alguns dias da semana.`}
-               onSelect={() => handleSelect("Sou Entusiasta'")} // Passando a opção quando selecionado
-               selected={selectedOption === "Sou Entusiasta'"} // Verificando se a opção está selecionada
+              <ButtonFocus
+                text="Sou Entusiasta"
+                description={`Tenho vontade de aprender e treinar pelo menos alguns dias da semana.`}
+                onSelect={() =>
+                  dispatch({type: 'SET_FOCUS', value: 'Sou Entusiasta'})
+                }
+                selected={state.focus === 'Sou Entusiasta'}
               />
-              <ButtonFocus 
-               text='Sou Focado' 
-               description={`Já treino faz um tempo, mas meu objetivo ${"\n"}não ser muito musculoso`}
-               onSelect={() => handleSelect("Sou Focado")} // Passando a opção quando selecionado
-               selected={selectedOption === "Sou Focado"} // Verificando se a opção está selecionada
+              <ButtonFocus
+                text="Sou Focado"
+                description={`Já treino faz um tempo, mas meu objetivo ${'\n'}não ser muito musculoso`}
+                onSelect={() =>
+                  dispatch({type: 'SET_FOCUS', value: 'Sou Focado'})
+                }
+                selected={state.focus === 'Sou Focado'}
               />
-              <ButtonFocus 
-               text='Sou Viciado' 
-               description={`Eu treino muito e meu foco ${"\n"}é ficar com shape muito massa`}
-               onSelect={() => handleSelect("Sou Viciado")} // Passando a opção quando selecionado
-               selected={selectedOption === "Sou Viciado"} // Verificando se a opção está selecionada
+              <ButtonFocus
+                text="Sou Viciado"
+                description={`Eu treino muito e meu foco ${'\n'}é ficar com shape muito massa`}
+                onSelect={() =>
+                  dispatch({type: 'SET_FOCUS', value: 'Sou Viciado'})
+                }
+                selected={state.focus === 'Sou Viciado'}
               />
-           </Box>
-           <Box>
-             <Button
-               label="Continuar"
-               backgroundColor="shape"
-               textColor="black"
-               alignItems="center"
-               justifyContent="center"
-               width={350}
-               borderRadius={8}
-               height={50}
-               onPress={() => handleSaveWeight()}
-             />
-             <Button
-               label="Voltar"
-               backgroundColor="mainBackground"
-               borderColor="greenPrimary"
-               borderWidth={1}
-               textColor="shape"
-               alignItems="center"
-               justifyContent="center"
-               width={350}
-               borderRadius={8}
-               height={50}
-               marginTop="s"
-               onPress={() => setStep('selecionar_idade')}
-             />
-           </Box>
-         </Box>
-       </Box>
+            </Box>
+            <Box>
+              <Button
+                label="Continuar"
+                backgroundColor="shape"
+                textColor="black"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                onPress={() => {
+                  setStep('criar_conta');
+                }}
+              />
+              <Button
+                label="Voltar"
+                backgroundColor="mainBackground"
+                borderColor="greenPrimary"
+                borderWidth={1}
+                textColor="shape"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                marginTop="s"
+                onPress={() => setStep('selecionar_idade')}
+              />
+            </Box>
+          </Box>
+        </Box>
+      )}
+      {step === 'criar_conta' && (
+        <ImageBackground source={create} style={styles.background}>
+          <Text variant="body" color="shape" fontSize={30}>
+            Criar Conta
+          </Text>
+          <Box width={300}>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInputRestyle
+                marginTop="m"
+                placeholder="exemplo : john doe"
+                placeholderTextColor="#858585"
+                paddingLeft="m"
+                borderColor="textBody"
+                style={{color: '#fff'}}
+                borderWidth={1}
+                borderRadius={6}
+                height={50}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                secureTextEntry={false}
+                icon={<User color="#858585" />}
+                erros={
+                  errors.email && (
+                    <Text variant="body" color="danger">
+                      Informe seu e-mail
+                    </Text>
+                  )
+                }
+              />
+            )}
+            name="name"
+          />
+           <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInputRestyle
+                marginTop="m"
+                placeholder="jonhdoe@gmail.com"
+                placeholderTextColor="#858585"
+                paddingLeft="m"
+                borderColor="textBody"
+                style={{color: '#fff'}}
+                borderWidth={1}
+                borderRadius={6}
+                height={50}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                secureTextEntry={false}
+                icon={<Envelope color="#858585" />}
+                erros={
+                  errors.email && (
+                    <Text variant="body" color="danger">
+                      Informe seu e-mail
+                    </Text>
+                  )
+                }
+              />
+            )}
+            name="name"
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInputRestyle
+                marginTop="m"
+                placeholder="senha"
+                placeholderTextColor="#858585"
+                paddingLeft="m"
+                borderColor="textBody"
+                style={{color: '#fff'}}
+                borderWidth={1}
+                borderRadius={6}
+                height={50}
+                onBlur={onBlur}
+                secret
+                onChangeText={onChange}
+                secureTextEntry={false}
+                icon={<Envelope color="#858585" />}
+                erros={
+                  errors.email && (
+                    <Text variant="body" color="danger">
+                      Informe seu e-mail
+                    </Text>
+                  )
+                }
+              />
+            )}
+            name="password"
+          />
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInputRestyle
+                marginTop="m"
+                placeholder="senha"
+                placeholderTextColor="#858585"
+                paddingLeft="m"
+                borderColor="textBody"
+                style={{color: '#fff'}}
+                borderWidth={1}
+                borderRadius={6}
+                secret
+                height={50}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                secureTextEntry={false}
+                icon={<Lock color="#858585" />}
+                erros={
+                  errors.email && (
+                    <Text variant="body" color="danger">
+                      Informe seu e-mail
+                    </Text>
+                  )
+                }
+              />
+            )}
+            name="confirmPassword"
+          />
+          <Button
+            // onPress={handleSubmit(onSubmit)}
+            backgroundColor="greenPrimary"
+            label="Criar Conta"
+            marginTop="xl"
+            borderRadius={6}
+            height={50}
+            alignItems="center"
+            justifyContent="center"
+            textColor="shape"
+          />
+          </Box>
+        </ImageBackground>
       )}
     </Box>
   );
@@ -289,5 +477,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+  },
+  background: {
+    flex: 1,
+    resizeMode: 'cover', // ou "contain" para ajustar a imagem
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

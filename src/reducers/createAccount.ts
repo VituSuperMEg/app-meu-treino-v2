@@ -15,6 +15,11 @@ export function createAccountReducer(state: any, action : any) {
         ...state,
         weight: action.value,
       }
+    case 'SET_FOCUS':
+      return {
+      ...state,
+        focus: action.value,
+      }
     default:
       return state;
   }
