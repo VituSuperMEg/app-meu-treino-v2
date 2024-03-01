@@ -30,6 +30,7 @@ export function CreateAccount() {
     control,
     handleSubmit,
     formState: {errors},
+    watch,
   } = useForm({
     defaultValues: {
       name: '',
@@ -38,6 +39,7 @@ export function CreateAccount() {
       confirmPassword: '',
     },
   });
+
   const [step, setStep] = useState('selecionar_sexo');
   const [selectedAge, setSelectedAge] = useState(18);
   const [selectedWeight, setSelectedWeight] = useState(50);
@@ -96,6 +98,12 @@ export function CreateAccount() {
     });
     navigate('Login');
   };
+
+  const isPasswordMatch = (value: string) => {
+    const password = watch('password');
+    return password === value;
+  };
+
   return (
     <Box backgroundColor="mainBackground" flex={1} paddingTop="l">
       {step === 'selecionar_sexo' && (
@@ -573,39 +581,38 @@ export function CreateAccount() {
               </TouchableOpacity>
             </Box>
             <TouchableOpacity onPress={() => setStep('selecionar_foco')}>
-            <Box
-              mt="s"
-              backgroundColor="zinc"
-              width={320}
-              height={100}
-              borderRadius={8}
-              alignItems="center"
-              justifyContent="center">
-              <Text variant="body" color="textBody" fontSize={20}>
-                Foco
-              </Text>
-              <Text variant="body" color="greenPrimary" fontSize={30}>
-                {state.focus}
-              </Text>
-            </Box>
+              <Box
+                mt="s"
+                backgroundColor="zinc"
+                width={320}
+                height={100}
+                borderRadius={8}
+                alignItems="center"
+                justifyContent="center">
+                <Text variant="body" color="textBody" fontSize={20}>
+                  Foco
+                </Text>
+                <Text variant="body" color="greenPrimary" fontSize={30}>
+                  {state.focus}
+                </Text>
+              </Box>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setStep('selecionar_nivel')}>
-
-            <Box
-              mt="s"
-              backgroundColor="zinc"
-              width={320}
-              height={100}
-              borderRadius={8}
-              alignItems="center"
-              justifyContent="center">
-              <Text variant="body" color="textBody" fontSize={20}>
-                Nível
-              </Text>
-              <Text variant="body" color="greenPrimary" fontSize={30}>
-                {state.level}
-              </Text>
-            </Box>
+              <Box
+                mt="s"
+                backgroundColor="zinc"
+                width={320}
+                height={100}
+                borderRadius={8}
+                alignItems="center"
+                justifyContent="center">
+                <Text variant="body" color="textBody" fontSize={20}>
+                  Nível
+                </Text>
+                <Text variant="body" color="greenPrimary" fontSize={30}>
+                  {state.level}
+                </Text>
+              </Box>
             </TouchableOpacity>
           </Box>
           <Box mt="m">
@@ -640,7 +647,11 @@ export function CreateAccount() {
         </Box>
       )}
       {step === 'criar_conta' && (
-        <Box backgroundColor='mainBackground' flex={1} alignItems='center' justifyContent='center'>
+        <Box
+          backgroundColor="mainBackground"
+          flex={1}
+          alignItems="center"
+          justifyContent="center">
           <Box padding="m" alignItems="center">
             <Text variant="body" color="shape" fontSize={30}>
               Criar Conta
@@ -671,9 +682,9 @@ export function CreateAccount() {
                   secureTextEntry={false}
                   icon={<User color="#858585" />}
                   erros={
-                    errors.email && (
+                    errors.name && (
                       <Text variant="body" color="danger">
-                        Informe seu e-mail
+                        Informe seu nome
                       </Text>
                     )
                   }
@@ -685,6 +696,10 @@ export function CreateAccount() {
               control={control}
               rules={{
                 required: true,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: 'Email inválido',
+                },
               }}
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInputRestyle
@@ -734,9 +749,9 @@ export function CreateAccount() {
                   secureTextEntry={false}
                   icon={<Envelope color="#858585" />}
                   erros={
-                    errors.email && (
+                    errors.password && (
                       <Text variant="body" color="danger">
-                        Informe seu e-mail
+                        Informe a senha
                       </Text>
                     )
                   }
@@ -748,11 +763,14 @@ export function CreateAccount() {
               control={control}
               rules={{
                 required: true,
+                validate: {
+                  matchesPreviousPassword: isPasswordMatch,
+                },
               }}
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInputRestyle
                   marginTop="m"
-                  placeholder="senha"
+                  placeholder="confirmar senha"
                   placeholderTextColor="#858585"
                   paddingLeft="m"
                   borderColor="textBody"
@@ -766,9 +784,9 @@ export function CreateAccount() {
                   secureTextEntry={false}
                   icon={<Lock color="#858585" />}
                   erros={
-                    errors.email && (
+                    errors.confirmPassword && (
                       <Text variant="body" color="danger">
-                        Informe seu e-mail
+                        As senhas precisam ser semelhantes
                       </Text>
                     )
                   }
@@ -776,6 +794,8 @@ export function CreateAccount() {
               )}
               name="confirmPassword"
             />
+          </Box>
+          <Box width={350}>
             <Button
               onPress={handleSubmit(onSubmit)}
               backgroundColor="greenPrimary"
