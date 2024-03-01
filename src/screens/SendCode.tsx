@@ -7,12 +7,12 @@ import {api, submit} from '@services/api';
 import {CheckCircle, Code, Envelope, XCircle} from 'phosphor-react-native';
 import {useState} from 'react';
 import {useToast} from 'react-native-toast-notifications';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicator, Modal, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 
 interface ISendCode {
-  email : string;
-  token? : number;
+  email: string;
+  token?: number;
 }
 export function SendCode() {
   const {goBack} = useNavigation();
@@ -35,16 +35,13 @@ export function SendCode() {
   const toast = useToast();
 
   async function getToken() {
-    setLoading(true);
     const response = await api.get('auth/token');
     setToken(response.data);
-    setLoading(false);
   }
 
   const handleEnviarToken = async (data: ISendCode) => {
     setLoading(true);
     await getToken();
-    setLoading(false);
     const send = await submit({
       controller: 'auth/send',
       params: {
@@ -61,9 +58,9 @@ export function SendCode() {
         placement: 'top',
       });
       setScreen('digitar_codigo');
+      setLoading(false);
     }
   };
-  console.log(token);
   const handleVerificarToken = async () => {
     if (sendToken !== token) {
       setMsg('Token Inválido');
@@ -80,7 +77,7 @@ export function SendCode() {
           <Box>
             <Controller
               control={control}
-              name='email'
+              name="email"
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInputRestyle
                   label="Digite seu E-mail"
@@ -97,7 +94,23 @@ export function SendCode() {
               )}
             />
           </Box>
-          {loading && <ActivityIndicator size="large" color="#5ED25C" />}
+          {loading && (
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={loading}
+              onRequestClose={() => {}}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                }}>
+                <ActivityIndicator size="large" color="#fff" />
+              </View>
+            </Modal>
+          )}
           <Box>
             <Button
               label="Enviar Código de Verificação"
@@ -141,21 +154,33 @@ export function SendCode() {
             </Text>
           </Box>
           <Box>
-            <TextInputRestyle
-              label="Código de Verificação"
-              required
-              borderColor="textBody"
-              borderWidth={1}
-              // onChangeText={setEmail}
-              placeholder="... - ..."
-              placeholderTextColor="#858585"
-              paddingLeft="m"
-              borderRadius={8}
-              icon={<Code color="#858585" />}
+            <Controller
+              control={control}
+              rules={{
+                max : 6,
+                required : true
+              }}
+              name="token"
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  label="Código de Verificação"
+                  required
+                  borderColor="textBody"
+                  borderWidth={1}
+                  // onChangeText={setEmail}
+                  placeholder="... - ..."
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderRadius={8}
+                  icon={<Code color="#858585" />}
+                  erros={
+                    errors && <Text variant='body' color='danger'>
+                      {!msg ? "Informe um código de verificação" : msg}
+                    </Text>
+                  }
+                />
+              )}
             />
-            <Text variant="body" color="danger">
-              {msg}
-            </Text>
           </Box>
           <Box>
             <Button
