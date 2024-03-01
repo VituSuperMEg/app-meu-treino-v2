@@ -2,7 +2,7 @@ import { createTheme } from "@shopify/restyle";
 
 const pallete = {
   blackPrimary : '#101010',
-
+  zinc : '#18181b',
   greenPrimary : '#5ED25C',
 
   gray : '#888585',
@@ -19,7 +19,8 @@ const theme = createTheme({
     textBody : pallete.gray,
     shape : pallete.shape,
     danger : pallete.danger,
-    black : pallete.black
+    black : pallete.black,
+    zinc : pallete.zinc
   },
   spacing : {
     s : 8,
@@ -36,6 +37,10 @@ const theme = createTheme({
     ligth : {
       fontSize : 11,
       fontFamily : 'Poppins-Light'
+    },
+    bodyMin : {
+      fontSize : 11,
+      fontFamily : 'Poppins-Regular'
     },
     bold : {
       fontSize : 15,
