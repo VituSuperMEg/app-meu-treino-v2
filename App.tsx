@@ -7,11 +7,13 @@ import {Login} from './src/screens/Login';
 import {NavigationContainer} from '@react-navigation/native';
 import {Navigation} from '@routes/Stack';
 import {AuthProvider} from './src/Providers/Auth';
+import { ToastProvider } from 'react-native-toast-notifications';
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
+        <ToastProvider>
         <AuthProvider>
           <StatusBar
             translucent
@@ -20,6 +22,7 @@ export default function App() {
           />
           <Navigation />
         </AuthProvider>
+        </ToastProvider>
       </NavigationContainer>
     </ThemeProvider>
   );

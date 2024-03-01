@@ -3,31 +3,39 @@ import {Button} from '@components/Button';
 import {Text} from '@components/Text';
 import {useReducer, useState} from 'react';
 import {createAccountReducer} from '../reducers/createAccount';
-import {GenderMale, GenderFemale, User, Envelope, Lock} from 'phosphor-react-native';
+import {
+  GenderMale,
+  GenderFemale,
+  User,
+  Envelope,
+  Lock,
+} from 'phosphor-react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ImageBackground, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ButtonFocus} from '@components/ButtonFocus';
 import AgeScroll from '@components/ScroolAge';
 import create from '@assets/create.png';
-import { useForm, Controller } from 'react-hook-form';
-import { TextInputRestyle } from '@components/TextInput';
+import {useForm, Controller} from 'react-hook-form';
+import {TextInputRestyle} from '@components/TextInput';
+import { submit } from '@services/api';
+import { useToast } from 'react-native-toast-notifications';
 
 export function CreateAccount() {
-
   const {goBack} = useNavigation();
-  const { 
-     control,
-     handleSubmit,
-     formState: {errors},
+  const toast = useToast();
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
   } = useForm({
-    defaultValues : {
+    defaultValues: {
       name: '',
       email: '',
       password: '',
       confirmPassword: '',
-    }
-  })
+    },
+  });
   const [step, setStep] = useState('selecionar_sexo');
   const [selectedAge, setSelectedAge] = useState(18);
   const [selectedWeight, setSelectedWeight] = useState(50);
@@ -45,6 +53,32 @@ export function CreateAccount() {
   const handleSaveWeight = () => {
     dispatch({type: 'SET_WEIGHT', value: selectedWeight});
   };
+
+  const onSubmit = async data => {
+    const result = await submit({
+      controller: 'users',
+      params: {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        foto : '',
+        premium : ''
+      },
+    });
+    await submit({
+      controller : "profille",
+      params : {
+        user_id : result?.id,
+        sexo : state.sexo,
+        age : state.age,
+        height : "167",
+        weight : state.weight,
+        focus : state.focus,
+        level : ""
+      }
+    });
+    toast.show("Conta Criada com Sucesso");
+  }
   return (
     <Box backgroundColor="mainBackground" flex={1} paddingTop="l">
       {step === 'selecionar_sexo' && (
@@ -311,147 +345,152 @@ export function CreateAccount() {
       )}
       {step === 'criar_conta' && (
         <ImageBackground source={create} style={styles.background}>
+          <Box padding='m' alignItems='center'>
           <Text variant="body" color="shape" fontSize={30}>
-            Criar Conta
+            Criar Conta 
           </Text>
+          <Text variant="body" color="textBody" marginTop="s">
+            Preencha os dados abaixo para começar a treinar
+          </Text>
+          </Box>
           <Box width={300}>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, onBlur, value}}) => (
-              <TextInputRestyle
-                marginTop="m"
-                placeholder="exemplo : john doe"
-                placeholderTextColor="#858585"
-                paddingLeft="m"
-                borderColor="textBody"
-                style={{color: '#fff'}}
-                borderWidth={1}
-                borderRadius={6}
-                height={50}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                secureTextEntry={false}
-                icon={<User color="#858585" />}
-                erros={
-                  errors.email && (
-                    <Text variant="body" color="danger">
-                      Informe seu e-mail
-                    </Text>
-                  )
-                }
-              />
-            )}
-            name="name"
-          />
-           <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, onBlur, value}}) => (
-              <TextInputRestyle
-                marginTop="m"
-                placeholder="jonhdoe@gmail.com"
-                placeholderTextColor="#858585"
-                paddingLeft="m"
-                borderColor="textBody"
-                style={{color: '#fff'}}
-                borderWidth={1}
-                borderRadius={6}
-                height={50}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                secureTextEntry={false}
-                icon={<Envelope color="#858585" />}
-                erros={
-                  errors.email && (
-                    <Text variant="body" color="danger">
-                      Informe seu e-mail
-                    </Text>
-                  )
-                }
-              />
-            )}
-            name="name"
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, onBlur, value}}) => (
-              <TextInputRestyle
-                marginTop="m"
-                placeholder="senha"
-                placeholderTextColor="#858585"
-                paddingLeft="m"
-                borderColor="textBody"
-                style={{color: '#fff'}}
-                borderWidth={1}
-                borderRadius={6}
-                height={50}
-                onBlur={onBlur}
-                secret
-                onChangeText={onChange}
-                secureTextEntry={false}
-                icon={<Envelope color="#858585" />}
-                erros={
-                  errors.email && (
-                    <Text variant="body" color="danger">
-                      Informe seu e-mail
-                    </Text>
-                  )
-                }
-              />
-            )}
-            name="password"
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, onBlur, value}}) => (
-              <TextInputRestyle
-                marginTop="m"
-                placeholder="senha"
-                placeholderTextColor="#858585"
-                paddingLeft="m"
-                borderColor="textBody"
-                style={{color: '#fff'}}
-                borderWidth={1}
-                borderRadius={6}
-                secret
-                height={50}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                secureTextEntry={false}
-                icon={<Lock color="#858585" />}
-                erros={
-                  errors.email && (
-                    <Text variant="body" color="danger">
-                      Informe seu e-mail
-                    </Text>
-                  )
-                }
-              />
-            )}
-            name="confirmPassword"
-          />
-          <Button
-            // onPress={handleSubmit(onSubmit)}
-            backgroundColor="greenPrimary"
-            label="Criar Conta"
-            marginTop="xl"
-            borderRadius={6}
-            height={50}
-            alignItems="center"
-            justifyContent="center"
-            textColor="shape"
-          />
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="exemplo : john doe"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{color: '#fff'}}
+                  borderWidth={1}
+                  borderRadius={6}
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  secureTextEntry={false}
+                  icon={<User color="#858585" />}
+                  erros={
+                    errors.email && (
+                      <Text variant="body" color="danger">
+                        Informe seu e-mail
+                      </Text>
+                    )
+                  }
+                />
+              )}
+              name="name"
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="jonhdoe@gmail.com"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{color: '#fff'}}
+                  borderWidth={1}
+                  borderRadius={6}
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  secureTextEntry={false}
+                  icon={<Envelope color="#858585" />}
+                  erros={
+                    errors.email && (
+                      <Text variant="body" color="danger">
+                        Informe seu e-mail
+                      </Text>
+                    )
+                  }
+                />
+              )}
+              name="email"
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="senha"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{color: '#fff'}}
+                  borderWidth={1}
+                  borderRadius={6}
+                  height={50}
+                  onBlur={onBlur}
+                  secret
+                  onChangeText={onChange}
+                  secureTextEntry={false}
+                  icon={<Envelope color="#858585" />}
+                  erros={
+                    errors.email && (
+                      <Text variant="body" color="danger">
+                        Informe seu e-mail
+                      </Text>
+                    )
+                  }
+                />
+              )}
+              name="password"
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="senha"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{color: '#fff'}}
+                  borderWidth={1}
+                  borderRadius={6}
+                  secret
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  secureTextEntry={false}
+                  icon={<Lock color="#858585" />}
+                  erros={
+                    errors.email && (
+                      <Text variant="body" color="danger">
+                        Informe seu e-mail
+                      </Text>
+                    )
+                  }
+                />
+              )}
+              name="confirmPassword"
+            />
+            <Button
+              onPress={handleSubmit(onSubmit)}
+              backgroundColor="greenPrimary"
+              label="Criar Conta"
+              marginTop="xl"
+              borderRadius={6}
+              height={50}
+              alignItems="center"
+              justifyContent="center"
+              textColor="shape"
+            />
           </Box>
         </ImageBackground>
       )}
