@@ -1,8 +1,8 @@
-import {Box} from '@components/Box';
-import {Button} from '@components/Button';
-import {Text} from '@components/Text';
-import {useReducer, useState} from 'react';
-import {createAccountReducer} from '../reducers/createAccount';
+import { Box } from '@components/Box';
+import { Button } from '@components/Button';
+import { Text } from '@components/Text';
+import { useReducer, useState } from 'react';
+import { createAccountReducer } from '../reducers/createAccount';
 import {
   GenderMale,
   GenderFemale,
@@ -12,24 +12,24 @@ import {
   CheckCircle,
   XCircle,
 } from 'phosphor-react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {ImageBackground, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {ButtonFocus} from '@components/ButtonFocus';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ImageBackground, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { ButtonFocus } from '@components/ButtonFocus';
 import AgeScroll from '@components/ScroolAge';
 import create from '@assets/create.png';
-import {useForm, Controller} from 'react-hook-form';
-import {TextInputRestyle} from '@components/TextInput';
+import { useForm, Controller } from 'react-hook-form';
+import { TextInputRestyle } from '@components/TextInput';
 import { submit } from '@services/api';
 import { useToast } from 'react-native-toast-notifications';
 
 export function CreateAccount() {
-  const {goBack, navigate} = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const toast = useToast();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
       name: '',
@@ -48,15 +48,15 @@ export function CreateAccount() {
     age: '',
     weight: '',
     focus: '',
-    height : '',
-    level : '',
+    height: '',
+    level: '',
   });
 
   const handleSave = () => {
-    dispatch({type: 'SET_AGE', value: selectedAge});
+    dispatch({ type: 'SET_AGE', value: selectedAge });
   };
   const handleSaveWeight = () => {
-    dispatch({type: 'SET_WEIGHT', value: selectedWeight});
+    dispatch({ type: 'SET_WEIGHT', value: selectedWeight });
   };
 
   const onSubmit = async data => {
@@ -66,32 +66,32 @@ export function CreateAccount() {
         name: data.name,
         email: data.email,
         password: data.password,
-        foto : '',
-        premium : ''
+        foto: '',
+        premium: ''
       },
     });
-    if(!result) {
+    if (!result) {
       toast.show("E-mail já existe!", {
         type: 'error',
-        icon : <XCircle color='#fff'/>,
+        icon: <XCircle color='#fff' />,
         duration: 4000
       })
     }
     await submit({
-      controller : "profille",
-      params : {
-        user_id : result?.id,
-        sexo : state.sexo,
-        age : state.age,
-        height : state.height,
-        weight : state.weight,
-        focus : state.focus,
-        level : state.level
+      controller: "profille",
+      params: {
+        user_id: result?.id,
+        sexo: state.sexo,
+        age: state.age,
+        height: state.height,
+        weight: state.weight,
+        focus: state.focus,
+        level: state.level
       }
     });
     toast.show("Conta Criada com Sucesso", {
       type: "success",
-      icon: <CheckCircle color='#fff'/>,
+      icon: <CheckCircle color='#fff' />,
       duration: 4000,
     });
     navigate("Login");
@@ -116,7 +116,7 @@ export function CreateAccount() {
               <TouchableOpacity
                 style={state.sexo === 'F' ? styles.select : styles.button}
                 onPress={() => {
-                  dispatch({type: 'SET_SEXO', value: 'F'});
+                  dispatch({ type: 'SET_SEXO', value: 'F' });
                 }}>
                 <GenderFemale
                   color={state.sexo === 'F' ? '#5ED25C' : '#fff'}
@@ -132,7 +132,7 @@ export function CreateAccount() {
               <TouchableOpacity
                 style={state.sexo === 'M' ? styles.select : styles.button}
                 onPress={() => {
-                  dispatch({type: 'SET_SEXO', value: 'M'});
+                  dispatch({ type: 'SET_SEXO', value: 'M' });
                 }}>
                 <GenderMale
                   color={state.sexo === 'M' ? '#5ED25C' : '#fff'}
@@ -282,57 +282,57 @@ export function CreateAccount() {
       )}
       {step === 'selecionar_altura' && (
         <Box padding="l" flex={1}>
-        <Text variant="bold" color="shape">
-          Selecione sua Altura
-        </Text>
-        <Text variant="body" color="textBody">
-          Ajude-nos a montar seu melhor treino {'\n'}
-          marque alguma opção abaixo e clique em continuar.
-        </Text>
-        <Box
-          alignItems="center"
-          justifyContent="space-between"
-          flex={1}
-          mt="s">
-          <Box height={450}>
-            <AgeScroll
-              initialValue={selectedHeight}
-              onSave={setSelectedHeight}
-              metric="CM"
-            />
-          </Box>
-          <Box>
-            <Button
-              label="Continuar"
-              backgroundColor="shape"
-              textColor="black"
-              alignItems="center"
-              justifyContent="center"
-              width={350}
-              borderRadius={8}
-              height={50}
-              onPress={() => {
-                dispatch({ type : "SET_HEIGHT", value : selectedHeight});
-                setStep('selecionar_foco');
-              }}
-            />
-            <Button
-              label="Voltar"
-              backgroundColor="mainBackground"
-              borderColor="greenPrimary"
-              borderWidth={1}
-              textColor="shape"
-              alignItems="center"
-              justifyContent="center"
-              width={350}
-              borderRadius={8}
-              height={50}
-              marginTop="s"
-              onPress={() => setStep('selecionar_peso')}
-            />
+          <Text variant="bold" color="shape">
+            Selecione sua Altura
+          </Text>
+          <Text variant="body" color="textBody">
+            Ajude-nos a montar seu melhor treino {'\n'}
+            marque alguma opção abaixo e clique em continuar.
+          </Text>
+          <Box
+            alignItems="center"
+            justifyContent="space-between"
+            flex={1}
+            mt="s">
+            <Box height={450}>
+              <AgeScroll
+                initialValue={selectedHeight}
+                onSave={setSelectedHeight}
+                metric="CM"
+              />
+            </Box>
+            <Box>
+              <Button
+                label="Continuar"
+                backgroundColor="shape"
+                textColor="black"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                onPress={() => {
+                  dispatch({ type: "SET_HEIGHT", value: selectedHeight });
+                  setStep('selecionar_foco');
+                }}
+              />
+              <Button
+                label="Voltar"
+                backgroundColor="mainBackground"
+                borderColor="greenPrimary"
+                borderWidth={1}
+                textColor="shape"
+                alignItems="center"
+                justifyContent="center"
+                width={350}
+                borderRadius={8}
+                height={50}
+                marginTop="s"
+                onPress={() => setStep('selecionar_peso')}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
       )}
       {step === 'selecionar_foco' && (
         <Box padding="l" flex={1}>
@@ -353,7 +353,7 @@ export function CreateAccount() {
                 text="Sou Iniciante"
                 description={`Não sei nada de treino, mas meu objetivo${'\n'}não é treinar todos os dias!`}
                 onSelect={() =>
-                  dispatch({type: 'SET_FOCUS', value: 'Sou Iniciante'})
+                  dispatch({ type: 'SET_FOCUS', value: 'Sou Iniciante' })
                 }
                 selected={state.focus === 'Sou Iniciante'}
               />
@@ -361,7 +361,7 @@ export function CreateAccount() {
                 text="Sou Entusiasta"
                 description={`Tenho vontade de aprender e treinar pelo menos alguns dias da semana.`}
                 onSelect={() =>
-                  dispatch({type: 'SET_FOCUS', value: 'Sou Entusiasta'})
+                  dispatch({ type: 'SET_FOCUS', value: 'Sou Entusiasta' })
                 }
                 selected={state.focus === 'Sou Entusiasta'}
               />
@@ -369,7 +369,7 @@ export function CreateAccount() {
                 text="Sou Focado"
                 description={`Já treino faz um tempo, mas meu objetivo ${'\n'}não ser muito musculoso`}
                 onSelect={() =>
-                  dispatch({type: 'SET_FOCUS', value: 'Sou Focado'})
+                  dispatch({ type: 'SET_FOCUS', value: 'Sou Focado' })
                 }
                 selected={state.focus === 'Sou Focado'}
               />
@@ -377,7 +377,7 @@ export function CreateAccount() {
                 text="Sou Viciado"
                 description={`Eu treino muito e meu foco ${'\n'}é ficar com shape muito massa`}
                 onSelect={() =>
-                  dispatch({type: 'SET_FOCUS', value: 'Sou Viciado'})
+                  dispatch({ type: 'SET_FOCUS', value: 'Sou Viciado' })
                 }
                 selected={state.focus === 'Sou Viciado'}
               />
@@ -433,7 +433,7 @@ export function CreateAccount() {
                 text="Leve"
                 description={`Não sei nada de treino, mas meu objetivo${'\n'}não é treinar todos os dias!`}
                 onSelect={() =>
-                  dispatch({type: 'SET_LEVEL', value: 'Leve'})
+                  dispatch({ type: 'SET_LEVEL', value: 'Leve' })
                 }
                 selected={state.level === 'Leve'}
               />
@@ -441,7 +441,7 @@ export function CreateAccount() {
                 text="Moderado"
                 description={`Tenho vontade de aprender e treinar pelo menos alguns dias da semana.`}
                 onSelect={() =>
-                  dispatch({type: 'SET_LEVEL', value: 'Moderado'})
+                  dispatch({ type: 'SET_LEVEL', value: 'Moderado' })
                 }
                 selected={state.level === 'Moderado'}
               />
@@ -449,7 +449,7 @@ export function CreateAccount() {
                 text="Pesado"
                 description={`Já treino faz um tempo, mas meu objetivo ${'\n'}não ser muito musculoso`}
                 onSelect={() =>
-                  dispatch({type: 'SET_LEVEL', value: 'Pesado'})
+                  dispatch({ type: 'SET_LEVEL', value: 'Pesado' })
                 }
                 selected={state.level === 'Pesado'}
               />
@@ -457,7 +457,7 @@ export function CreateAccount() {
                 text="Intenso"
                 description={`Eu treino muito e meu foco ${'\n'}é ficar com shape muito massa`}
                 onSelect={() =>
-                  dispatch({type: 'SET_LEVEL', value: 'Intenso'})
+                  dispatch({ type: 'SET_LEVEL', value: 'Intenso' })
                 }
                 selected={state.level === 'Intenso'}
               />
@@ -488,7 +488,7 @@ export function CreateAccount() {
                 borderRadius={8}
                 height={50}
                 marginTop="s"
-                onPress={() => setStep('selecionar_idade')}
+                onPress={() => setStep('selecionar_foco')}
               />
             </Box>
           </Box>
@@ -497,12 +497,12 @@ export function CreateAccount() {
       {step === 'criar_conta' && (
         <ImageBackground source={create} style={styles.background}>
           <Box padding='m' alignItems='center'>
-          <Text variant="body" color="shape" fontSize={30}>
-            Criar Conta 
-          </Text>
-          <Text variant="body" color="textBody" marginTop="s">
-            Preencha os dados abaixo para começar a treinar
-          </Text>
+            <Text variant="body" color="shape" fontSize={30}>
+              Criar Conta
+            </Text>
+            <Text variant="body" color="textBody" marginTop="s">
+              Preencha os dados abaixo para começar a treinar
+            </Text>
           </Box>
           <Box width={300}>
             <Controller
@@ -510,14 +510,14 @@ export function CreateAccount() {
               rules={{
                 required: true,
               }}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   marginTop="m"
                   placeholder="exemplo : john doe"
                   placeholderTextColor="#858585"
                   paddingLeft="m"
                   borderColor="textBody"
-                  style={{color: '#fff'}}
+                  style={{ color: '#fff' }}
                   borderWidth={1}
                   borderRadius={6}
                   height={50}
@@ -541,14 +541,14 @@ export function CreateAccount() {
               rules={{
                 required: true,
               }}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   marginTop="m"
                   placeholder="jonhdoe@gmail.com"
                   placeholderTextColor="#858585"
                   paddingLeft="m"
                   borderColor="textBody"
-                  style={{color: '#fff'}}
+                  style={{ color: '#fff' }}
                   borderWidth={1}
                   borderRadius={6}
                   height={50}
@@ -572,14 +572,14 @@ export function CreateAccount() {
               rules={{
                 required: true,
               }}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   marginTop="m"
                   placeholder="senha"
                   placeholderTextColor="#858585"
                   paddingLeft="m"
                   borderColor="textBody"
-                  style={{color: '#fff'}}
+                  style={{ color: '#fff' }}
                   borderWidth={1}
                   borderRadius={6}
                   height={50}
@@ -604,14 +604,14 @@ export function CreateAccount() {
               rules={{
                 required: true,
               }}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   marginTop="m"
                   placeholder="senha"
                   placeholderTextColor="#858585"
                   paddingLeft="m"
                   borderColor="textBody"
-                  style={{color: '#fff'}}
+                  style={{ color: '#fff' }}
                   borderWidth={1}
                   borderRadius={6}
                   secret
@@ -641,6 +641,19 @@ export function CreateAccount() {
               alignItems="center"
               justifyContent="center"
               textColor="shape"
+            />
+            <Button
+              label="Voltar"
+              backgroundColor="mainBackground"
+              borderColor="greenPrimary"
+              borderWidth={1}
+              textColor="shape"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+              height={50}
+              marginTop="s"
+              onPress={() => setStep('selecionar_nivel')}
             />
           </Box>
         </ImageBackground>

@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import cover from '../assets/cover.png';
 import {submit} from '@services/api';
 import {useUser} from '../store/auth';
+import React, {useRef} from 'react'; 
 
 export function Login() {
   const setUser = useUser(state => state.setUser);
@@ -20,12 +21,16 @@ export function Login() {
     control,
     handleSubmit,
     formState: {errors},
+    reset, 
   } = useForm({
     defaultValues: {
       email: '',
       password: '',
     },
   });
+
+  const formRef = useRef();
+
   const onSubmit = async data => {
     const result = await submit({
       controller: 'auth/login',
@@ -36,10 +41,12 @@ export function Login() {
     });
     setUser(result.user);
     setToken(result.access_token);
-  };
 
+    reset();
+  };
+  
   return (
-    <Box flex={1} paddingTop="l" backgroundColor="mainBackground">
+    <Box flex={1} paddingTop="l" backgroundColor="mainBackground" ref={formRef}>
       <Image source={cover} style={{width: '100%', height: 300}} />
       <Box padding="s" marginTop="l">
         <Text variant="body" color="shape">
@@ -67,6 +74,7 @@ export function Login() {
                 height={50}
                 onBlur={onBlur}
                 onChangeText={onChange}
+                value={value}
                 secureTextEntry={false}
                 icon={<Envelope color="#858585" />}
                 erros={
@@ -92,6 +100,7 @@ export function Login() {
                 placeholderTextColor="#858585"
                 paddingLeft="m"
                 height={50}
+                value={value}
                 borderColor="textBody"
                 style={{color: '#fff'}}
                 borderWidth={1}
