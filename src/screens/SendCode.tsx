@@ -3,67 +3,199 @@ import {Button} from '@components/Button';
 import {Text} from '@components/Text';
 import {TextInputRestyle} from '@components/TextInput';
 import {useNavigation} from '@react-navigation/native';
-import { getData } from '@services/api';
-import {Envelope} from 'phosphor-react-native';
-import { useEffect } from 'react';
-import { useUser } from '../store/auth';
+import {api, submit} from '@services/api';
+import {CheckCircle, Code, Envelope, XCircle} from 'phosphor-react-native';
+import {useState} from 'react';
+import {useToast} from 'react-native-toast-notifications';
+import {ActivityIndicator} from 'react-native';
+import {Controller, useForm} from 'react-hook-form';
 
+interface ISendCode {
+  email : string;
+  token? : number;
+}
 export function SendCode() {
   const {goBack} = useNavigation();
-  const name = useUser(state => state.name);
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      token: '',
+      email: '',
+    },
+  });
+  const [token, setToken] = useState('');
+  const [screen, setScreen] = useState('digitar_email');
+  const [sendToken, setSendToken] = useState('');
+  const [msg, setMsg] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   async function getUsers() {
-  //     await getData('users');
-  //   }
-  //   getUsers();
-  // })
+  const toast = useToast();
+
+  async function getToken() {
+    setLoading(true);
+    const response = await api.get('auth/token');
+    setToken(response.data);
+    setLoading(false);
+  }
+
+  const handleEnviarToken = async (data: ISendCode) => {
+    setLoading(true);
+    await getToken();
+    setLoading(false);
+    const send = await submit({
+      controller: 'auth/send',
+      params: {
+        token: token,
+        email: data.email,
+      },
+    });
+    if (send.success) {
+      toast.show('Código enviando com sucesso!', {
+        type: 'success',
+        icon: <CheckCircle color="#fff" />,
+        duration: 4000,
+        successColor: '#5ED25C',
+        placement: 'top',
+      });
+      setScreen('digitar_codigo');
+    }
+  };
+  console.log(token);
+  const handleVerificarToken = async () => {
+    if (sendToken !== token) {
+      setMsg('Token Inválido');
+    }
+  };
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingTop="xl">
-      <Box padding="l" justifyContent="space-between" flex={1}>
-        <Text variant="bold" color="shape">
-          Ops! {'\n'}Você esqueceu sua senha?{'\n'}Tenha calma vamos resolver
-          isso agora. {"\n"}
-        </Text>
-        <Box>
-          <TextInputRestyle
-            label="Digite seu E-mail"
-            required
-            borderColor="textBody"
-            borderWidth={1}
-            placeholder="example@gmail.com"
-            placeholderTextColor="#858585"
-            paddingLeft="m"
-            borderRadius={8}
-            icon={<Envelope color="#858585" />}
-          />
+      {screen === 'digitar_email' && (
+        <Box padding="l" justifyContent="space-between" flex={1}>
+          <Text variant="bold" color="shape">
+            Ops! {'\n'}Você esqueceu sua senha?{'\n'}Tenha calma vamos resolver
+            isso agora. {'\n'}
+          </Text>
+          <Box>
+            <Controller
+              control={control}
+              name='email'
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  label="Digite seu E-mail"
+                  required
+                  borderColor="textBody"
+                  borderWidth={1}
+                  onChangeText={onChange}
+                  placeholder="example@gmail.com"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderRadius={8}
+                  icon={<Envelope color="#858585" />}
+                />
+              )}
+            />
+          </Box>
+          {loading && <ActivityIndicator size="large" color="#5ED25C" />}
+          <Box>
+            <Button
+              label="Enviar Código de Verificação"
+              backgroundColor="shape"
+              textColor="black"
+              onPress={handleSubmit(handleEnviarToken)}
+              borderWidth={1}
+              height={55}
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+            />
+            <Button
+              marginTop="m"
+              label="Voltar"
+              textColor="greenPrimary"
+              onPress={() => goBack()}
+              borderWidth={1}
+              borderColor="greenPrimary"
+              height={50}
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+            />
+          </Box>
         </Box>
-        <Box>
-          <Button
-            label="Enviar Código de Verificação"
-            backgroundColor="shape"
-            textColor="black"
-            onPress={() => goBack()}
-            borderWidth={1}
-            height={55}
-            alignItems="center"
-            justifyContent="center"
-            borderRadius={8}
-          />
-          <Button
-            marginTop="m"
-            label="Voltar"
-            textColor="greenPrimary"
-            onPress={() => goBack()}
-            borderWidth={1}
-            borderColor="greenPrimary"
-            height={50}
-            alignItems="center"
-            justifyContent="center"
-            borderRadius={8}
-          />
+      )}
+      {screen === 'digitar_codigo' && (
+        <Box padding="l" justifyContent="space-between" flex={1}>
+          <Box>
+            <Text variant="bold" color="shape">
+              Verifique em sua caixa de entrada, {'\n'}
+              spam ou lixeira. Enviamos um código verificação.
+            </Text>
+            <Text variant="body" color="textBody">
+              Digite o código de{' '}
+              <Text variant="body" color="greenPrimary">
+                6 dígitos
+              </Text>{' '}
+              enviado ao seu e-mail abaixo.
+            </Text>
+          </Box>
+          <Box>
+            <TextInputRestyle
+              label="Código de Verificação"
+              required
+              borderColor="textBody"
+              borderWidth={1}
+              // onChangeText={setEmail}
+              placeholder="... - ..."
+              placeholderTextColor="#858585"
+              paddingLeft="m"
+              borderRadius={8}
+              icon={<Code color="#858585" />}
+            />
+            <Text variant="body" color="danger">
+              {msg}
+            </Text>
+          </Box>
+          <Box>
+            <Button
+              label="Reenviar Código de Verificação"
+              backgroundColor="shape"
+              textColor="black"
+              onPress={() => handleEnviarToken()}
+              borderWidth={1}
+              height={55}
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+            />
+            <Button
+              label="Confirmar Verificação"
+              backgroundColor="greenPrimary"
+              marginTop="m"
+              textColor="black"
+              onPress={() => handleVerificarToken()}
+              borderWidth={1}
+              height={55}
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+            />
+            <Button
+              marginTop="m"
+              label="Voltar"
+              textColor="greenPrimary"
+              onPress={() => setScreen('digitar_email')}
+              borderWidth={1}
+              borderColor="greenPrimary"
+              height={50}
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+            />
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 }
