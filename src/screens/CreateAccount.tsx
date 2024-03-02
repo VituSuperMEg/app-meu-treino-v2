@@ -806,6 +806,17 @@ export function CreateAccount() {
               justifyContent="center"
               textColor="shape"
             />
+              <Button
+                label="Cancelar"
+                backgroundColor="dangerPrimary"
+                textColor="shape"
+                alignItems="center"
+                justifyContent="center"
+                borderRadius={8}
+                height={50}
+                marginTop="s"
+                onPress={() => goBack()}
+              />
             <Button
               label="Voltar"
               backgroundColor="mainBackground"

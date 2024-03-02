@@ -9,7 +9,8 @@ const pallete = {
   shape : '#fff',
   black : '#000',
 
-  danger : 'red'
+  danger : 'red',
+  dangerPrimary : '#ef4444'
 }
 
 const theme = createTheme({
@@ -20,7 +21,8 @@ const theme = createTheme({
     shape : pallete.shape,
     danger : pallete.danger,
     black : pallete.black,
-    zinc : pallete.zinc
+    zinc : pallete.zinc,
+    dangerPrimary : pallete.dangerPrimary
   },
   spacing : {
     s : 8,
