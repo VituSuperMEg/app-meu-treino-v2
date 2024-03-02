@@ -11,6 +11,7 @@ import {
   Lock,
   CheckCircle,
   XCircle,
+  LockOpen,
 } from 'phosphor-react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ImageBackground, StyleSheet} from 'react-native';
@@ -656,10 +657,10 @@ export function CreateAccount() {
               Criar Conta
             </Text>
             <Text variant="body" color="textBody" marginTop="s">
-              Preencha os dados abaixo para começar a treinar
+              Preencha os dados abaixo para começar a treinar.
             </Text>
           </Box>
-          <Box padding='xl'>
+          <Box padding='l'>
             <Controller
               control={control}
               rules={{
@@ -746,7 +747,7 @@ export function CreateAccount() {
                   secret
                   onChangeText={onChange}
                   secureTextEntry={false}
-                  icon={<Envelope color="#858585" />}
+                  icon={<Lock color="#858585" />}
                   erros={
                     errors.password && (
                       <Text variant="body" color="danger">
@@ -781,7 +782,7 @@ export function CreateAccount() {
                   onBlur={onBlur}
                   onChangeText={onChange}
                   secureTextEntry={false}
-                  icon={<Lock color="#858585" />}
+                  icon={<LockOpen color="#858585" />}
                   erros={
                     errors.confirmPassword && (
                       <Text variant="body" color="danger">
