@@ -649,17 +649,17 @@ export function CreateAccount() {
         <Box
           backgroundColor="mainBackground"
           flex={1}
-          alignItems="center"
-          justifyContent="center">
-          <Box padding="m" alignItems="center">
-            <Text variant="body" color="shape" fontSize={30}>
+          justifyContent='space-between'
+        >
+          <Box padding="m">
+            <Text variant="body" color="shape" fontSize={20}>
               Criar Conta
             </Text>
             <Text variant="body" color="textBody" marginTop="s">
               Preencha os dados abaixo para começar a treinar
             </Text>
           </Box>
-          <Box width={300}>
+          <Box padding='xl'>
             <Controller
               control={control}
               rules={{
@@ -794,7 +794,7 @@ export function CreateAccount() {
               name="confirmPassword"
             />
           </Box>
-          <Box width={350}>
+          <Box padding='l'>
             <Button
               onPress={handleSubmit(onSubmit)}
               backgroundColor="greenPrimary"
