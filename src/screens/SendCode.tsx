@@ -4,7 +4,7 @@ import {Text} from '@components/Text';
 import {TextInputRestyle} from '@components/TextInput';
 import {useNavigation} from '@react-navigation/native';
 import {api, submit} from '@services/api';
-import {CheckCircle, Code, Envelope, XCircle} from 'phosphor-react-native';
+import {CheckCircle, Code, Envelope, Lock, LockKeyOpen, XCircle} from 'phosphor-react-native';
 import {useState} from 'react';
 import {useToast} from 'react-native-toast-notifications';
 import {ActivityIndicator, Modal, View} from 'react-native';
@@ -24,6 +24,8 @@ export function SendCode() {
     defaultValues: {
       token: '',
       email: '',
+      password : '',
+      newPassword: '',
     },
   });
   const [token, setToken] = useState('');
@@ -33,19 +35,17 @@ export function SendCode() {
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
+  const handleEnviarToken = async (data: ISendCode) => {
+    // Primeiro passo é validar se o usuário existe na base de dados!
+    setLoading(true);
 
-  async function getToken() {
     const response = await api.get('auth/token');
     setToken(response.data);
-  }
 
-  const handleEnviarToken = async (data: ISendCode) => {
-    setLoading(true);
-    await getToken();
     const send = await submit({
       controller: 'auth/send',
       params: {
-        token: token,
+        token: response.data,
         email: data.email,
       },
     });
@@ -58,13 +58,15 @@ export function SendCode() {
         placement: 'top',
       });
       setScreen('digitar_codigo');
-      setLoading(false);
+      // setLoading(false);
     }
+    setLoading(false);
   };
-  const handleVerificarToken = async () => {
-    if (sendToken !== token) {
-      setMsg('Token Inválido');
+  const handleVerificarToken = async (data: ISendCode) => {
+    if (String(sendToken) !== String(token)) {
+      return setMsg('Token Inválido');
     }
+    setScreen('alterar_senha');
   };
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingTop="xl">
@@ -157,8 +159,8 @@ export function SendCode() {
             <Controller
               control={control}
               rules={{
-                max : 6,
-                required : true
+                max: 6,
+                required: true,
               }}
               name="token"
               render={({field: {onChange, onBlur, value}}) => (
@@ -167,16 +169,18 @@ export function SendCode() {
                   required
                   borderColor="textBody"
                   borderWidth={1}
-                  // onChangeText={setEmail}
+                  onChangeText={setSendToken}
                   placeholder="... - ..."
                   placeholderTextColor="#858585"
                   paddingLeft="m"
                   borderRadius={8}
                   icon={<Code color="#858585" />}
                   erros={
-                    errors && <Text variant='body' color='danger'>
-                      {!msg ? "Informe um código de verificação" : msg}
-                    </Text>
+                    errors && (
+                      <Text variant="body" color="danger">
+                        {!msg ? 'Informe um código de verificação' : msg}
+                      </Text>
+                    )
                   }
                 />
               )}
@@ -187,7 +191,7 @@ export function SendCode() {
               label="Reenviar Código de Verificação"
               backgroundColor="shape"
               textColor="black"
-              onPress={() => handleEnviarToken()}
+              // onPress={handleSubmit(handleEnviarToken)}
               borderWidth={1}
               height={55}
               alignItems="center"
@@ -211,6 +215,76 @@ export function SendCode() {
               label="Voltar"
               textColor="greenPrimary"
               onPress={() => setScreen('digitar_email')}
+              borderWidth={1}
+              borderColor="greenPrimary"
+              height={50}
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+            />
+          </Box>
+        </Box>
+      )}
+      {screen === 'alterar_senha' && (
+        <Box padding="l" justifyContent="space-between" flex={1}>
+          <Box>
+            <Text variant="body" color="shape" fontSize={20}>
+              Altere sua Senha
+            </Text>
+            <Text variant="body" color="textBody">
+              O passo para você alterar sua senha é bem simples. {'\n'}
+              Você vai digitar a nova senha e confirmar a mesma.
+            </Text>
+          </Box>
+          <Box>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              name="password"
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  borderColor="textBody"
+                  borderWidth={1}
+                  onChangeText={onChange}
+                  placeholder="Nova Senha"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderRadius={8}
+                  secret
+                  icon={<Lock color="#858585" />}
+                />
+              )}
+            />
+             <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              name="newPassword"
+              render={({field: {onChange, onBlur, value}}) => (
+                <TextInputRestyle
+                  borderColor="textBody"
+                  borderWidth={1}
+                  marginTop='m'
+                  onChangeText={onChange}
+                  placeholder="Confirmar Nova Senha"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderRadius={8}
+                  secret
+                  icon={<LockKeyOpen color="#858585" />}
+                />
+              )}
+            />
+          </Box>
+          <Box>
+            <Button
+              marginTop="m"
+              label="Voltar"
+              textColor="greenPrimary"
+              onPress={() => setScreen('digitar_codigo')}
               borderWidth={1}
               borderColor="greenPrimary"
               height={50}
