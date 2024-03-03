@@ -7,6 +7,7 @@ interface IUserState {
   setUser: (user: any[]) => void;
   setToken: (token: string) => void;
   logout: () => void;
+  profile: {};
 }
 
 export const useUser = create<IUserState>((set) => {
@@ -15,6 +16,7 @@ export const useUser = create<IUserState>((set) => {
 
   return {
     user: initialUser,
+    profile: {},
     token: Storage.getString('token') || '',
     setUser: (user: any[]) => {
       set({ user });
@@ -29,5 +31,8 @@ export const useUser = create<IUserState>((set) => {
       Storage.delete('user');
       set({ user: [], token: '' });
     },
+    setProfille: (profille : any) => {
+      set({ profile: profille })
+    }
   };
 });
