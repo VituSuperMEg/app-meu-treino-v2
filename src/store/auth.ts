@@ -8,6 +8,7 @@ interface IUserState {
   setToken: (token: string) => void;
   logout: () => void;
   profile: {};
+  setProfille : (profille : any) => void;
 }
 
 export const useUser = create<IUserState>((set) => {
