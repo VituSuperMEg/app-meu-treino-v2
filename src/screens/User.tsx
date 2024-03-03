@@ -53,11 +53,7 @@ export function User() {
         />
         {tab === 'meus_posts' && <MyPosts />}
         {tab === 'meus_marcados' && <MyMarkerPosts />}
-        {/* <TouchableOpacity onPress={() => navigate('Configurações')}>
-          <Text variant="bold" color="shape">
-            Minha Configuração
-          </Text>
-        </TouchableOpacity> */}
+      
       </Box>
     </Box>
   );
