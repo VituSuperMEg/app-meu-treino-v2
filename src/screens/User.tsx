@@ -1,24 +1,24 @@
-import {Box} from '@components/Box';
-import {useNavigation} from '@react-navigation/native';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
-import {UserData} from '@components/UserData';
-import {Profille} from '@components/Profille';
-import {useState} from 'react';
-import {Barbell, Factory, Stack, Users} from 'phosphor-react-native';
-import {MyPosts} from './Users/MyPosts';
-import {MyMarkerPosts} from './Users/MyMarkerPosts';
-import {MyTreinos} from './Users/MyTreinos';
-import {MyGrupo} from './Users/MyGrupo';
+import { Box } from '@components/Box';
+import { useNavigation } from '@react-navigation/native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { UserData } from '@components/UserData';
+import { Profille } from '@components/Profille';
+import { useState } from 'react';
+import { Barbell, Factory, Stack, Users } from 'phosphor-react-native';
+import { MyPosts } from './Users/MyPosts';
+import { MyMarkerPosts } from './Users/MyMarkerPosts';
+import { MyTreinos } from './Users/MyTreinos';
+import { MyGrupo } from './Users/MyGrupo';
 
 export function User() {
-  const {navigate} = useNavigation();
+  const { navigate } = useNavigation();
   const [tab, setTab] = useState('meus_posts');
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingTop="l">
       <Box padding="m">
         <UserData />
         <Profille />
-        <Box flexDirection="row" mt="m" justifyContent="space-between">
+        <Box flexDirection="row" mt="m" justifyContent="space-between" >
           <TouchableOpacity
             onPress={() => setTab('meus_posts')}
             style={{
@@ -77,11 +77,11 @@ export function User() {
             left: -20,
           }}
         />
-          {tab === 'meus_posts' && <MyPosts />}
-          {tab === 'meus_marcados' && <MyMarkerPosts />}
-          {tab === 'meus_treinos' && <MyTreinos />}
-          {tab === 'meus_grupos' && <MyGrupo />}
       </Box>
+      {tab === 'meus_posts' && <MyPosts />}
+      {tab === 'meus_marcados' && <MyMarkerPosts />}
+      {tab === 'meus_treinos' && <MyTreinos />}
+      {tab === 'meus_grupos' && <MyGrupo />}
     </Box>
   );
 }

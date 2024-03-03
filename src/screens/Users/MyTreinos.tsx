@@ -74,7 +74,7 @@ export function MyTreinos() {
       data={treinos}
       renderItem={renderItem}
       keyExtractor={item => item.id}
-      style={{ marginTop: 20, height : 300, marginBottom: 400}}
+      style={{ flex : 1, margin: 20}}
     />
   );
 }
