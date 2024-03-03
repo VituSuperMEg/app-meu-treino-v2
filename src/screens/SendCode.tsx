@@ -1,30 +1,31 @@
-import {Box} from '@components/Box';
-import {Button} from '@components/Button';
-import {Text} from '@components/Text';
-import {TextInputRestyle} from '@components/TextInput';
-import {useNavigation} from '@react-navigation/native';
-import {api, getData, submit} from '@services/api';
-import {CheckCircle, Code, Envelope, Lock, LockKeyOpen, XCircle} from 'phosphor-react-native';
-import {useState} from 'react';
-import {useToast} from 'react-native-toast-notifications';
-import {ActivityIndicator, Modal, View} from 'react-native';
-import {Controller, useForm} from 'react-hook-form';
+import { Box } from '@components/Box';
+import { Button } from '@components/Button';
+import { Text } from '@components/Text';
+import { TextInputRestyle } from '@components/TextInput';
+import { useNavigation } from '@react-navigation/native';
+import { api, getData, submit } from '@services/api';
+import { CheckCircle, Code, Envelope, Lock, LockKeyOpen, XCircle } from 'phosphor-react-native';
+import { useState } from 'react';
+import { useToast } from 'react-native-toast-notifications';
+import { ActivityIndicator, Modal, View } from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
 
 interface ISendCode {
   email: string;
   token?: number;
+  password?: string;
 }
 export function SendCode() {
-  const {goBack} = useNavigation();
+  const { goBack } = useNavigation();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
       token: '',
       email: '',
-      password : '',
+      password: '',
       newPassword: '',
     },
   });
@@ -33,22 +34,23 @@ export function SendCode() {
   const [sendToken, setSendToken] = useState('');
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [email, setEmail] = useState('');
   const toast = useToast();
   const handleEnviarToken = async (data: ISendCode) => {
     // Primeiro passo é validar se o usuário existe na base de dados!
     const user = await api.get(`users/email?email=${data.email}`);
-    if(!user.data.success) {
-      return toast.show("Esse e-mail não corresponde a nenhum usuário!",{
-        type : "error",
-        icon : <XCircle color="#fff" />,
-        duration : 4000,
-        placement : "bottom",
-        style : {
-          backgroundColor : '#ef4444'
+    if (!user.data.success) {
+      return toast.show("Esse e-mail não corresponde a nenhum usuário!", {
+        type: "error",
+        icon: <XCircle color="#fff" />,
+        duration: 4000,
+        placement: "bottom",
+        style: {
+          backgroundColor: '#ef4444'
         }
       })
     }
+    setEmail(data.email)
     setLoading(true);
     const response = await api.get('auth/token');
     setToken(response.data);
@@ -60,17 +62,17 @@ export function SendCode() {
         email: data.email,
       },
     });
-     if (send.success) {
-       toast.show('Código enviando com sucesso!', {
-         type: 'success',
-         icon: <CheckCircle color="#fff" />,
-         duration: 4000,
-         successColor: '#5ED25C',
-         placement: 'top',
-       });
-       setScreen('digitar_codigo');
-     }
-     setLoading(false);
+    if (send.success) {
+      toast.show('Código enviando com sucesso!', {
+        type: 'success',
+        icon: <CheckCircle color="#fff" />,
+        duration: 4000,
+        successColor: '#5ED25C',
+        placement: 'top',
+      });
+      setScreen('digitar_codigo');
+    }
+    setLoading(false);
   };
   const handleVerificarToken = async (data: ISendCode) => {
     if (String(sendToken) !== String(token)) {
@@ -78,6 +80,25 @@ export function SendCode() {
     }
     setScreen('alterar_senha');
   };
+  const handleAlterarSenha = async (data: ISendCode) => {
+    const result = await submit({
+      controller: 'users/nova-senha',
+      params: {
+        email: email,
+        password: data.password,
+      },
+    });
+    if (result.data.success) {
+      toast.show('Senha alterada com sucesso!', {
+        type: 'success',
+        icon: <CheckCircle color="#fff" />,
+        duration: 4000,
+        successColor: '#5ED25C',
+        placement: 'top',
+      });
+      goBack();
+    }
+  }
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingTop="xl">
       {screen === 'digitar_email' && (
@@ -90,7 +111,7 @@ export function SendCode() {
             <Controller
               control={control}
               name="email"
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   label="Digite seu E-mail"
                   required
@@ -111,7 +132,7 @@ export function SendCode() {
               animationType="fade"
               transparent={true}
               visible={loading}
-              onRequestClose={() => {}}>
+              onRequestClose={() => { }}>
               <View
                 style={{
                   flex: 1,
@@ -173,7 +194,7 @@ export function SendCode() {
                 required: true,
               }}
               name="token"
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   label="Código de Verificação"
                   required
@@ -253,7 +274,7 @@ export function SendCode() {
                 required: true,
               }}
               name="password"
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   borderColor="textBody"
                   borderWidth={1}
@@ -267,13 +288,13 @@ export function SendCode() {
                 />
               )}
             />
-             <Controller
+            <Controller
               control={control}
               rules={{
                 required: true,
               }}
               name="newPassword"
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputRestyle
                   borderColor="textBody"
                   borderWidth={1}
@@ -290,6 +311,18 @@ export function SendCode() {
             />
           </Box>
           <Box>
+            <Button
+              label="Alterar Senha"
+              backgroundColor="greenPrimary"
+              marginTop="m"
+              textColor="black"
+              onPress={handleSubmit(handleAlterarSenha)}
+              borderWidth={1}
+              height={55}
+              alignItems="center"
+              justifyContent="center"
+              borderRadius={8}
+            />
             <Button
               marginTop="m"
               label="Voltar"

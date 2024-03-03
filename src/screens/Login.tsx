@@ -44,7 +44,7 @@ export function Login() {
     }
     setUser(result.user);
     setToken(result.access_token);
-    
+    setError("");
     reset();
   };
   
