@@ -7,17 +7,10 @@ import { Header } from "@components/Header";
 
 export function Home () {
 
-  const logout = useUser(state => state.logout);
 
   return (
     <Box backgroundColor="mainBackground" flex={1} paddingTop="l">
       <Header />
-      <Button
-        onPress={() => logout()}
-        label="Logout"
-        backgroundColor="mainBackground"
-        textColor="textBody"
-      />
     </Box>
   )
 }
