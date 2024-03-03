@@ -5,7 +5,7 @@ interface IAxios {
   params?: any;
 }
 export const api = axios.create({
-  baseURL : 'http://192.168.68.35:3000/api/v1/'
+  baseURL : 'http://192.168.18.56:3000/api/v1/'
 });
 
 export const getData = async (controller : IAxios) => {

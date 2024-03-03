@@ -3,7 +3,7 @@ import {Button} from '@components/Button';
 import {Text} from '@components/Text';
 import {TextInputRestyle} from '@components/TextInput';
 import {useNavigation} from '@react-navigation/native';
-import {api, submit} from '@services/api';
+import {api, getData, submit} from '@services/api';
 import {CheckCircle, Code, Envelope, Lock, LockKeyOpen, XCircle} from 'phosphor-react-native';
 import {useState} from 'react';
 import {useToast} from 'react-native-toast-notifications';
@@ -37,8 +37,19 @@ export function SendCode() {
   const toast = useToast();
   const handleEnviarToken = async (data: ISendCode) => {
     // Primeiro passo é validar se o usuário existe na base de dados!
+    const user = await api.get(`users/email?email=${data.email}`);
+    if(!user.data.success) {
+      return toast.show("Esse e-mail não corresponde a nenhum usuário!",{
+        type : "error",
+        icon : <XCircle color="#fff" />,
+        duration : 4000,
+        placement : "bottom",
+        style : {
+          backgroundColor : '#ef4444'
+        }
+      })
+    }
     setLoading(true);
-
     const response = await api.get('auth/token');
     setToken(response.data);
 
@@ -49,18 +60,17 @@ export function SendCode() {
         email: data.email,
       },
     });
-    if (send.success) {
-      toast.show('Código enviando com sucesso!', {
-        type: 'success',
-        icon: <CheckCircle color="#fff" />,
-        duration: 4000,
-        successColor: '#5ED25C',
-        placement: 'top',
-      });
-      setScreen('digitar_codigo');
-      // setLoading(false);
-    }
-    setLoading(false);
+     if (send.success) {
+       toast.show('Código enviando com sucesso!', {
+         type: 'success',
+         icon: <CheckCircle color="#fff" />,
+         duration: 4000,
+         successColor: '#5ED25C',
+         placement: 'top',
+       });
+       setScreen('digitar_codigo');
+     }
+     setLoading(false);
   };
   const handleVerificarToken = async (data: ISendCode) => {
     if (String(sendToken) !== String(token)) {
