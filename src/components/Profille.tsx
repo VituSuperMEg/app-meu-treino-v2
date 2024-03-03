@@ -2,7 +2,6 @@ import { ShareNetwork, Waveform } from 'phosphor-react-native';
 import {Box} from './Box';
 import {Button} from './Button';
 import {Text} from './Text';
-import {TextInputRestyle} from './TextInput';
 import { Share, TouchableOpacity, View } from 'react-native';
 import { useUser } from '@store/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -12,7 +11,7 @@ export function Profille() {
   const profile = useUser(s => s.profile);
   const user = useUser(s => s.user);
 
-  const description = "Estou em uma nova meta para crescimento se tiver gotando dos conteúdo me segue ai. No aplicativo do meu Treino"
+  const description = "Estou em uma nova meta para crescimento se tiver gostando dos conteúdo me segue ai. No aplicativo do meu Treino"
   const { navigate } = useNavigation();
 
   const handleShare = async () => {
