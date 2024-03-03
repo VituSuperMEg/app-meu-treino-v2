@@ -1,30 +1,23 @@
-import { Box } from "@components/Box";
-import { Text } from "@components/Text";
-import { SignOut } from "phosphor-react-native";
-import { ScrollView, TouchableOpacity, View } from "react-native";
-import { useUser } from "../store/auth";
-import { Header } from "@components/Header";
+import {Box} from '@components/Box';
+import {useNavigation} from '@react-navigation/native';
+import {Image, TouchableOpacity} from 'react-native';
+import {Text} from '@components/Text';
+import user from '@assets/user.png';
+import {UserData} from '@components/UserData';
 
-export function User () {
-
-  const logout = useUser(state => state.logout);
- 
+export function User() {
+  const {navigate} = useNavigation();
 
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingTop="l">
-      <Header style="menu" name="Configurações de Usuário"/>
-      <ScrollView>
-      <View>
-        <TouchableOpacity onPress={() => logout()}>
-        <Box flexDirection="row" gap="m">
-        <SignOut color="#ef4444"/>
-        <Text variant="body" color="dangerPrimary">
-           Sair
-        </Text>
-        </Box>
+      <Box padding="m">
+        <UserData />
+        <TouchableOpacity onPress={() => navigate('Configurações')}>
+          <Text variant="bold" color="shape">
+            Minha Configuração
+          </Text>
         </TouchableOpacity>
-      </View>
-      </ScrollView>
+      </Box>
     </Box>
-  )
+  );
 }
