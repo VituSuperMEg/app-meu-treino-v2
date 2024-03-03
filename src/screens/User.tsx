@@ -3,6 +3,7 @@ import { Text } from "@components/Text";
 import { SignOut } from "phosphor-react-native";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useUser } from "../store/auth";
+import { Header } from "@components/Header";
 
 export function User () {
 
@@ -11,6 +12,7 @@ export function User () {
 
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingTop="l">
+      <Header style="menu" name="Configurações de Usuário"/>
       <ScrollView>
       <View>
         <TouchableOpacity onPress={() => logout()}>
