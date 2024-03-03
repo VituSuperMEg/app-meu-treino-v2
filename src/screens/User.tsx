@@ -29,7 +29,7 @@ export function User() {
               borderBottomWidth: 3,
               borderColor: tab === 'meus_posts' ? '#5ED25C' : 'transparent',
             }}>
-            <Stack color="#fff" />
+            <Stack color={tab === 'meus_posts' ? '#5ED25C' : '#fff'} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setTab('meus_treinos')}
@@ -41,7 +41,7 @@ export function User() {
               borderBottomWidth: 3,
               borderColor: tab === 'meus_treinos' ? '#5ED25C' : 'transparent',
             }}>
-            <Barbell color="#fff" />
+            <Barbell color={tab === 'meus_treinos' ? '#5ED25C' : '#fff'} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setTab('meus_grupos')}
@@ -53,7 +53,7 @@ export function User() {
               borderBottomWidth: 3,
               borderColor: tab === 'meus_grupos' ? '#5ED25C' : 'transparent',
             }}>
-            <Factory color="#fff" />
+            <Factory color={tab === 'meus_grupos' ? '#5ED25C' : '#fff'} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setTab('meus_marcados')}
@@ -65,7 +65,7 @@ export function User() {
               borderBottomWidth: 3,
               borderColor: tab === 'meus_marcados' ? '#5ED25C' : 'transparent',
             }}>
-            <Users color="#fff" />
+            <Users color={tab === 'meus_marcados' ? '#5ED25C' : '#fff'} />
           </TouchableOpacity>
         </Box>
         <View
