@@ -15,7 +15,8 @@ module.exports = {
           '@services': './src/services',
           '@hooks': './src/hooks',
           '@contexts': './src/contexts',
-          '@routes': './src/routes'
+          '@routes': './src/routes',
+          '@store': './src/store'
         }
       },
     ],

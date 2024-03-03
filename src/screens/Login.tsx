@@ -10,12 +10,12 @@ import {useNavigation} from '@react-navigation/native';
 import cover from '../assets/cover.png';
 import {submit} from '@services/api';
 import {useUser} from '../store/auth';
-import React, {useRef} from 'react'; 
+import React, {useRef, useState} from 'react'; 
 
 export function Login() {
   const setUser = useUser(state => state.setUser);
   const setToken = useUser(state => state.setToken);
-
+  const [error, setError] = useState("");
   const {navigate} = useNavigation();
   const {
     control,
@@ -39,9 +39,12 @@ export function Login() {
         password: data.password,
       },
     });
+    if(!result) {
+      return setError("Usuário ou senha inválidos");
+    }
     setUser(result.user);
     setToken(result.access_token);
-
+    setError("");
     reset();
   };
   
@@ -127,6 +130,11 @@ export function Login() {
               backgroundColor="mainBackground"
               textColor="textBody"
             />
+          </Box>
+          <Box justifyContent='center' alignItems='center'>
+          <Text variant='body' color='danger'>
+            {error}
+          </Text>
           </Box>
           <Button
             onPress={handleSubmit(onSubmit)}
