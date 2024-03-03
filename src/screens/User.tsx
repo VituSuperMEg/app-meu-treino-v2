@@ -4,7 +4,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {UserData} from '@components/UserData';
 import {Profille} from '@components/Profille';
 import {useState} from 'react';
-import {Stack, Users} from 'phosphor-react-native';
+import {Barbell, Factory, Stack, Users} from 'phosphor-react-native';
 import {MyPosts} from './Users/MyPosts';
 import {MyMarkerPosts} from './Users/MyMarkerPosts';
 
@@ -23,11 +23,35 @@ export function User() {
               padding: 10,
               alignItems: 'center',
               justifyContent: 'center',
-              width: 200,
+              width: 50,
               borderBottomWidth: 3,
               borderColor: tab === 'meus_posts' ? '#5ED25C' : 'transparent',
             }}>
             <Stack color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setTab('meus_treinos')}
+            style={{
+              padding: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 50,
+              borderBottomWidth: 3,
+              borderColor: tab === 'meus_treinos' ? '#5ED25C' : 'transparent',
+            }}>
+            <Barbell color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setTab('meus_grupo')}
+            style={{
+              padding: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 50,
+              borderBottomWidth: 3,
+              borderColor: tab === 'meus_grupo' ? '#5ED25C' : 'transparent',
+            }}>
+            <Factory color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setTab('meus_marcados')}
@@ -35,7 +59,7 @@ export function User() {
               padding: 10,
               alignItems: 'center',
               justifyContent: 'center',
-              width: 200,
+              width: 50,
               borderBottomWidth: 3,
               borderColor: tab === 'meus_marcados' ? '#5ED25C' : 'transparent',
             }}>
