@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
 export function MyTreinos() {
+  
   const [treinos, setTreinos] = useState([]);
   const user = useUser(s => s.user);
 

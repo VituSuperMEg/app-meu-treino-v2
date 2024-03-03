@@ -5,6 +5,7 @@ import { Login } from "@screens/Login";
 import { SendCode } from "@screens/SendCode";
 import { Tabs } from "./Tab";
 import { Config } from "@screens/Users/Config";
+import { EditProfill } from "@screens/Users/EditProfille";
 
 const S = createStackNavigator();
 
@@ -19,7 +20,7 @@ export const Navigation = () => {
       <S.Screen name="SendCode" component={SendCode} />
       <S.Screen name="Home" component={Tabs} />
       <S.Screen name="Configurações" component={Config} />
-
+      <S.Screen name="Profille" component={EditProfill} />
     </S.Navigator>
   );
 }

@@ -3,13 +3,27 @@ import {Box} from './Box';
 import {Button} from './Button';
 import {Text} from './Text';
 import {TextInputRestyle} from './TextInput';
-import { TouchableOpacity, View } from 'react-native';
+import { Share, TouchableOpacity, View } from 'react-native';
 import { useUser } from '@store/auth';
+import { useNavigation } from '@react-navigation/native';
 
 export function Profille() {
 
   const profile = useUser(s => s.profile);
-  const description = "Estou em uma nova meta para crescimento se tiver gotando dos conteúdo me segue ai."
+  const user = useUser(s => s.user);
+
+  const description = "Estou em uma nova meta para crescimento se tiver gotando dos conteúdo me segue ai. No aplicativo do meu Treino"
+  const { navigate } = useNavigation();
+
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: `Olá! Meu nome é ${user.name}. ${description}`
+      });
+    } catch (error) {
+      console.error('Erro ao compartilhar:', error.message);
+    }
+  };
 
 
   return (
@@ -26,7 +40,7 @@ export function Profille() {
       </Text>
       <Box flexDirection='row' gap='m'>
       <Waveform color='#5ED25C'/>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => handleShare()}>
       <ShareNetwork size={25} color='#858585'/>
       </TouchableOpacity>
       </Box>
@@ -41,6 +55,7 @@ export function Profille() {
         <Button
           label="Editar Perfil"
           borderColor="greenPrimary"
+          onPress={() => navigate("Profille")}
           borderWidth={1}
           padding="s"
           width={330}
