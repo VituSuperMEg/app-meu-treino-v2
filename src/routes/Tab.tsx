@@ -25,6 +25,7 @@ const CustomTabTreino = (props : any) => (
     position : 'relative',
     top: -20,
     justifyContent: "center",
+    zIndex: 99999
   }}
   activeOpacity={1}
  >
@@ -95,7 +96,7 @@ export function Tabs() {
           borderColor: 'transparent',
           backgroundColor: '#18181b',
           position: 'absolute',
-          bottom: 25,
+          bottom: 15,
           left: 20,
           right: 20,
           elevation: 0,

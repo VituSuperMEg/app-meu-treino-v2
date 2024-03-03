@@ -1,12 +1,14 @@
 import {Box} from '@components/Box';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
 import {UserData} from '@components/UserData';
 import {Profille} from '@components/Profille';
 import {useState} from 'react';
 import {Barbell, Factory, Stack, Users} from 'phosphor-react-native';
 import {MyPosts} from './Users/MyPosts';
 import {MyMarkerPosts} from './Users/MyMarkerPosts';
+import {MyTreinos} from './Users/MyTreinos';
+import {MyGrupo} from './Users/MyGrupo';
 
 export function User() {
   const {navigate} = useNavigation();
@@ -42,14 +44,14 @@ export function User() {
             <Barbell color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setTab('meus_grupo')}
+            onPress={() => setTab('meus_grupos')}
             style={{
               padding: 10,
               alignItems: 'center',
               justifyContent: 'center',
               width: 50,
               borderBottomWidth: 3,
-              borderColor: tab === 'meus_grupo' ? '#5ED25C' : 'transparent',
+              borderColor: tab === 'meus_grupos' ? '#5ED25C' : 'transparent',
             }}>
             <Factory color="#fff" />
           </TouchableOpacity>
@@ -75,9 +77,10 @@ export function User() {
             left: -20,
           }}
         />
-        {tab === 'meus_posts' && <MyPosts />}
-        {tab === 'meus_marcados' && <MyMarkerPosts />}
-      
+          {tab === 'meus_posts' && <MyPosts />}
+          {tab === 'meus_marcados' && <MyMarkerPosts />}
+          {tab === 'meus_treinos' && <MyTreinos />}
+          {tab === 'meus_grupos' && <MyGrupo />}
       </Box>
     </Box>
   );
