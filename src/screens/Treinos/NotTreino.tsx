@@ -4,6 +4,7 @@ import { useUser } from "@store/auth";
 import { useState } from "react"
 import { Image } from "react-native";
 import notTreino from '@assets/notreino.png';
+import { ButtonLinear } from "@components/ButtonLienar";
 
 export function NotTreino () {
 

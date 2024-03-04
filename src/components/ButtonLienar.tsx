@@ -37,7 +37,7 @@ export function ButtonLinear({icon, text, notIcon = false, ...rest}: Button) {
             height: 37,
             width: 100,
             borderRadius: 5,
-            marginRight : 20,
+            marginRight : 5,
             alignItems : 'center',
             justifyContent: 'center',
           }}>
