@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
 export function MyTreinos() {
-  
+
   const [treinos, setTreinos] = useState([]);
   const user = useUser(s => s.user);
 
@@ -72,6 +72,7 @@ export function MyTreinos() {
       data={treinos}
       renderItem={renderItem}
       keyExtractor={item => item.id}
+      contentContainerStyle={{ paddingVertical: 20, paddingBottom : 70 }}
       style={{ flex: 1, margin: 20 }}
     />
   );
