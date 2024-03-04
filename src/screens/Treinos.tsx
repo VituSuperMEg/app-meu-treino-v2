@@ -2,7 +2,13 @@ import {Box} from '@components/Box';
 import {api} from '@services/api';
 import {useUser} from '@store/auth';
 import {useState} from 'react';
-import {Image, Platform, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import notTreino from '@assets/notreino.png';
 import {Text} from '@components/Text';
 import {SearchInput} from '@components/SearchInput';
@@ -68,8 +74,39 @@ export function Treinos() {
         </Box>
       </ScrollView>
       <Box>
+        {show && (
+          <Box
+            backgroundColor="zinc400"
+            position="absolute"
+            zIndex={9999999}
+            bottom={150}
+            width={345}
+            height={200}
+            borderRadius={8}>
+            <View
+              style={{
+                width: 0,
+                height: 0,
+                borderLeftWidth: 30,
+                borderRightWidth: 30,
+                borderBottomWidth: 30,
+                borderStyle: 'solid',
+                backgroundColor: 'transparent',
+                borderLeftColor: 'transparent',
+                borderRightColor: 'transparent',
+                borderBottomColor: '#3f3f46',
+                position: 'absolute',
+                bottom: -10,
+                right: 5,
+                transform: 'rotate(180deg)',
+              }}
+            />
+            <Text variant="body" color='shape'>Cadastrar Treino</Text>
+          </Box>
+        )}
         <TouchableOpacity
           activeOpacity={1}
+          onPress={() => setShow(prev => !prev)}
           style={{
             backgroundColor: '#5ED25C',
             width: 70,
