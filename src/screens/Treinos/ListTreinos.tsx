@@ -33,7 +33,6 @@ export function ListTreinos() {
       key={item.id}
       backgroundColor="zinc"
       alignItems="center"
-      justifyContent="center"
       padding="m"
       marginVertical="s"
       borderRadius={8}

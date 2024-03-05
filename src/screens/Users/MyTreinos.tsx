@@ -6,10 +6,11 @@ import { useUser } from '@store/auth';
 import { DEFAULT_ICON } from '@utils/utils';
 import { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
+import { ITreinos } from 'src/interfaces/interfaces';
 
 export function MyTreinos() {
 
-  const [treinos, setTreinos] = useState([]);
+  const [treinos, setTreinos] = useState<ITreinos | []>([]);
   const user = useUser(s => s.user);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export function MyTreinos() {
     get();
   }, []);
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: ITreinos }) => (
     <Box
       key={item.id}
       backgroundColor="zinc"

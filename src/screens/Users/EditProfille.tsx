@@ -3,7 +3,6 @@ import {Button} from '@components/Button';
 import {Header} from '@components/Header';
 import {Text} from '@components/Text';
 import {useNavigation} from '@react-navigation/native';
-import {Disc, FloppyDisk} from 'phosphor-react-native';
 
 export function EditProfill() {
   const {goBack} = useNavigation();
