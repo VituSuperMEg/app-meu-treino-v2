@@ -1,5 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home} from '@screens/Home';
+import { Treinos } from '@screens/Treinos';
 import {User} from '@screens/User';
 import {
   Barbell,
@@ -106,7 +107,7 @@ export function Tabs() {
       })}>
       <T.Screen name="Home" component={Home}/>
       <T.Screen name="Dieta" component={User} />
-      <T.Screen name="Treino" component={User}
+      <T.Screen name="Treino" component={Treinos}
        options={{
         tabBarActiveTintColor : '#000',
         tabBarButton : (props) =>(

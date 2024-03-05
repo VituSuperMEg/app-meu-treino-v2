@@ -16,6 +16,7 @@ import {
 
 import { Text } from './Text';
 import { Theme } from '../theme/theme';
+import { ReactNode } from 'react';
 
 type RestyleProps = 
  SpacingProps<Theme> &
@@ -33,15 +34,17 @@ const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([
 type Props = RestyleProps & {
   onPress?: () => void;
   label?: string;
-  textColor?: keyof Theme['colors']; 
+  textColor?: keyof Theme['colors'];
+  icon?: ReactNode;
 };
 
-export const Button = ({onPress, label, textColor, ...rest}: Props) => {
+export const Button = ({onPress, label, textColor, icon, ...rest}: Props) => {
   const props = useRestyle(restyleFunctions, rest);
 
   return (
     <TouchableOpacity onPress={onPress}>
       <View {...props}>
+      {icon}
         <Text variant="bold" color={textColor ? textColor : 'shape'}>{label}</Text>
       </View>
     </TouchableOpacity>
