@@ -17,10 +17,14 @@ import {
   Barbell,
   Feather,
   Fire,
+  Folder,
+  Heart,
+  Lockers,
   SmileyNervous,
   Waveform,
 } from 'phosphor-react-native';
 import {ListTreinos} from './Treinos/ListTreinos';
+import { Button } from '@components/Button';
 
 export function Treinos() {
   const [search, setSearch] = useState('');
@@ -81,7 +85,7 @@ export function Treinos() {
             zIndex={9999999}
             bottom={150}
             width={345}
-            height={200}
+            height={170}
             borderRadius={8}>
             <View
               style={{
@@ -101,7 +105,26 @@ export function Treinos() {
                 transform: 'rotate(180deg)',
               }}
             />
-            <Text variant="body" color='shape'>Cadastrar Treino</Text>
+            <Box p="l" gap='l'>
+              <Button 
+               label='Cadastrar Treino'
+               flexDirection='row'
+               gap='s'
+               icon={<Lockers color='#5ED25C'/>}
+              />
+              <Button 
+               label='Ver Meus Treino'
+               flexDirection='row'
+               gap='s'
+               icon={<Folder color='#5ED25C'/>}
+              />
+              <Button 
+               label='Treinos Curtidos'
+               flexDirection='row'
+               gap='s'
+               icon={<Heart color='#5ED25C'/>}
+              />
+            </Box>
           </Box>
         )}
         <TouchableOpacity
