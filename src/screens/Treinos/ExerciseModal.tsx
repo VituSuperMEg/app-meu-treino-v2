@@ -1,21 +1,24 @@
-import {Box} from '@components/Box';
-import {Button} from '@components/Button';
-import {Text} from '@components/Text';
-import {TextInputRestyle} from '@components/TextInput';
-import {Barbell, List, Trash, TrashSimple, X} from 'phosphor-react-native';
-import {useState} from 'react';
-import {Modal, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Barbell, Trash, X } from 'phosphor-react-native';
+import { ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { useTreino } from './useTreino';
+import { useToast } from 'react-native-toast-notifications';
+import { Box } from '@components/Box';
+import { TextInputRestyle } from '@components/TextInput';
+import { Text } from '@components/Text';
+import { Button } from '@components/Button';
 
 interface IExerciseModal {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export function ExerciseModal({show, setShow }: IExerciseModal) {
+
+export function ExerciseModal({ show, setShow }: IExerciseModal) {
   const [exercises, setExercises] = useState<string[]>([]);
   const [newExercise, setNewExercise] = useState<string>('');
   const set = useTreino(s => s.setExercises);
   const e = useTreino(s => s.exercises);
+  const toast = useToast();
 
   const handleAddExercise = () => {
     if (newExercise.trim() !== '') {
@@ -25,19 +28,26 @@ export function ExerciseModal({show, setShow }: IExerciseModal) {
   };
   
   const handleRemoveExercise = (index: number) => {
-    setExercises(prev => prev.filter((_, i) => i!== index));
+    setExercises(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleAddExerciseAndZustand = () => {
-    const updatedList = [...exercises, newExercise]; 
-    const updatedListString = updatedList.join(', ');
-    set(updatedListString)
-  }
+    if (newExercise.trim() !== '') {
+      const updatedList = [...exercises, newExercise];
+      const updatedListString = updatedList.join(', ');
+      set(updatedListString);
+      setExercises(updatedList);
+      setNewExercise('');
+    }
+  };
 
-  useState(() => {
-     setExercises([e])
-  }, [show]);
-  
+  useEffect(() => {
+    if (typeof e === 'string') {
+      const separatedExercises = e.split(', ');
+      setExercises(separatedExercises);
+    }
+  }, [show, e]);
+
   return (
     <Box flex={1}>
       <Modal animationType="slide" visible={show}>
@@ -77,32 +87,32 @@ export function ExerciseModal({show, setShow }: IExerciseModal) {
             <Box mt="xl">
               <Text variant='bold' color='shape'>Exercícios Adicionados : </Text>
               {exercises.map((exercise, index) => (
-                <ScrollView>
-                <Box
-                  key={index}
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  height={50}
-                  backgroundColor="zinc"
-                  alignItems="center"
-                  pl="l"
-                  borderRadius={8}
-                  mb='s'
-                >
-                  <Text key={index} variant="body" color="textBody">
-                    {index + 1} - {exercise}
-                  </Text>
-                  <Button
+                <ScrollView key={index}>
+                  <Box
+                    flexDirection="row"
+                    justifyContent="space-between"
                     height={50}
-                    width={50}
-                    borderTopRightRadius={8}
-                    borderBottomRightRadius={8}
+                    backgroundColor="zinc"
                     alignItems="center"
-                    justifyContent="center"
-                    backgroundColor="dangerPrimary"
-                    icon={<Trash color="#fff" style={{marginTop: 20}} />}
-                  />
-                </Box>
+                    pl="l"
+                    borderRadius={8}
+                    mb='s'
+                  >
+                    <Text variant="body" color="textBody">
+                      {index + 1} - {exercise}
+                    </Text>
+                    <Button
+                      height={50}
+                      width={50}
+                      borderTopRightRadius={8}
+                      borderBottomRightRadius={8}
+                      onPress={() => handleRemoveExercise(index)}
+                      alignItems="center"
+                      justifyContent="center"
+                      backgroundColor="dangerPrimary"
+                      icon={<Trash color="#fff" style={{marginTop: 20}} />}
+                    />
+                  </Box>
                 </ScrollView>
               ))}
             </Box>
@@ -113,7 +123,7 @@ export function ExerciseModal({show, setShow }: IExerciseModal) {
                 backgroundColor="greenPrimary"
                 borderColor="greenPrimary"
                 borderWidth={1}
-                onPress={() => handleAddExerciseAndZustand()}
+                onPress={handleAddExerciseAndZustand}
                 height={50}
                 alignItems="center"
                 justifyContent="center"
@@ -125,7 +135,10 @@ export function ExerciseModal({show, setShow }: IExerciseModal) {
                 backgroundColor="dangerPrimary"
                 borderColor="dangerPrimary"
                 borderWidth={1}
-                onPress={() => setExercises([])}
+                onPress={() => {
+                  setShow(false);
+                  setExercises([]);
+                }}
                 height={50}
                 alignItems="center"
                 justifyContent="center"
