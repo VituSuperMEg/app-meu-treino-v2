@@ -20,7 +20,7 @@ export const Navigation = () => {
       <S.Screen name="Login" component={Login} />
       <S.Screen name="Create" component={CreateAccount} />
       <S.Screen name="SendCode" component={SendCode} />
-      <S.Screen name="Home" component={Tabs} />
+      <S.Screen name="Tabs" component={Tabs} />
       <S.Screen name="Configurações" component={Config} />
       <S.Screen name="Profille" component={EditProfill} />
       <S.Screen name="FindTreino" component={FindTreino} />
