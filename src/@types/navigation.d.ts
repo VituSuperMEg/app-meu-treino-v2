@@ -2,10 +2,13 @@ export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       groups: undefined;
-      new: undefined;
+      Treino: {
+        id : string;
+      }
       FindTreino: {
         id: string;
       }
+      Login : undefined;
     }
   }
 }

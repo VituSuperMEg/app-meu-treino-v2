@@ -18,10 +18,11 @@ import {ImageBackground, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ButtonFocus} from '@components/ButtonFocus';
 import AgeScroll from '@components/ScroolAge';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {TextInputRestyle} from '@components/TextInput';
 import {submit} from '@services/api';
 import {useToast} from 'react-native-toast-notifications';
+import { IUserState } from 'src/interfaces/interfaces';
 
 export function CreateAccount() {
   const {goBack, navigate} = useNavigation();
@@ -61,7 +62,7 @@ export function CreateAccount() {
     dispatch({type: 'SET_WEIGHT', value: selectedWeight});
   };
 
-  const onSubmit = async data => {
+  const onSubmit : SubmitHandler<IUserState>  = async data => {
     const result = await submit({
       controller: 'users',
       params: {

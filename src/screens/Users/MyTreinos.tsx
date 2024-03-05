@@ -1,6 +1,7 @@
 import { Box } from '@components/Box';
 import { Button } from '@components/Button';
 import { Text } from '@components/Text';
+import { useNavigation } from '@react-navigation/native';
 import { api } from '@services/api';
 import { useUser } from '@store/auth';
 import { DEFAULT_ICON } from '@utils/utils';
@@ -12,7 +13,9 @@ export function MyTreinos() {
 
   const [treinos, setTreinos] = useState<ITreinos | []>([]);
   const user = useUser(s => s.user);
+  const { navigate } = useNavigation();
 
+  
   useEffect(() => {
     async function get() {
       try {

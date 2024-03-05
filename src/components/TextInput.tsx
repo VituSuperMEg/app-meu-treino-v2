@@ -20,7 +20,6 @@ import {Text} from './Text';
 type RestyleProps = SpacingProps<Theme> &
   BorderProps<Theme> &
   BackgroundColorProps<Theme> &
-  Dimensions &
   LayoutProps<Theme>;
 
 const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([

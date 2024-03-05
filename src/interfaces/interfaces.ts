@@ -14,3 +14,12 @@ export interface ITreinos {
    reader : string; 
    rep : string;
 }
+
+export interface IUserState {
+  name : string;
+  email : string;
+  password : string;
+  foto : string;
+  preimum : string;
+  confirmationPassword : string;
+}
