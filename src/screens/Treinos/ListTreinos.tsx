@@ -82,7 +82,7 @@ export function ListTreinos() {
           padding="s"
           borderRadius={6}
           onPress={() => navigate("FindTreino", {
-            id : item.id
+            id : item.id,
           })}
         />
       </Box>
