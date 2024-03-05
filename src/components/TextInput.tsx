@@ -16,11 +16,11 @@ import {Theme} from '../theme/theme';
 import {ReactNode, useState, useRef} from 'react';
 import {Eye, EyeClosed} from 'phosphor-react-native';
 import {Text} from './Text';
+import { Box } from './Box';
 
 type RestyleProps = SpacingProps<Theme> &
   BorderProps<Theme> &
   BackgroundColorProps<Theme> &
-  Dimensions &
   LayoutProps<Theme>;
 
 const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([
@@ -61,7 +61,7 @@ export const TextInputRestyle = ({
 
   return (
     <>
-      {icon ? (
+      {icon || label ? (
         <>
           {label && (
             <Text variant="body" color="shape">

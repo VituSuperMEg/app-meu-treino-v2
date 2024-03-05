@@ -11,7 +11,7 @@ export function AuthProvider({children}: Auth) {
 
   useEffect(() => {
     if (token) {
-      navigate('Home');
+      navigate('Tabs');
     } else {
       navigate('Login');
     }

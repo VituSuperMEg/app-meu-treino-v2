@@ -1,17 +1,21 @@
 import { Box } from '@components/Box';
 import { Button } from '@components/Button';
 import { Text } from '@components/Text';
+import { useNavigation } from '@react-navigation/native';
 import { api } from '@services/api';
 import { useUser } from '@store/auth';
 import { DEFAULT_ICON } from '@utils/utils';
 import { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
+import { ITreinos } from 'src/interfaces/interfaces';
 
 export function MyTreinos() {
 
-  const [treinos, setTreinos] = useState([]);
+  const [treinos, setTreinos] = useState<ITreinos | []>([]);
   const user = useUser(s => s.user);
+  const { navigate } = useNavigation();
 
+  
   useEffect(() => {
     async function get() {
       try {
@@ -24,7 +28,7 @@ export function MyTreinos() {
     get();
   }, []);
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: ITreinos }) => (
     <Box
       key={item.id}
       backgroundColor="zinc"

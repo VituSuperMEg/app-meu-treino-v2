@@ -25,10 +25,12 @@ import {
 } from 'phosphor-react-native';
 import {ListTreinos} from './Treinos/ListTreinos';
 import { Button } from '@components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 export function Treinos() {
   const [search, setSearch] = useState('');
   const [show, setShow] = useState(false);
+  const { navigate } = useNavigation();
   return (
     <Box flex={1} backgroundColor="mainBackground" p="l">
       <Box mt="l">
@@ -111,6 +113,7 @@ export function Treinos() {
                flexDirection='row'
                gap='s'
                icon={<Lockers color='#5ED25C'/>}
+               onPress={() => navigate("CreateTreino")}
               />
               <Button 
                label='Ver Meus Treino'

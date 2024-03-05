@@ -33,7 +33,6 @@ export function ListTreinos() {
       key={item.id}
       backgroundColor="zinc"
       alignItems="center"
-      justifyContent="center"
       padding="m"
       marginVertical="s"
       borderRadius={8}
@@ -83,7 +82,7 @@ export function ListTreinos() {
           padding="s"
           borderRadius={6}
           onPress={() => navigate("FindTreino", {
-            id : item.id
+            id : item.id,
           })}
         />
       </Box>

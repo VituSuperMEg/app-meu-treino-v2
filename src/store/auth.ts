@@ -1,8 +1,12 @@
 import { create } from 'zustand';
 import { Storage } from '@services/storage';
 
+interface User {
+    id : number;
+    name: string;
+}
 interface IUserState {
-  user: any[]; 
+  user: User; 
   token: string;
   setUser: (user: any[]) => void;
   setToken: (token: string) => void;

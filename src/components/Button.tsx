@@ -11,18 +11,16 @@ import {
   Dimensions,
   LayoutProps,
   color,
-  ColorProps
+  ColorProps,
 } from '@shopify/restyle';
 
-import { Text } from './Text';
-import { Theme } from '../theme/theme';
-import { ReactNode } from 'react';
+import {Text} from './Text';
+import {Theme} from '../theme/theme';
+import {ReactNode} from 'react';
 
-type RestyleProps = 
- SpacingProps<Theme> &
+type RestyleProps = SpacingProps<Theme> &
   BorderProps<Theme> &
   BackgroundColorProps<Theme> &
-  Dimensions &
   LayoutProps<Theme>;
 
 const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([
@@ -44,8 +42,10 @@ export const Button = ({onPress, label, textColor, icon, ...rest}: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View {...props}>
-      {icon}
-        <Text variant="bold" color={textColor ? textColor : 'shape'}>{label}</Text>
+        {icon}
+        <Text variant="bold" color={textColor ? textColor : 'shape'}>
+          {label}
+        </Text>
       </View>
     </TouchableOpacity>
   );
