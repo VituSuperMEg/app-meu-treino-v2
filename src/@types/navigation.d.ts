@@ -9,6 +9,7 @@ export declare global {
         id: string;
       }
       Login : undefined;
+      CreateTreino: undefined;
     }
   }
 }
