@@ -81,8 +81,8 @@ export function FindTreino() {
                 {i.volume_exercise} {DEFAULT_ICON[i.volume_exercise]}
               </Text>
             </Box>
-            <Text variant="bodyMin" color="textBody">
-              {i.description}
+            <Text variant="bodyMin" color="textBody" mb='s'>
+              {i.description ? i.description : "Sem descrição :( "}
             </Text>
             <Box flexDirection='row' justifyContent='space-between'> 
               <Box flexDirection='row' alignItems='center' gap='s'>
