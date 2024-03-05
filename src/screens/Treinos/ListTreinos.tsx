@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, Image} from 'react-native';
 import {Box} from '@components/Box';
 import {Text} from '@components/Text';
 import {api} from '@services/api';
-import {ButtonLinear} from '@components/ButtonLienar';
 import {DEFAULT_ICON} from '@utils/utils';
 import {Button} from '@components/Button';
 import {useNavigation} from '@react-navigation/native';
+import { ITreinos } from 'src/interfaces/interfaces';
+import empty from "@assets/Empty-cuate.png";
 
 export function ListTreinos() {
-  const [treinos, setTreinos] = useState([]);
+  const [treinos, setTreinos] = useState<ITreinos[] | []>([]);
   const {navigate} = useNavigation();
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export function ListTreinos() {
     get();
   }, []);
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }: { item: ITreinos }) => (
     <Box
       key={item.id}
       backgroundColor="zinc"
@@ -40,15 +41,32 @@ export function ListTreinos() {
       p="l"
       height={123}
       justifyContent="space-between">
-      <Box>
-        <Text variant="body" color="textBody">
+      {item.image ? (
+        <Image
+          source={{uri: item.image}}
+          style={{
+            height: 80,
+            width: 80,
+            objectFit: 'contain',
+          }}
+        />
+      ) : (
+        <Image
+        source={empty}
+        style={{
+          height: 80,
+          width: 80,
+        }}
+      />
+      )}
+      <Box mr='l' ml='s'>
+        <Text variant="bodyMin" color="textBody">
           {item.name}
         </Text>
         {/* <Text variant="body" color="textBody">
           {item.description}
         </Text> */}
-        <Text variant="body" color="textBody">
-          Criador:{' '}
+        <Text variant="bodyMin" color="textBody">
           <Text variant="bold" color="greenPrimary">
             @
           </Text>
