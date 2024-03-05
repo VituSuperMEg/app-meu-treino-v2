@@ -9,10 +9,13 @@ import { useState } from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import { ExerciseModal } from './ExerciseModal';
+import { useTreino } from './useTreino';
 
 export function CreateTreino() {
   const {goBack} = useNavigation();
   const [show, setShow] = useState(false);
+  const exercise = useTreino(s => s.exercises);
+  
   const {
     control,
     handleSubmit,
@@ -135,7 +138,7 @@ export function CreateTreino() {
                     onBlur={onBlur}
                     onPressIn={e => setShow(prev => !prev)}
                     onChangeText={onChange}
-                    value={value}
+                    value={exercise}
                     secureTextEntry={false}
                     erros={
                       errors.exercise && (
@@ -152,7 +155,7 @@ export function CreateTreino() {
             </View>
           </Box>
         </ScrollView>
-        {show && (<ExerciseModal show={show} setShow={setShow}/>)}
+        {show && (<ExerciseModal show={show} setShow={setShow} />)}
         <Button
           marginTop="m"
           label="Salvar"
