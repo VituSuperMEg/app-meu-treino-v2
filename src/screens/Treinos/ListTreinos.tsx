@@ -5,10 +5,12 @@ import {Text} from '@components/Text';
 import {api} from '@services/api';
 import {ButtonLinear} from '@components/ButtonLienar';
 import {DEFAULT_ICON} from '@utils/utils';
-import { Button } from '@components/Button';
+import {Button} from '@components/Button';
+import {useNavigation} from '@react-navigation/native';
 
 export function ListTreinos() {
   const [treinos, setTreinos] = useState([]);
+  const {navigate} = useNavigation();
 
   useEffect(() => {
     async function get() {
@@ -37,8 +39,7 @@ export function ListTreinos() {
       flexDirection="row"
       p="l"
       height={123}
-      justifyContent="space-between"
-     >
+      justifyContent="space-between">
       <Box>
         <Text variant="body" color="textBody">
           {item.name}
@@ -47,14 +48,26 @@ export function ListTreinos() {
           {item.description}
         </Text> */}
         <Text variant="body" color="textBody">
-          Criador: <Text variant='bold' color='greenPrimary'>@</Text>{item.author.name}
+          Criador:{' '}
+          <Text variant="bold" color="greenPrimary">
+            @
+          </Text>
+          {item.author.name}
         </Text>
       </Box>
-      <Box alignItems='flex-end' gap='l'>
-      <Text variant="body" color="textBody">
-        {DEFAULT_ICON[item.volume_exercise]}
-      </Text>
-      <Button label='Ver Treino' backgroundColor='greenPrimary' padding='s' borderRadius={6}/>
+      <Box alignItems="flex-end" gap="l">
+        <Text variant="body" color="textBody">
+          {DEFAULT_ICON[item.volume_exercise]}
+        </Text>
+        <Button
+          label="Ver Treino"
+          backgroundColor="greenPrimary"
+          padding="s"
+          borderRadius={6}
+          onPress={() => navigate("FindTreino", {
+            id : item.id
+          })}
+        />
       </Box>
     </Box>
   );

@@ -15,7 +15,7 @@ export function MyTreinos() {
   useEffect(() => {
     async function get() {
       try {
-        const response = await api.get(`treinos/${user.id}`);
+        const response = await api.get(`treinos/user/${user.id}`);
         setTreinos(response.data);
       } catch (error) {
         console.error('Erro ao buscar treinos:', error);

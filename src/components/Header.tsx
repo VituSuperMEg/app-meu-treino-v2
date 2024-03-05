@@ -6,7 +6,12 @@ import { TouchableOpacity, View } from 'react-native';
 import { useNoticafion } from '../store/notification';
 import { useNavigation } from '@react-navigation/native';
 
-export function Header({ style = 'home', name = '' }) {
+
+interface IHeader {
+  style : 'home' | 'menu';
+  name : string;
+}
+export function Header({ style = 'home', name = '' }:IHeader) {
   const user = useUser(state => state.user);
   const count = useNoticafion(state => state.count);
   const { navigate, goBack } = useNavigation();
