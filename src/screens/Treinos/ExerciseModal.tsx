@@ -32,22 +32,18 @@ export function ExerciseModal({ show, setShow }: IExerciseModal) {
   };
 
   const handleAddExerciseAndZustand = () => {
-    if (newExercise.trim() !== '') {
       const updatedList = [...exercises, newExercise];
       const updatedListString = updatedList.join(', ');
       set(updatedListString);
-      setExercises(updatedList);
-      setNewExercise('');
-    }
   };
 
   useEffect(() => {
     if (typeof e === 'string') {
       const separatedExercises = e.split(', ');
-      setExercises(separatedExercises);
+      setExercises(separatedExercises.filter(item => item.trim() !== '')); 
     }
-  }, [show, e]);
-
+  }, [show]);
+  
   return (
     <Box flex={1}>
       <Modal animationType="slide" visible={show}>
