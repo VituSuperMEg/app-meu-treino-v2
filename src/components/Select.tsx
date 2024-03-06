@@ -33,6 +33,7 @@ export function Select({label, required, items, onValueChange}: ISelect) {
             borderColor: '#858585',
             borderRadius: 6,
           },
+          
         }}
         onValueChange={onValueChange}
         items={items}
