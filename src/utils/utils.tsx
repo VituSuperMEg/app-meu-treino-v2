@@ -11,3 +11,8 @@ export const DEFAULT_ICON: DefaultIcon = {
   "pesado": <Fire color="#5ED25C" />,
   "intenso": <SmileyNervous color="#5ED25C" />,
 };
+
+export const separatedArray =  (e : any) => {
+  const separatedExercises = e.split(', ');
+  return (separatedExercises.filter(item => item.trim() !== '')); 
+}
