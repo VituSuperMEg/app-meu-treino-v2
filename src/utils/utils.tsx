@@ -12,7 +12,7 @@ export const DEFAULT_ICON: DefaultIcon = {
   "intenso": <SmileyNervous color="#5ED25C" />,
 };
 
-export const separatedArray =  (e : any) => {
+export const separatedArray =  (e : string) => {
   const separatedExercises = e.split(', ');
-  return (separatedExercises.filter(item => item.trim() !== '')); 
+  return (separatedExercises.filter((item : any) => item.trim() !== '')); 
 }
