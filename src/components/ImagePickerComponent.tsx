@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import { launchImageLibrary, ImagePickerResponse } from 'react-native-image-picker';
-import { Button } from './Button';
-import { Image, TouchableOpacity } from 'react-native';
-import { Box } from './Box';
-import { Trash } from 'phosphor-react-native';
+import {useState} from 'react';
+import {
+  launchImageLibrary,
+  ImagePickerResponse,
+} from 'react-native-image-picker';
+import {Button} from './Button';
+import {Image, TouchableOpacity} from 'react-native';
+import {Box} from './Box';
+import {Camera, Trash} from 'phosphor-react-native';
 
 export function ImagePickerComponent() {
   const [file, setFile] = useState<ImagePickerResponse>();
@@ -32,7 +35,7 @@ export function ImagePickerComponent() {
             type: asset.type,
           };
           setFile(photoFile);
-          setIsSelected(false); // Resetar o estado quando uma nova imagem é selecionada
+          setIsSelected(false);
         }
       }
     });
@@ -40,32 +43,42 @@ export function ImagePickerComponent() {
 
   return (
     <>
-      <Button label="Clique aqui" onPress={handleChoosePhoto} />
-      <TouchableOpacity
-        onPress={() => setIsSelected(!isSelected)}
-     
-      >
-        {file && (
-          <Image
-            source={{ uri: file.uri }}
-            style={{ width: 200, height: 200 }}
+      {file === undefined && (
+        <Box alignItems="center" mt="m">
+          <Button
+            label="Clique aqui"
+            onPress={handleChoosePhoto}
+            borderColor="textBody"
+            alignItems="center"
+            justifyContent="center"
+            borderWidth={1}
+            height={200}
+            width={200}
+            borderRadius={500}
+            icon={<Camera color="#fff" />}
           />
+        </Box>
+      )}
+      <TouchableOpacity onPress={() => setIsSelected(!isSelected)}>
+        {file && (
+          <Box alignItems="center" mt="m">
+            <Image source={{uri: file.uri}} style={{width: 200, height: 200}} />
+          </Box>
         )}
         {isSelected && (
           <Box
-            alignItems='center'
-            justifyContent='center'
-            position='absolute'
-            top={0}
+            alignItems="center"
+            justifyContent="center"
+            position="absolute"
+            top={16}
             bottom={0}
-            left={0}
+            left={72}
             right={0}
-            width={200}
+            width={200.5}
             zIndex={2}
-            backgroundColor='trasnparent'
-          >
+            backgroundColor="trasnparent">
             <TouchableOpacity onPress={() => setFile(undefined)}>
-              {file !== undefined && (<Trash color="#ef4444" size={40} />)}
+              {file !== undefined && <Trash color="#ef4444" size={40} />}
             </TouchableOpacity>
           </Box>
         )}
