@@ -19,7 +19,6 @@ export function ListTreinos() {
         const response = await api.get(`treinos`);
         if (response.data) {
           setTreinos(response.data);
-          console.log(response.data);
         }
       } catch (error) {
         console.log(error);
