@@ -43,10 +43,7 @@ export function ImagePickerComponent() {
       <Button label="Clique aqui" onPress={handleChoosePhoto} />
       <TouchableOpacity
         onPress={() => setIsSelected(!isSelected)}
-        style={{
-          position: 'relative',
-          backgroundColor: isSelected ? 'rgba(0,0,0,0.6)' : 'transparent',
-        }}
+     
       >
         {file && (
           <Image
@@ -63,11 +60,12 @@ export function ImagePickerComponent() {
             bottom={0}
             left={0}
             right={0}
+            width={200}
             zIndex={2}
-            backgroundColor='black'
+            backgroundColor='trasnparent'
           >
             <TouchableOpacity onPress={() => setFile(undefined)}>
-              <Trash color="#ef4444" size={40} />
+              {file !== undefined && (<Trash color="#ef4444" size={40} />)}
             </TouchableOpacity>
           </Box>
         )}
