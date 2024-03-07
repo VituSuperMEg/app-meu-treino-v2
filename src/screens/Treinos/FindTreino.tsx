@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Image, ScrollView} from 'react-native';
-import {Box} from '@components/Box';
-import {Button} from '@components/Button';
-import {Header} from '@components/Header';
-import {Text} from '@components/Text';
-import {useRoute} from '@react-navigation/native';
-import {api} from '@services/api';
-import {ArrowClockwise, Calendar, CalendarBlank, Download, ThumbsDown, ThumbsUp, Timer} from 'phosphor-react-native';
-import {ITreinos} from 'src/interfaces/interfaces';
-import {DEFAULT_ICON} from '@utils/utils';
+import React, { useEffect, useState } from 'react';
+import { Alert, Image, ScrollView } from 'react-native';
+import { Box } from '@components/Box';
+import { Button } from '@components/Button';
+import { Header } from '@components/Header';
+import { Text } from '@components/Text';
+import { useRoute } from '@react-navigation/native';
+import { api } from '@services/api';
+import { ArrowClockwise, Calendar, CalendarBlank, ChatCenteredDots, Download, ThumbsDown, ThumbsUp, Timer } from 'phosphor-react-native';
+import { ITreinos } from 'src/interfaces/interfaces';
+import { DEFAULT_ICON } from '@utils/utils';
 import empty from "@assets/Empty-cuate.png";
 import { useUser } from '@store/auth';
 
@@ -22,7 +22,7 @@ interface IRoute {
 }
 
 export function FindTreino() {
-  const {params} = useRoute<IRoute>();
+  const { params } = useRoute<IRoute>();
   const [find, setFind] = useState<ITreinos[]>([]);
   const [thumbs, setThumbs] = useState({
     like: false,
@@ -53,7 +53,7 @@ export function FindTreino() {
           {i.image ? (
             <Box>
               <Image
-                source={{uri: i?.image}}
+                source={{ uri: i?.image }}
                 style={{
                   height: 200,
                   width: '100%',
@@ -63,17 +63,17 @@ export function FindTreino() {
             </Box>
           ) : (
             <Box>
-            <Image
-              source={empty}
-              style={{
-                height: 200,
-                width: '100%',
-                objectFit: 'contain',
-              }}
-            />
-          </Box>
+              <Image
+                source={empty}
+                style={{
+                  height: 200,
+                  width: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            </Box>
           )}
-          <Box>
+          <Box mt='l'>
             <Box flexDirection="row" justifyContent="space-between">
               <Text variant="bold" color="shape" fontSize={20}>
                 <Text variant='body' color='textBody'>@{i.author.name}</Text> {"\n"}
@@ -86,34 +86,33 @@ export function FindTreino() {
             <Text variant="bodyMin" color="textBody" mb='s'>
               {i.description ? i.description : "Sem descrição :( "}
             </Text>
-            <Box flexDirection='row' justifyContent='space-between'> 
+            <Box flexDirection='row' justifyContent='space-between'>
               <Box flexDirection='row' alignItems='center' gap='s'>
-              <Timer color='#858585'/>
-              <Text variant="body" color="textBody">
-                {i.interval_exercise} /p cada
-              </Text>
+                <Timer color='#858585' />
+                <Text variant="body" color="textBody">
+                  {i.interval_exercise} /p cada
+                </Text>
               </Box>
               <Box flexDirection='row' alignItems='center' gap='s' justifyContent='center'>
                 <ArrowClockwise color='#858585' />
                 <Text variant="body" color="textBody">
-                {i.rep}
-              </Text>
+                  {i.rep}
+                </Text>
               </Box>
             </Box>
           </Box>
-          <Box>
+          <ScrollView style={{ marginTop: 10 }}>
             <Text variant='bold' color='shape' fontSize={20}>
               Exercícios<Text variant='bold' color='greenPrimary'>.</Text>
             </Text>
-            {i.exercise.map((i, index)=> (
+            {i.exercise.map((i, index) => (
               <Text variant="bodyMin" color="textBody" key={index}>
                 {index + 1} - {i}
               </Text>
             ))}
-          </Box>
+          </ScrollView>
           <Box>
-
-            <Box flexDirection="row" justifyContent="space-between">
+            {/* <Box flexDirection="row" justifyContent="space-between">
               <Button
                 label="Curtir"
                 onPress={() =>
@@ -148,8 +147,8 @@ export function FindTreino() {
                   <ThumbsDown color={thumbs.dislike ? '#ef4444' : '#fff'} />
                 }
               />
-            </Box>
-            {i.usersId === String(user.id)&& (
+            </Box> */}
+            {i.usersId === String(user.id) ? (
               <Button
                 label="Adicionar ao Calendário"
                 backgroundColor="greenPrimary"
@@ -164,6 +163,20 @@ export function FindTreino() {
                 gap='m'
                 icon={<CalendarBlank />}
               />
+            ) : (
+              <Button
+              marginTop='s'
+              label="Adicionar FeedBack"
+              backgroundColor="zinc"
+              textColor="shape"
+              padding="m"
+              flexDirection="row"
+              alignItems="center"
+              justifyContent='center'
+              gap="m"
+              borderRadius={8}
+              icon={<ChatCenteredDots color='#fff' />}
+            />
             )}
             <Button
               marginTop='s'
@@ -178,6 +191,7 @@ export function FindTreino() {
               borderRadius={8}
               icon={<Download />}
             />
+          
           </Box>
         </Box>
       ))}
