@@ -6,10 +6,11 @@ import {Header} from '@components/Header';
 import {Text} from '@components/Text';
 import {useRoute} from '@react-navigation/native';
 import {api} from '@services/api';
-import {ArrowClockwise, Download, ThumbsDown, ThumbsUp, Timer} from 'phosphor-react-native';
+import {ArrowClockwise, Calendar, CalendarBlank, Download, ThumbsDown, ThumbsUp, Timer} from 'phosphor-react-native';
 import {ITreinos} from 'src/interfaces/interfaces';
 import {DEFAULT_ICON} from '@utils/utils';
 import empty from "@assets/Empty-cuate.png";
+import { useUser } from '@store/auth';
 
 interface IRoute {
   params: {
@@ -27,11 +28,12 @@ export function FindTreino() {
     like: false,
     dislike: false,
   });
-
+  const user = useUser(s => s.user);
   useEffect(() => {
     async function get() {
       try {
         const response = await api.get(`treinos/${params.id}`);
+        console.log(response.data)
         setFind(response.data);
       } catch (error: any) {
         Alert.alert('Error', error);
@@ -104,12 +106,13 @@ export function FindTreino() {
               Exercícios<Text variant='bold' color='greenPrimary'>.</Text>
             </Text>
             {i.exercise.map((i, index)=> (
-              <Text variant="bodyMin" color="textBody">
+              <Text variant="bodyMin" color="textBody" key={index}>
                 {index + 1} - {i}
               </Text>
             ))}
           </Box>
           <Box>
+
             <Box flexDirection="row" justifyContent="space-between">
               <Button
                 label="Curtir"
@@ -146,13 +149,31 @@ export function FindTreino() {
                 }
               />
             </Box>
+            {i.usersId === String(user.id)&& (
+              <Button
+                label="Adicionar ao Calendário"
+                backgroundColor="greenPrimary"
+                marginTop="m"
+                textColor="black"
+                borderWidth={1}
+                height={55}
+                alignItems="center"
+                justifyContent="center"
+                borderRadius={8}
+                flexDirection='row'
+                gap='m'
+                icon={<CalendarBlank />}
+              />
+            )}
             <Button
+              marginTop='s'
               label="Copiar Treino"
               backgroundColor="shape"
               textColor="black"
               padding="m"
               flexDirection="row"
               alignItems="center"
+              justifyContent='center'
               gap="m"
               borderRadius={8}
               icon={<Download />}
