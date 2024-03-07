@@ -1,31 +1,37 @@
-import  axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { Alert } from 'react-native';
 
-interface IAxios {
-  controller : string;
-  params?: any;
-}
 export const api = axios.create({
-  baseURL : 'http://192.168.0.24:3000/api/v1/'
+  baseURL: 'http://192.168.0.24:3000/api/v1/',
+  headers: {
+      'Content-Type': 'multipart/form-data',
+    Accept: 'application/json',
+  },
 });
 
-export const getData = async (controller : IAxios) => {
+export const getData = async (controller) => {
   try {
-    const response = await api.get(`${controller}`);
+    const response = await api.get(controller);
     return response.data;
   } catch (error) {
     console.log(error);
   }
-}
-export const submit = async ({
-   controller,
-   params
-}:IAxios) => {
+};
+
+export const submit = async ({ controller, params }) => {
   try {
-    const response = await api.post(`${controller}`, 
-      params
-    );
+    const response = await api.post(controller, params);
     return response.data;
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const submitMultiPart = async ({ controller, params }) => {
+  try {
+    const response = await api.post(controller, params);
+    return response.data;
+  } catch (error) {
+    console.log("Error", error.message)
+  }
+};

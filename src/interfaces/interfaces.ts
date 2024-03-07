@@ -23,3 +23,9 @@ export interface IUserState {
   preimum : string;
   confirmationPassword : string;
 }
+
+export interface IImage {
+  name : string;
+  type : string;
+  uri : string;
+}

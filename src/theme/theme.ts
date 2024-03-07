@@ -27,7 +27,7 @@ const theme = createTheme({
     zinc : pallete.zinc,
     dangerPrimary : pallete.dangerPrimary,
     zinc400 : pallete.zinc400,
-    trasnparent : pallete.trasnparent,
+    transparent : pallete.trasnparent,
   },
   spacing : {
     s : 8,
