@@ -11,6 +11,7 @@ import {
   Dimensions,
   LayoutProps,
 } from '@shopify/restyle';
+import { TextInputMask } from 'react-native-masked-text';
 
 import {Theme} from '../theme/theme';
 import {ReactNode, useState, useRef} from 'react';
@@ -36,6 +37,7 @@ type Props = RestyleProps &
     secret?: boolean;
     label?: string;
     required?: boolean;
+    mask? : string;
   };
 
 export const TextInputRestyle = ({
@@ -44,6 +46,7 @@ export const TextInputRestyle = ({
   secret,
   label,
   required,
+  mask,
   ...rest
 }: Props) => {
   const props = useRestyle(restyleFunctions, rest);
@@ -78,6 +81,25 @@ export const TextInputRestyle = ({
             style={[props.style, isFocused && {borderColor: '#5ED25C'}]}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               {icon}
+              {mask ? (
+               <TextInputMask 
+                // ref={inputRef}
+                type='custom'
+                options={{
+                  mask : mask,
+                }}
+                {...rest}
+                style={{
+                  borderWidth: 0,
+                  borderColor: 'transparent',
+                  color: '#fffd',
+                  flex: 1,
+                }}
+                secureTextEntry={lock}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+               />
+              ) : (
               <TextInput
                 ref={inputRef}
                 {...rest}
@@ -91,6 +113,7 @@ export const TextInputRestyle = ({
                 onFocus={handleFocus}
                 onBlur={handleBlur}
               />
+              )}
               {secret && (
                 <TouchableOpacity onPress={() => setLock(prev => !prev)}>
                   {lock ? (

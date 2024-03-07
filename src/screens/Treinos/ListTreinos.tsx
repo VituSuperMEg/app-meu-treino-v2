@@ -8,25 +8,29 @@ import {Button} from '@components/Button';
 import {useNavigation} from '@react-navigation/native';
 import { ITreinos } from 'src/interfaces/interfaces';
 import empty from "@assets/Empty-cuate.png";
+import { useTreino } from './useTreino';
 
 export function ListTreinos() {
   const [treinos, setTreinos] = useState<ITreinos[] | []>([]);
-  const {navigate} = useNavigation();
+  const updating = useTreino(t => t.updating);
+
+  const {navigate } = useNavigation();
 
   useEffect(() => {
     async function get() {
       try {
         const response = await api.get(`treinos`);
         if (response.data) {
+          console.log("muda")
           setTreinos(response.data);
-          console.log(response.data);
+          
         }
       } catch (error) {
         console.log(error);
       }
     }
     get();
-  }, []);
+  }, [updating]);
 
   const renderItem = ({ item }: { item: ITreinos }) => (
     <Box
