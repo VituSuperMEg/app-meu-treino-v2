@@ -1,10 +1,11 @@
-import {Box} from '@components/Box';
-import {Button} from '@components/Button';
-import {RatingEmoji} from '@components/RatingEmoji';
-import {Text} from '@components/Text';
-import {TextInputRestyle} from '@components/TextInput';
-import {X} from 'phosphor-react-native';
-import {Modal, TouchableOpacity} from 'react-native';
+import { Box } from '@components/Box';
+import { Button } from '@components/Button';
+import { DidLike } from '@components/DidLike';
+import { RatingEmoji } from '@components/RatingEmoji';
+import { Text } from '@components/Text';
+import { TextInputRestyle } from '@components/TextInput';
+import { X } from 'phosphor-react-native';
+import { Modal, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 interface IModalFeedBack {
@@ -12,7 +13,7 @@ interface IModalFeedBack {
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function ModalFeedBack({show, setShow}: IModalFeedBack) {
+export function ModalFeedBack({ show, setShow }: IModalFeedBack) {
   return (
     <Box>
       <Modal animationType="slide" visible={show}>
@@ -35,24 +36,35 @@ export function ModalFeedBack({show, setShow}: IModalFeedBack) {
 
               <Box mt="xl">
                 <RatingEmoji />
-                <ScrollView > 
-                <Box mt="xl" mb='s'>
-                  <TextInputRestyle
-                    placeholder="Deixe aqui seu feedback para o criador..."
-                    placeholderTextColor="#858585"
-                    paddingLeft="m"
-                    borderColor="textBody"
-                    style={{color: '#fff'}}
-                    borderWidth={1}
-                    borderRadius={6}
-                    height={200}
-                    textAlignVertical="top"
-                    // onChangeText={text => setNewExercise(text)}
-                    // value={newExercise}
-                    secureTextEntry={false}
+
+                <Box>
+                  <Text variant="body" color='shape'>
+                    o que você gostou?
+                  </Text>
+                  <DidLike 
+                    objectLike={[
+                      { label : 'Treino bem estruturado', value : "estruturado"}
+                    ]}
                   />
-               
                 </Box>
+                <ScrollView >
+                  <Box mt="xl" mb='s'>
+                    <TextInputRestyle
+                      placeholder="Deixe aqui seu feedback para o criador..."
+                      placeholderTextColor="#858585"
+                      paddingLeft="m"
+                      borderColor="textBody"
+                      style={{ color: '#fff' }}
+                      borderWidth={1}
+                      borderRadius={6}
+                      height={200}
+                      multiline
+                      textAlignVertical="top"
+                      // onChangeText={text => setNewExercise(text)}
+                      // value={newExercise}
+                      secureTextEntry={false}
+                    />
+                  </Box>
                 </ScrollView>
               </Box>
             </Box>

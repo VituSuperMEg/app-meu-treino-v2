@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   selectedButton: {
-    backgroundColor: "#5ED25C", // Cor do botão selecionado
+    backgroundColor: "#5ED25C", 
   },
   none: {
     backgroundColor: "#ccc",
