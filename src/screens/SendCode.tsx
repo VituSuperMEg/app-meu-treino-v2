@@ -88,7 +88,7 @@ export function SendCode() {
         password: data.password,
       },
     });
-    if (result.data.success) {
+    if (result) {
       toast.show('Senha alterada com sucesso!', {
         type: 'success',
         icon: <CheckCircle color="#fff" />,

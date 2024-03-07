@@ -19,10 +19,11 @@ import {IImage} from 'src/interfaces/interfaces';
 
 export function CreateTreino() {
   const [show, setShow] = useState(false);
-  const [image, setImage] = useState<any>(null);;
+  const [image, setImage] = useState<any>(null);
   const {goBack} = useNavigation();
   const exercise = useTreino(s => s.exercises);
   const user = useUser(s => s.user);
+  const setUpdating = useTreino(s => s.setUpdating)
   const {
     control,
     handleSubmit,
@@ -30,43 +31,47 @@ export function CreateTreino() {
     reset,
   } = useForm({
     defaultValues: {
-      // name: '',
-      // description: '',
-      // rep: '',
-      // progress: '',
-      // interval_exercise: '',
-      // volume_exercise: '',
-      // usersId: '',
-      // reader: '',
+      name: '',
+      description: '',
+      rep: '',
+      progress: '',
+      interval_exercise: '',
+      volume_exercise: '',
+      usersId: '',
+      reader: '',
     },
   });
 
   async function onSubmit(data: any) {
-    // const e = separatedArray(exercise);
-  const formData = new FormData();
-  // formData.append('name', data.name);
-  // formData.append('description', data.description);
-  // // formData.append('exercise', e.join(',')); // Joining the array elements into a single string
-  // formData.append('rep', data.rep);
-  // formData.append('progress', 'Completo');7  
-  
-  image.assets.forEach((asset: { uri: string, fileName: string, type: string }) => {
-    const file = {
-      uri: asset.uri,
-      name: asset.fileName,
-      type: asset.type,
-    };
-    formData.append('file', file);
-  });
+     const exerciseArray = await exercise.split(',').map(exercise => exercise.trim());    
+     const formData = new FormData();
 
-  // formData.append('interval_exercise', data.interval_exercise || '30s'); // Default value or value from form
-  // formData.append('volume_exercise', data.volume_exercise);
-  // formData.append('usersId', user.id);
-  // formData.append('reader', data.reader || 'NaoListado'); // Default value or value from form
-  await submitMultiPart({
-    controller: 'treinos',
-    params: formData,
-  });
+     formData.append('name', data.name);
+     formData.append('description', data.description);
+     formData.append('exercise', exerciseArray);
+     formData.append('rep', data.rep);
+     formData.append('progress', 'Completo');
+
+     image.assets.forEach(
+       (asset: {uri: string; fileName: string; type: string}) => {
+         const file = {
+           uri: asset.uri,
+           name: asset.fileName,
+           type: asset.type,
+         };
+         formData.append('file', file);
+       },
+     );
+
+     formData.append('interval_exercise', data.interval_exercise || '30s'); 
+     formData.append('volume_exercise', data.volume_exercise);
+     formData.append('usersId', user.id);
+     formData.append('reader', data.reader || 'NaoListado'); 
+     await submitMultiPart({
+       controller: 'treinos',
+       params: formData,
+     });
+    setUpdating(prev => !prev)
   }
   return (
     <Box flex={1} backgroundColor="mainBackground" pt="l">
