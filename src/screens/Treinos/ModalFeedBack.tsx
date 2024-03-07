@@ -1,5 +1,6 @@
 import { Box } from '@components/Box';
 import { Button } from '@components/Button';
+import { RatingEmoji } from '@components/RatingEmoji';
 import { Text } from '@components/Text';
 import { X } from 'phosphor-react-native';
 import { Modal, TouchableOpacity } from 'react-native';
@@ -31,10 +32,7 @@ export function ModalFeedBack({ show, setShow }: IModalFeedBack) {
               </Text>
 
               <Box>
-                <Text variant='body'>
-
-                  🤩😁🤗😀😔😭
-                </Text>
+               <RatingEmoji />
               </Box>
             </Box>
             <Box>
