@@ -47,6 +47,7 @@ export function FindTreino() {
       <Header
         style="menu"
         name={`Treinos de ${find.length > 0 ? find[0].author.name : ''}`}
+        favorite
       />
       {find.map((i, index) => (
         <Box key={index} flex={1} justifyContent="space-between" p="l">
@@ -83,7 +84,7 @@ export function FindTreino() {
                 {i.volume_exercise} {DEFAULT_ICON[i.volume_exercise]}
               </Text>
             </Box>
-            <Text variant="bodyMin" color="textBody" mb='s'>
+            <Text variant="bodyMin" color="textBody">
               {i.description ? i.description : "Sem descrição :( "}
             </Text>
             <Box flexDirection='row' justifyContent='space-between'>
@@ -101,7 +102,7 @@ export function FindTreino() {
               </Box>
             </Box>
           </Box>
-          <ScrollView style={{ marginTop: 10 }}>
+          <ScrollView style={{ marginTop: 10 }} showsVerticalScrollIndicator={false}>
             <Text variant='bold' color='shape' fontSize={20}>
               Exercícios<Text variant='bold' color='greenPrimary'>.</Text>
             </Text>
