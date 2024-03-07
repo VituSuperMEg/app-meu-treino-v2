@@ -1,16 +1,18 @@
-import { Box } from '@components/Box';
-import { Button } from '@components/Button';
-import { RatingEmoji } from '@components/RatingEmoji';
-import { Text } from '@components/Text';
-import { X } from 'phosphor-react-native';
-import { Modal, TouchableOpacity } from 'react-native';
+import {Box} from '@components/Box';
+import {Button} from '@components/Button';
+import {RatingEmoji} from '@components/RatingEmoji';
+import {Text} from '@components/Text';
+import {TextInputRestyle} from '@components/TextInput';
+import {X} from 'phosphor-react-native';
+import {Modal, TouchableOpacity} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface IModalFeedBack {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function ModalFeedBack({ show, setShow }: IModalFeedBack) {
+export function ModalFeedBack({show, setShow}: IModalFeedBack) {
   return (
     <Box>
       <Modal animationType="slide" visible={show}>
@@ -20,7 +22,7 @@ export function ModalFeedBack({ show, setShow }: IModalFeedBack) {
               <X color="#5ED25C" />
             </TouchableOpacity>
           </Box>
-          <Box p="l" mt="l" justifyContent='space-between' flex={1}>
+          <Box p="l" mt="l" justifyContent="space-between" flex={1}>
             <Box>
               <Text variant="bold" color="shape">
                 Adicione seu FeedBack
@@ -31,33 +33,49 @@ export function ModalFeedBack({ show, setShow }: IModalFeedBack) {
                 deixe aqui a sua avaliação.
               </Text>
 
-              <Box>
-               <RatingEmoji />
+              <Box mt="xl">
+                <RatingEmoji />
+                <ScrollView > 
+                <Box mt="xl" mb='s'>
+                  <TextInputRestyle
+                    placeholder="Deixe aqui seu feedback para o criador..."
+                    placeholderTextColor="#858585"
+                    paddingLeft="m"
+                    borderColor="textBody"
+                    style={{color: '#fff'}}
+                    borderWidth={1}
+                    borderRadius={6}
+                    height={200}
+                    textAlignVertical="top"
+                    // onChangeText={text => setNewExercise(text)}
+                    // value={newExercise}
+                    secureTextEntry={false}
+                  />
+               
+                </Box>
+                </ScrollView>
               </Box>
             </Box>
             <Box>
-             
-            </Box>
-            <Box>
               <Button
-                label='Salvar Feedback'
-                backgroundColor='greenPrimary'
-                borderColor='greenPrimary'
+                label="Salvar Feedback"
+                backgroundColor="greenPrimary"
+                borderColor="greenPrimary"
                 height={50}
                 borderRadius={6}
-                alignItems='center'
-                justifyContent='center'
+                alignItems="center"
+                justifyContent="center"
                 borderWidth={1}
               />
               <Button
-                label='Voltar'
+                label="Voltar"
                 onPress={() => setShow(false)}
-                marginTop='s'
-                borderColor='greenPrimary'
+                marginTop="s"
+                borderColor="greenPrimary"
                 height={50}
                 borderRadius={6}
-                alignItems='center'
-                justifyContent='center'
+                alignItems="center"
+                justifyContent="center"
                 borderWidth={1}
               />
             </Box>
