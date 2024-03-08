@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 interface IHeader {
   style : 'home' | 'menu';
-  name : string;
+  name?: string;
   favorite? : boolean;
 }
 export function Header({ style = 'home', name = '', favorite = false }:IHeader) {
