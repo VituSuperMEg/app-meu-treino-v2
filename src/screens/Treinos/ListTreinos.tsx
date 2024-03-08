@@ -41,7 +41,6 @@ export function ListTreinos({
       try {
         setLoading(true);
         console.log(intensidade)
-
         const response = await api.get('treinos', {
           params: {
             search: search || undefined,
@@ -58,7 +57,7 @@ export function ListTreinos({
     }
 
     fetchTreinos();
-  }, [search, intensidade]);
+  }, [search, intensidade, group]);
 
   const renderTreinoItem = ({ item }: { item: ITreinos }) => (
     <Box
