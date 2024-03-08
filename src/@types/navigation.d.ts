@@ -9,6 +9,9 @@ export declare global {
       CreateTreino: undefined;
       Home : undefined;
       Tabs : undefined;
+      User : {
+        id: string | undefined;
+      }
     }
   }
 }

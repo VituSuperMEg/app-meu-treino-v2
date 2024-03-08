@@ -1,19 +1,28 @@
-import { ArrowLeft, Barbell, Bell } from 'phosphor-react-native';
+import { ArrowLeft, Barbell, Bell, Heart } from 'phosphor-react-native';
 import { useUser } from '../store/auth';
 import { Box } from './Box';
 import { Text } from './Text';
 import { TouchableOpacity, View } from 'react-native';
 import { useNoticafion } from '../store/notification';
 import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 
 
 interface IHeader {
   style : 'home' | 'menu';
   name : string;
+  favorite? : boolean;
 }
-export function Header({ style = 'home', name = '' }:IHeader) {
+export function Header({ style = 'home', name = '', favorite = false }:IHeader) {
+  const [favorites, setFavorites] = useState("");
+  const [fav, setFav] = useState(false);
   const user = useUser(state => state.user);
   const count = useNoticafion(state => state.count);
+  
+
+  const handleFavoriteTreino = (id : string) => {
+    setFavorites(id)
+  }
   const { navigate, goBack } = useNavigation();
   return (
     <>
@@ -52,13 +61,18 @@ export function Header({ style = 'home', name = '' }:IHeader) {
         </Box>
       )}
       {style === 'menu' && (
-        <Box padding="m" flexDirection="row" alignItems="center" gap="l">
+        <Box padding="m" flexDirection="row" alignItems="center" gap="l" justifyContent={favorite ? 'space-between' : 'flex-start'}>
           <TouchableOpacity onPress={() => goBack()}>
             <ArrowLeft color="#fff" />
           </TouchableOpacity>
           <Text variant="body" color="shape">
             {name}
           </Text>
+          {favorite && (
+            <TouchableOpacity onPress={() => setFav(prev => !prev)}>
+              <Heart color={fav ? 'red' : '#fff'} />
+            </TouchableOpacity>
+          )}
         </Box>
       )}
     </>

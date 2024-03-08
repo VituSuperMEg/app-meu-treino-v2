@@ -130,6 +130,7 @@ export function CreateTreino() {
                 render={({field: {onChange, onBlur, value}}) => (
                   <TextInputRestyle
                     label="Descrição"
+                    multiline={true}
                     required
                     placeholder="Adicone uma descrição..."
                     placeholderTextColor="#858585"

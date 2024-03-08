@@ -43,9 +43,9 @@ export function ExerciseModal({ show, setShow }: IExerciseModal) {
       setExercises(separatedExercises.filter(item => item.trim() !== '')); 
     }
   }, [show]);
-  
+
   return (
-    <Box flex={1}>
+    <Box>
       <Modal animationType="slide" visible={show}>
         <Box backgroundColor="mainBackground" flex={1}>
           <Box position="absolute" right={10} top={5}>
