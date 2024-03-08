@@ -40,7 +40,7 @@ export function FindTreino() {
     dislike: false,
   });
   const user = useUser(s => s.user);
-  const { navigate } = useNavigation();
+  const {navigate} = useNavigation();
   useEffect(() => {
     async function get() {
       try {
@@ -88,9 +88,12 @@ export function FindTreino() {
           <Box mt="l">
             <Box flexDirection="row" justifyContent="space-between">
               <Text variant="bold" color="shape" fontSize={20}>
-                <TouchableOpacity onPress={() => navigate('User', {
-                  id : i.usersId
-                })}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigate('User', {
+                      id: i.usersId,
+                    })
+                  }>
                   <Text variant="body" color="textBody">
                     @{i.author.name}
                   </Text>
@@ -199,34 +202,37 @@ export function FindTreino() {
                 icon={<CalendarBlank />}
               />
             ) : (
-              <Button
-                marginTop="s"
-                label="Adicionar FeedBack"
-                onPress={() => setShowModalFeedBack(true)}
-                backgroundColor="zinc"
-                textColor="shape"
-                padding="m"
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="center"
-                gap="m"
-                borderRadius={8}
-                icon={<ChatCenteredDots color="#fff" />}
-              />
+              <>
+                <Button
+                  marginTop="s"
+                  label="Adicionar FeedBack"
+                  onPress={() => setShowModalFeedBack(true)}
+                  backgroundColor="zinc"
+                  textColor="shape"
+                  padding="m"
+                  flexDirection="row"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap="m"
+                  borderRadius={8}
+                  icon={<ChatCenteredDots color="#fff" />}
+                />
+                <Button
+                  marginTop="s"
+                  label="Copiar Treino"
+                  onPress={() => navigate('TreinoInCalendar')}
+                  backgroundColor="shape"
+                  textColor="black"
+                  padding="m"
+                  flexDirection="row"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap="m"
+                  borderRadius={8}
+                  icon={<Download />}
+                />
+              </>
             )}
-            <Button
-              marginTop="s"
-              label="Copiar Treino"
-              backgroundColor="shape"
-              textColor="black"
-              padding="m"
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="center"
-              gap="m"
-              borderRadius={8}
-              icon={<Download />}
-            />
           </Box>
         </Box>
       ))}

@@ -12,6 +12,8 @@ export declare global {
       User : {
         id: string | undefined;
       }
+      TreinoInCalendar : undefined;
+      NotDiet : undefined;
     }
   }
 }

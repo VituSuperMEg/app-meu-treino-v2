@@ -26,7 +26,7 @@ export function DidLike({ objectLike }: DIDLIKE) {
       {objectLike.map((obj, index) => (
         <>
         <Box
-          key={index}
+          key={obj.value}
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
