@@ -20,17 +20,21 @@ import {
   Folder,
   Heart,
   Lockers,
+  Package,
   SmileyNervous,
   Waveform,
 } from 'phosphor-react-native';
 import {ListTreinos} from './Treinos/ListTreinos';
-import { Button } from '@components/Button';
-import { useNavigation } from '@react-navigation/native';
+import {Button} from '@components/Button';
+import {useNavigation} from '@react-navigation/native';
 
 export function Treinos() {
   const [search, setSearch] = useState('');
+  const [intensidade, setIntensidade] = useState('');
+  const [group, setGroup] = useState('');
   const [show, setShow] = useState(false);
-  const { navigate } = useNavigation();
+  const {navigate} = useNavigation();
+
   return (
     <Box flex={1} backgroundColor="mainBackground" p="l">
       <Box mt="l">
@@ -49,21 +53,39 @@ export function Treinos() {
             intensidade de seu treino
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <ButtonLinear text="Leve" icon={<Feather color="#fff" />} />
-            <ButtonLinear text="Moderado" icon={<Waveform color="#fff" />} />
-            <ButtonLinear text="Pesado" icon={<Fire color="#fff" />} />
+          <ButtonLinear
+              text="Todos"
+              icon={<Package color="#fff" />}
+              onPress={() => setIntensidade('')}
+            />
+            <ButtonLinear
+              text="Leve"
+              icon={<Feather color="#fff" />}
+              onPress={() => setIntensidade('leve')}
+            />
+            <ButtonLinear
+              text="Moderado"
+              icon={<Waveform color="#fff" />}
+              onPress={() => setIntensidade('moderado')}
+            />
+            <ButtonLinear
+              text="Pesado"
+              icon={<Fire color="#fff" />}
+              onPress={() => setIntensidade('pesado')}
+            />
             <ButtonLinear
               text="Intenso"
               icon={<SmileyNervous color="#fff" />}
+              onPress={() => setIntensidade("in")}
             />
           </ScrollView>
         </Box>
         <Box mt="s">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <ButtonLinear text="Costas" notIcon />
-            <ButtonLinear text="Peito" notIcon />
-            <ButtonLinear text="Perna" notIcon />
-            <ButtonLinear text="Biceps" notIcon />
+            <ButtonLinear text="Costas" notIcon onPress={() => setGroup("costas")}/>
+            <ButtonLinear text="Peito" notIcon onPress={() => setGroup("peito")}/>
+            <ButtonLinear text="Perna" notIcon onPress={() => setGroup("perna")}/>
+            <ButtonLinear text="Biceps" notIcon onPress={() => setGroup("biceps")}/>
           </ScrollView>
         </Box>
         <Box mt="l">
@@ -74,10 +96,8 @@ export function Treinos() {
             Você pode utilizar treinos de outros usuários Caso ainda tenha
             dúvida de treino...
           </Text>
-        </Box>
-        <Box>
-          <ListTreinos />
-        </Box>
+        </Box> 
+        <ListTreinos search={search} intensidade={intensidade} group={group}/>
       </ScrollView>
       <Box>
         {show && (
@@ -107,25 +127,25 @@ export function Treinos() {
                 transform: 'rotate(180deg)',
               }}
             />
-            <Box p="l" gap='l'>
-              <Button 
-               label='Cadastrar Treino'
-               flexDirection='row'
-               gap='s'
-               icon={<Lockers color='#5ED25C'/>}
-               onPress={() => navigate("CreateTreino")}
+            <Box p="l" gap="l">
+              <Button
+                label="Cadastrar Treino"
+                flexDirection="row"
+                gap="s"
+                icon={<Lockers color="#5ED25C" />}
+                onPress={() => navigate('CreateTreino')}
               />
-              <Button 
-               label='Ver Meus Treino'
-               flexDirection='row'
-               gap='s'
-               icon={<Folder color='#5ED25C'/>}
+              <Button
+                label="Ver Meus Treino"
+                flexDirection="row"
+                gap="s"
+                icon={<Folder color="#5ED25C" />}
               />
-              <Button 
-               label='Treinos Curtidos'
-               flexDirection='row'
-               gap='s'
-               icon={<Heart color='#5ED25C'/>}
+              <Button
+                label="Treinos Curtidos"
+                flexDirection="row"
+                gap="s"
+                icon={<Heart color="#5ED25C" />}
               />
             </Box>
           </Box>

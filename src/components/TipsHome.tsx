@@ -20,9 +20,6 @@ export function TipsHome() {
   return (
     <Box m='s'>
       <Carousel
-        style={{
-          marginRight: 10
-        }}
         loop
         width={width}
         height={width / 2}
