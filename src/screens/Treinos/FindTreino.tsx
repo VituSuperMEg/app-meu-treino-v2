@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Image, ScrollView} from 'react-native';
+import {Alert, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {Box} from '@components/Box';
 import {Button} from '@components/Button';
 import {Header} from '@components/Header';
 import {Text} from '@components/Text';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {api} from '@services/api';
 import {
   ArrowClockwise,
@@ -40,11 +40,11 @@ export function FindTreino() {
     dislike: false,
   });
   const user = useUser(s => s.user);
+  const { navigate } = useNavigation();
   useEffect(() => {
     async function get() {
       try {
         const response = await api.get(`treinos/${params.id}`);
-        console.log(response.data);
         setFind(response.data);
       } catch (error: any) {
         Alert.alert('Error', error);
@@ -88,12 +88,17 @@ export function FindTreino() {
           <Box mt="l">
             <Box flexDirection="row" justifyContent="space-between">
               <Text variant="bold" color="shape" fontSize={20}>
-                <Text variant="body" color="textBody">
-                  @{i.author.name}
-                </Text>{' '}
+                <TouchableOpacity onPress={() => navigate('User', {
+                  id : i.usersId
+                })}>
+                  <Text variant="body" color="textBody">
+                    @{i.author.name}
+                  </Text>
+                </TouchableOpacity>
                 {'\n'}
                 {i.name}
               </Text>
+
               <Text variant="bold" color="greenPrimary">
                 {i.volume_exercise} {DEFAULT_ICON[i.volume_exercise]}
               </Text>
