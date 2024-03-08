@@ -6,7 +6,7 @@ import {useState} from 'react';
 export function RatingEmoji() {
   const emoji = ['🤩', '😁', '😀', '😔', '😭'];
   const [emojiPress, setEmojiPress] = useState('');
-  const nameEmoji = {
+  const nameEmoji: any = {
     '🤩': 'Incrível',
     '😁': 'Legal',
     '😀': 'Bom',
