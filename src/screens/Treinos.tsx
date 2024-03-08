@@ -82,6 +82,7 @@ export function Treinos() {
         </Box>
         <Box mt="s">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ButtonLinear text="Todos" notIcon onPress={() => setGroup("")}/>
             <ButtonLinear text="Costas" notIcon onPress={() => setGroup("costas")}/>
             <ButtonLinear text="Peito" notIcon onPress={() => setGroup("peito")}/>
             <ButtonLinear text="Perna" notIcon onPress={() => setGroup("perna")}/>
