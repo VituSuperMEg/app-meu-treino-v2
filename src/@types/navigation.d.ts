@@ -13,6 +13,7 @@ export declare global {
         id: string | undefined;
       }
       TreinoInCalendar : undefined;
+      NotDiet : undefined;
     }
   }
 }

@@ -9,6 +9,7 @@ import { EditProfill } from "@screens/Users/EditProfille";
 import { FindTreino } from "@screens/Treinos/FindTreino";
 import { CreateTreino } from "@screens/Treinos/CreateTreino";
 import { AddTreinoInCalendar } from "@screens/AddTreinoInCalendar";
+import { NotDiet } from "@screens/Diet/NotDiet";
 
 const S = createStackNavigator();
 
@@ -27,6 +28,7 @@ export const Navigation = () => {
       <S.Screen name="FindTreino" component={FindTreino} />
       <S.Screen name="CreateTreino" component={CreateTreino} />
       <S.Screen name="TreinoInCalendar" component={AddTreinoInCalendar} />
+      <S.Screen name="NotDiet" component={NotDiet} />
     </S.Navigator>
   );
 }
