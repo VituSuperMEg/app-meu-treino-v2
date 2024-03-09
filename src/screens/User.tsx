@@ -1,22 +1,29 @@
 import { Box } from '@components/Box';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { UserData } from '@components/UserData';
-import { Profille } from '@components/Profille';
-import { useState } from 'react';
+import { UserData } from './Users/UserData';
+import { Profille } from './Users/Profille';
+import { useEffect, useState } from 'react';
 import { Barbell, Factory, Stack, Users } from 'phosphor-react-native';
 import { MyPosts } from './Users/MyPosts';
 import { MyMarkerPosts } from './Users/MyMarkerPosts';
 import { MyTreinos } from './Users/MyTreinos';
 import { MyGrupo } from './Users/MyGrupo';
+import { useUser } from '@store/auth';
 
 export function User() {
-  const { navigate } = useNavigation();
+
+  const [userId, setUserId] = useState('');
   const [tab, setTab] = useState('meus_posts');
+  const user = useUser(s => s.user);
+  const { navigate } = useNavigation();
+  const { params } = useRoute();
+
+
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingTop="l">
       <Box padding="m">
-        <UserData />
+        <UserData user_id={user.id}/>
         <Profille />
         <Box flexDirection="row" mt="m" justifyContent="space-between" >
           <TouchableOpacity

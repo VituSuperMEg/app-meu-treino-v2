@@ -11,7 +11,7 @@ export function SearchInput({onSearchInput}:ISearch) {
   const [search, setSearch] = useState("");
 
   function onInput () {
-   onSearchInput(search);
+    onSearchInput(search);
   }
   return ( 
     <Box
@@ -23,7 +23,7 @@ export function SearchInput({onSearchInput}:ISearch) {
       alignItems="center"
       mt='s'
     >
-      <TextInput placeholder="Pesquisar Treinos" style={{flex: 1, height: 40}} onChangeText={e => setSearch(e)}/>
+      <TextInput placeholder="Pesquisar Treinos ou Criador" style={{flex: 1, height: 40}} onChangeText={e => setSearch(e)}/>
       <TouchableOpacity onPress={() => onInput()}>
       <MagnifyingGlass />
       </TouchableOpacity>

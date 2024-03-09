@@ -23,7 +23,16 @@ export interface IUserState {
   preimum : string;
   confirmationPassword : string;
 }
-
+export interface IProfile {
+  user_id : string;
+  age : string;
+  sexo : string;
+  height : string;
+  weight : string;
+  focus : string;
+  level : string;
+  description : string | null;
+}
 export interface IImage {
   name : string;
   type : string;

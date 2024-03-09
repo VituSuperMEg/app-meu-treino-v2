@@ -10,6 +10,7 @@ import { FindTreino } from "@screens/Treinos/FindTreino";
 import { CreateTreino } from "@screens/Treinos/CreateTreino";
 import { AddTreinoInCalendar } from "@screens/AddTreinoInCalendar";
 import { NotDiet } from "@screens/Diet/NotDiet";
+import { FollowUser } from "@screens/FollowUser";
 
 const S = createStackNavigator();
 
@@ -29,6 +30,7 @@ export const Navigation = () => {
       <S.Screen name="CreateTreino" component={CreateTreino} />
       <S.Screen name="TreinoInCalendar" component={AddTreinoInCalendar} />
       <S.Screen name="NotDiet" component={NotDiet} />
+      <S.Screen name="follower" component={FollowUser} />
     </S.Navigator>
   );
 }

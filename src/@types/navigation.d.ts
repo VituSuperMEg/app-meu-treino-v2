@@ -14,6 +14,9 @@ export declare global {
       }
       TreinoInCalendar : undefined;
       NotDiet : undefined;
+      follower : {
+        id : string | '';
+      }
     }
   }
 }

@@ -90,7 +90,7 @@ export function FindTreino() {
               <Text variant="bold" color="shape" fontSize={20}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigate('User', {
+                    navigate('follower', {
                       id: i.usersId,
                     })
                   }>
