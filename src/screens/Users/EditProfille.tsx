@@ -5,26 +5,31 @@ import { ImagePickerComponent } from '@components/ImagePicker';
 import { Text } from '@components/Text';
 import { TextInputRestyle } from '@components/TextInput';
 import { useNavigation } from '@react-navigation/native';
+import { api } from '@services/api';
+import { useUser } from '@store/auth';
 import { Envelope, Lock, Stack, User, UserCircle } from 'phosphor-react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Dimensions, ScrollView } from 'react-native';
+import { Dimensions, Image, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export function EditProfill() {
   const { goBack } = useNavigation();
   const [image, setImage] = useState(null);
   const [tab, setTab] = useState('dados_basicos');
+  const user = useUser(s => s.user);
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
     reset,
   } = useForm({
     defaultValues: {
       name: '',
       email: '',
       password: '',
+      confirmationPassword: '',
       foto: '',
       age : '',
       sexo : '',
@@ -35,6 +40,28 @@ export function EditProfill() {
       description: '',
     },
   });
+  async function getData() {
+    const [res, pro] = await Promise.all([
+      api.get(`users/${user.id}`),
+      api.get(`profille/${user.id}`)
+    ]);
+    setValue('name',res.data.name);
+    setValue('email',res.data.email);
+    setValue('description',pro.data.description);
+    setValue('age',pro.data.age);
+    if(pro.data.sexo === 'M') {
+      setValue('sexo', 'Masculino');
+    }else{
+      setValue('sexo','Feminino');
+    }
+    setValue('height',`${pro.data.height} cm`);
+    setValue('focus', pro.data.focus);
+
+  }
+  useEffect(() => {
+    getData();
+  }, [])
+ 
   const width = Dimensions.get('window').width;
 
   return (
@@ -42,7 +69,19 @@ export function EditProfill() {
       <Header style="menu" name="Editar Perfil" />
       <Box p="l" flex={1} justifyContent="space-between">
         <Box width={width - 50} alignItems="center">
-          <ImagePickerComponent setImage={setImage} salvar={image} profile />
+          {user.foto ? (
+              <Image 
+                source={{ uri : user?.foto}}
+                style={{
+                  height: 200,
+                  borderRadius: 200,
+                  width: 200,
+                  objectFit: 'contain',
+                }}
+              />
+          ) : (
+            <ImagePickerComponent setImage={setImage} salvar={image} profile />
+          )}
           <Box
             flexDirection="row"
             justifyContent="space-between"
@@ -108,7 +147,7 @@ export function EditProfill() {
                 )}
               />
               <Controller
-                name="name"
+                name="email"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInputRestyle
@@ -131,7 +170,7 @@ export function EditProfill() {
                 )}
               />
               <Controller
-                name="Senha"
+                name="password"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInputRestyle
@@ -154,7 +193,7 @@ export function EditProfill() {
                 )}
               />
               <Controller
-                name="name"
+                name="confirmationPassword"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInputRestyle
