@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Envelope, Lock, Stack, User, UserCircle } from 'phosphor-react-native';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Dimensions } from 'react-native';
+import { Dimensions, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export function EditProfill() {
@@ -26,6 +26,13 @@ export function EditProfill() {
       email: '',
       password: '',
       foto: '',
+      age : '',
+      sexo : '',
+      height : '',
+      weight : '',
+      focus : '',
+      level : '',
+      description: '',
     },
   });
   const width = Dimensions.get('window').width;
@@ -76,7 +83,7 @@ export function EditProfill() {
             </TouchableOpacity>
           </Box>
           {tab === 'dados_basicos' && (
-            <>
+            <ScrollView style={{ height : 270}}>
               <Controller
                 name="name"
                 control={control}
@@ -169,7 +176,150 @@ export function EditProfill() {
                   />
                 )}
               />
-            </>
+            </ScrollView>
+          )}
+          {tab === 'dados_perfil' && (
+            <ScrollView style={{ height : 270}}>
+              <Controller
+              name="description"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="Descrição..."
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{ color: '#fff' }}
+                  borderWidth={1}
+                  borderRadius={6}
+                  width={width - 50}
+                  textAlignVertical='top'
+                  multiline
+                  height={100}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={false}
+                />
+              )}
+            />
+            <Controller
+              name="age"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="Idade"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{ color: '#fff' }}
+                  borderWidth={1}
+                  borderRadius={6}
+                  width={width - 50}
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={false}
+                  icon={<User color="#858585" />}
+                />
+              )}
+            />
+            <Controller
+              name="sexo"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="Sexo"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{ color: '#fff' }}
+                  borderWidth={1}
+                  borderRadius={6}
+                  width={width - 50}
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={false}
+                  icon={<Envelope color="#858585" />}
+                />
+              )}
+            />
+            <Controller
+              name="height"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="Altura"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{ color: '#fff' }}
+                  borderWidth={1}
+                  borderRadius={6}
+                  width={width - 50}
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={false}
+                  icon={<Lock color="#858585" />}
+                />
+              )}
+            />
+            <Controller
+              name="focus"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="Foco"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{ color: '#fff' }}
+                  borderWidth={1}
+                  borderRadius={6}
+                  width={width - 50}
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={false}
+                  icon={<Lock color="#858585" />}
+                />
+              )}
+            />
+             <Controller
+              name="level"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInputRestyle
+                  marginTop="m"
+                  placeholder="Nível"
+                  placeholderTextColor="#858585"
+                  paddingLeft="m"
+                  borderColor="textBody"
+                  style={{ color: '#fff' }}
+                  borderWidth={1}
+                  borderRadius={6}
+                  width={width - 50}
+                  height={50}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={false}
+                  icon={<Lock color="#858585" />}
+                />
+              )}
+            />
+          </ScrollView>
           )}
         </Box>
         <Box alignItems="center">
