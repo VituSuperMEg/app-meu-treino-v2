@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import {ThemeProvider} from '@shopify/restyle';
 import theme from './src/theme/theme';
-import {StatusBar, View} from 'react-native';
+import {SafeAreaView, StatusBar, View} from 'react-native';
 import {Box} from './src/components/Box';
 import {Login} from './src/screens/Login';
 import {NavigationContainer} from '@react-navigation/native';
@@ -20,6 +20,7 @@ import { Text } from '@components/Text';
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
+      <SafeAreaView style={{ flex : 1}}>
       <NavigationContainer>
         <ToastProvider
           duration={5000}
@@ -55,6 +56,8 @@ export default function App() {
           </AuthProvider>
         </ToastProvider>
       </NavigationContainer>
+      </SafeAreaView>
+    
     </ThemeProvider>
   );
 }

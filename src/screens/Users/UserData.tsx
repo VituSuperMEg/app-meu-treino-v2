@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Alert, Image, Modal, TouchableOpacity, View} from 'react-native';
 import {Text} from '@components/Text';
 import userImg from '@assets/user.png';
-import {useUser} from '../store/auth';
+import {useUser} from '@store/auth';
 import {useEffect, useState} from 'react';
 import {api} from '@services/api';
 import {
@@ -19,32 +19,29 @@ import {
   Users,
   Waveform,
 } from 'phosphor-react-native';
+import { IProfile, IUserState } from 'src/interfaces/interfaces';
 
-interface Profile {
-  user_id: string;
-  age: string;
-  sexo: string;
-  height: string;
-  weight: string;
-  focus: string;
-  level: string;
+interface UserDataParams {
+  user_id : string;
 }
-
-export function UserData() {
-  const user = useUser(state => state.user);
-  const setProfille = useUser(state => state.setProfille);
-  const [profile, setProfilleState] = useState<Profile>({} as Profile);
+export function UserData({
+  user_id,
+}:UserDataParams) {
+  const [profile, setProfilleState] = useState<IProfile>({} as IProfile);
+  const [user, setUser] = useState({} as IUserState);
   const [show, setShow] = useState(false);
 
   const {navigate} = useNavigation();
+
   useEffect(() => {
-    async function getProfile() {
-      const profile = await api.get(`profille/${user.id}`);
+    async function getData() {
+      const user = await api.get(`users/${user_id}`);
+      const profile = await api.get(`profille/${user_id}`);
       setProfilleState(profile.data);
-      setProfille(profile.data);
+      setUser(user.data);
     }
-    getProfile();
-  }, []);
+    getData();
+  }, [user_id]);
 
   return (
     <>
@@ -61,7 +58,7 @@ export function UserData() {
           <Box>
             <Box>
               <Text variant="bold" color="shape">
-                {user.name}
+                 {user.name}
               </Text>
             </Box>
             <Box
