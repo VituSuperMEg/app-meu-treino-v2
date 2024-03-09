@@ -15,17 +15,17 @@ import {
   NotePencil,
   PersonSimpleBike,
   SmileyWink,
+  User,
   Users,
   Waveform,
 } from 'phosphor-react-native';
-import { IProfile, IUserState } from 'src/interfaces/interfaces';
+import {IProfile, IUserState} from 'src/interfaces/interfaces';
 
 interface UserDataParams {
-  user_id : string;
+  user_id: string;
+  flower?: boolean;
 }
-export function UserData({
-  user_id,
-}:UserDataParams) {
+export function UserData({user_id, flower = false}: UserDataParams) {
   const [profile, setProfilleState] = useState<IProfile>({} as IProfile);
   const [user, setUser] = useState({} as IUserState);
   const [show, setShow] = useState(false);
@@ -50,14 +50,27 @@ export function UserData({
         justifyContent="space-between"
         alignItems="center">
         <Box flexDirection="row" gap="s">
-          <Image
-            source={{ uri : user.foto && user.foto }}
-            style={{width: 50, height: 50, borderRadius: 50}}
-          />
+          {user.foto ? (
+            <Image
+              source={{uri: user?.foto}}
+              style={{width: 50, height: 50, borderRadius: 50}}
+            />
+          ) : (
+            <Box
+              backgroundColor="zinc"
+              width={50}
+              height={50}
+              borderRadius={50}
+              alignItems="center"
+              justifyContent="center">
+              <User color="#fff" />
+            </Box>
+          )}
+
           <Box>
             <Box>
               <Text variant="bold" color="shape">
-                 {user.name}
+                {user.name}
               </Text>
             </Box>
             <Box
@@ -72,9 +85,11 @@ export function UserData({
           </Box>
         </Box>
         <Box>
-          <TouchableOpacity onPress={() => setShow(true)}>
-            <List color="#fff" size={30} />
-          </TouchableOpacity>
+          {!flower && (
+            <TouchableOpacity onPress={() => setShow(true)}>
+              <List color="#fff" size={30} />
+            </TouchableOpacity>
+          )}
         </Box>
       </Box>
       {show && (
@@ -94,8 +109,13 @@ export function UserData({
               bottom={0}
               height={500}
               width={400}>
-              <Box flexDirection='row' alignItems='center' justifyContent='center'>
-                <Text variant="bodyMin" color='textBody'>Versão 0.0.7</Text>
+              <Box
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center">
+                <Text variant="bodyMin" color="textBody">
+                  Versão 0.0.7
+                </Text>
                 <TouchableOpacity
                   onPress={() => setShow(false)}
                   style={{position: 'absolute', right: 20, top: 10}}>
