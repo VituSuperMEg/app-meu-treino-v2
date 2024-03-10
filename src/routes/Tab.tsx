@@ -1,49 +1,52 @@
+import {Box} from '@components/Box';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { Diet } from '@screens/Diet';
+import {Diet} from '@screens/Diet';
 import {Home} from '@screens/Home';
-import { Treinos } from '@screens/Treinos';
+import {Treinos} from '@screens/Treinos';
 import {User} from '@screens/User';
+import {useUser} from '@store/auth';
 import {
   Barbell,
   ForkKnife,
   House,
+  MapPin,
   Note,
   User as Person,
 } from 'phosphor-react-native';
-import { TouchableOpacity } from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 
 const T = createBottomTabNavigator();
 
-
-const CustomTabTreino = (props : any) => (
-  <TouchableOpacity 
-  onPress={props.onPress}
-  style={{
-    backgroundColor : "#5ED25C",
-    width: 60,
-    height: 60,
-    borderRadius: 60,
-    alignItems: "center",
-    position : 'relative',
-    top: -20,
-    justifyContent: "center",
-    zIndex: 99999
-  }}
-  activeOpacity={1}
- >
+const CustomTabTreino = (props: any) => (
+  <TouchableOpacity
+    onPress={props.onPress}
+    style={{
+      backgroundColor: '#5ED25C',
+      width: 60,
+      height: 60,
+      borderRadius: 60,
+      alignItems: 'center',
+      position: 'relative',
+      top: -20,
+      justifyContent: 'center',
+      zIndex: 99999,
+    }}
+    activeOpacity={1}>
     {props.children}
   </TouchableOpacity>
-)
+);
 export function Tabs() {
   return (
     <T.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor : '#5ED25C',
+        tabBarActiveTintColor: '#5ED25C',
         tabBarInactiveTintColor: '#fff',
         tabBarIcon: ({focused, color, size}) => {
-           if (route.name === 'Home') {
+          const user = useUser(s => s.user);
+
+          if (route.name === 'Home') {
             return (
               <House
                 size={size}
@@ -53,11 +56,31 @@ export function Tabs() {
             );
           } else if (route.name === 'User') {
             return (
-              <Person
-                size={size}
-                color={color}
-                weight={focused ? 'bold' : 'regular'}
-              />
+              <>
+                {user.foto ? (
+                  <>
+                    {focused ? (
+                      <Box borderWidth={2} borderColor="greenPrimary" borderRadius={50}>
+                        <Image
+                          source={{uri: user.foto}}
+                          style={{width: 30, height: 30, borderRadius: 30}}
+                        />
+                      </Box>
+                    ) : (
+                      <Image
+                        source={{uri: user.foto}}
+                        style={{width: 30, height: 30, borderRadius: 30}}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <Person
+                    size={size}
+                    color={color}
+                    weight={focused ? 'bold' : 'regular'}
+                  />
+                )}
+              </>
             );
           } else if (route.name === 'Dieta') {
             return (
@@ -106,15 +129,16 @@ export function Tabs() {
           height: 60,
         },
       })}>
-      <T.Screen name="Home" component={Home}/>
+      <T.Screen name="Home" component={Home} />
       <T.Screen name="Dieta" component={Diet} />
-      <T.Screen name="Treino" component={Treinos}
-       options={{
-        tabBarActiveTintColor : '#000',
-        tabBarButton : (props) =>(
-          <CustomTabTreino {...props} />
-        )
-      }}/>
+      <T.Screen
+        name="Treino"
+        component={Treinos}
+        options={{
+          tabBarActiveTintColor: '#000',
+          tabBarButton: props => <CustomTabTreino {...props} />,
+        }}
+      />
       <T.Screen name="Posts" component={User} />
       <T.Screen name="User" component={User} />
     </T.Navigator>

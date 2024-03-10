@@ -32,6 +32,7 @@ export interface IProfile {
   focus : string;
   level : string;
   description : string | null;
+  private : string;
 }
 export interface IImage {
   name : string;

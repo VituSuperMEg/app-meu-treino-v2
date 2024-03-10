@@ -88,18 +88,30 @@ export function FindTreino() {
           <Box mt="l">
             <Box flexDirection="row" justifyContent="space-between">
               <Text variant="bold" color="shape" fontSize={20}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigate('follower', {
-                      id: i.usersId,
-                    })
-                  }>
-                  <Text variant="body" color="textBody">
-                    @{i.author.name}
-                  </Text>
-                </TouchableOpacity>
-                {'\n'}
-                {i.name}
+                {i.author.name === user.name ? (
+                  <>
+                    <Text variant="body" color="textBody">
+                      @{i.author.name}
+                    </Text>
+                    {"\n"}
+                    {i.name}
+                  </>
+                ) : (
+                  <>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigate('follower', {
+                          id: i.usersId,
+                        })
+                      }>
+                      <Text variant="body" color="textBody">
+                        @{i.author.name}
+                      </Text>
+                    </TouchableOpacity>
+                    {'\n'}
+                    {i.name}
+                  </>
+                )}
               </Text>
 
               <Text variant="bold" color="greenPrimary">

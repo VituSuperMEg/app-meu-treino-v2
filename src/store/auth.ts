@@ -4,6 +4,7 @@ import { Storage } from '@services/storage';
 interface User {
     id : number;
     name: string;
+    foto : string | "";
 }
 interface IUserState {
   user: User; 
