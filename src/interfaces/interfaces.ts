@@ -47,3 +47,15 @@ export interface IParams {
   key : string;
   path?: string | undefined;
 }
+export interface INoticafion {
+  message:string;
+  receiverId:string;
+  senderId: string;
+  status: string,
+  type: string;
+  sender : {
+    name : string;
+    email : string;
+  }
+  createdAt : string;
+}

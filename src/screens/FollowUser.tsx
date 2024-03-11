@@ -1,7 +1,7 @@
 import {Box} from '@components/Box';
 import {Header} from '@components/Header';
 import {useRoute} from '@react-navigation/native';
-import {api, getData, submit} from '@services/api';
+import {api, submit} from '@services/api';
 import {useEffect, useState} from 'react';
 import {IParams, IProfile, IUserState} from 'src/interfaces/interfaces';
 import {UserData} from './Users/UserData';
@@ -71,7 +71,6 @@ export function FollowUser() {
           receiverId: id,
         },
       });
-      if (res) {
         toast.show('Solicitação enviada com sucesso', {
           icon: <CheckCircle color="#fff" />,
           type: 'success',
@@ -80,7 +79,7 @@ export function FollowUser() {
           placement: 'top',
         });
         setWait('enviado');
-      }
+      
     }
   }
 

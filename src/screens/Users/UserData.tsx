@@ -76,7 +76,7 @@ export function UserData({user_id, flower = false}: UserDataParams) {
                 {profile.focus}
               </Text>
             </Box>
-            <Box flexDirection='row' gap="m">
+            {/* <Box flexDirection='row' gap="m">
               <Text variant="body" color="textBody" textAlign='center'>
                 Seguidores
                 {"\n"}
@@ -87,7 +87,7 @@ export function UserData({user_id, flower = false}: UserDataParams) {
                 {"\n"}
                 <Text variant='body' color='greenPrimary'>0</Text>
               </Text>
-            </Box>
+            </Box> */}
           </Box>
         </Box>
         <Box>
