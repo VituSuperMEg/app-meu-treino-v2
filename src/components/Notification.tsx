@@ -1,5 +1,5 @@
 import {Barbell, User, Users} from 'phosphor-react-native';
-import {TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, TouchableOpacity, View} from 'react-native';
 import {Text} from './Text';
 import {useEffect, useState} from 'react';
 import {useUser} from '@store/auth';
@@ -9,13 +9,14 @@ import {ModalComponent} from './Modal';
 import {Box} from './Box';
 import {Header} from './Header';
 import {Button} from './Button';
-import { formatDate } from '@utils/utils';
+import {formatDate} from '@utils/utils';
 
 export function Notification() {
   const [count, setCount] = useState(0);
   const [nofications, setNofications] = useState<INoticafion[] | []>([]);
   const [enabledNotifications, setEnabledNotifications] = useState(false);
   const user = useUser(u => u.user);
+  const width = Dimensions.get('window').width;
 
   async function getNotification() {
     const response = await api.get(`notifications/${user.id}`);
@@ -61,53 +62,55 @@ export function Notification() {
               isModal
               setShow={setEnabledNotifications}
             />
-            <Box p="s">
-              <TouchableOpacity activeOpacity={1}>
+            <Box p="s" flex={1}>
               {nofications.map((i, index) => (
-                <Box key={index} padding="m" gap="s">
-                  <Box backgroundColor="zinc" flexDirection="row">
-                    <Box
-                      backgroundColor="greenPrimary"
-                      width={50}
-                      alignItems="center"
-                      justifyContent="center">
-                      <Users />
-                    </Box>
-                    <Box p="m" width={320}>
-                      <Text
-                        variant="bodyMin"
-                        color="textBody"
-                        lineBreakMode="clip">
-                        {i.sender.name} acabou de enviar uma notificação
-                      </Text>
-                      <Text variant="body" color="shape">
-                        {i.message}
-                      </Text>
-                      <Text variant="bold" color="greenPrimary">
-                        {formatDate(i.createdAt)}
-                      </Text>
-                      {i.type === 'friend' && (
-                        <Box flexDirection="row" gap="s" justifyContent='flex-end' width={265} mt='l'>
-                          <Button
-                            padding="s"
-                            height={40}
-                            label="Aceitar"
-                            backgroundColor="greenPrimary"
-                          />
-                          <Button
-                             height={40}
-                            padding="s"
-                            label="Cancelar"
-                            backgroundColor="dangerPrimary"
-                          />
+                <TouchableOpacity
+                  activeOpacity={1}
+                  key={index}
+                  style={{
+                    backgroundColor: '#18181b',
+                    width: width - 20,
+                    height: 60,
+                    marginBottom: 10,
+                    borderRadius: 5,
+                    justifyContent: 'center',
+                  }}>
+                  <Box
+                    flexDirection="row"
+                    p="s"
+                    gap="l"
+                    alignItems="center"
+                    justifyContent="space-between">
+                    <Box flexDirection="row" alignItems="center" gap="l">
+                      {i.sender.foto ? (
+                        <Image
+                          source={{uri: i.sender?.foto}}
+                          width={30}
+                          height={30}
+                          style={{borderRadius: 30}}
+                        />
+                      ) : (
+                        <Box
+                          width={30}
+                          height={30}
+                          alignItems="center"
+                          justifyContent="center">
+                          <User color="#fff" />
                         </Box>
                       )}
+                      <Box>
+                        <Text variant="body" color="shape">
+                          {i.sender.name}
+                        </Text>
+                        <Text variant="bodyMin" color="textBody">
+                          {i.message}
+                        </Text>
+                      </Box>
                     </Box>
+                    <Button label="aceitar" marginRight="s" />
                   </Box>
-                </Box>
+                </TouchableOpacity>
               ))}
-              </TouchableOpacity>
-              
             </Box>
           </Box>
         }

@@ -56,6 +56,7 @@ export interface INoticafion {
   sender : {
     name : string;
     email : string;
+    foto : string;
   }
   createdAt : string;
 }
