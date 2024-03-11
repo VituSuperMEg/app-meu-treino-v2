@@ -20,7 +20,6 @@ export function Notification() {
 
   async function getNotification() {
     const response = await api.get(`notifications/${user.id}`);
-    console.log(response.data);
     setCount(response.data.length);
     setNofications(response.data);
   }

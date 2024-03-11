@@ -67,7 +67,7 @@ export function UserData({user_id, flower = false}: UserDataParams) {
             </Box>
           )}
 
-          <Box flexDirection='row' gap='l'>
+          <Box flexDirection="row" gap="l">
             <Box>
               <Text variant="bold" color="shape">
                 {user.name}
@@ -76,18 +76,24 @@ export function UserData({user_id, flower = false}: UserDataParams) {
                 {profile.focus}
               </Text>
             </Box>
-            <Box flexDirection='row' gap="m">
-              <Text variant="body" color="textBody" textAlign='center'>
-                Seguidores
-                {"\n"}
-                <Text variant='body' color='greenPrimary'>0</Text>
-              </Text>
-              <Text variant="body" color="textBody" textAlign='center'>
-                Seguindo
-                {"\n"}
-                <Text variant='body' color='greenPrimary'>0</Text>
-              </Text>
-            </Box> 
+            {flower && (
+              <Box flexDirection="row" gap="m">
+                <Text variant="body" color="textBody" textAlign="center">
+                  Seguidores
+                  {'\n'}
+                  <Text variant="body" color="greenPrimary">
+                    0
+                  </Text>
+                </Text>
+                <Text variant="body" color="textBody" textAlign="center">
+                  Seguindo
+                  {'\n'}
+                  <Text variant="body" color="greenPrimary">
+                    0
+                  </Text>
+                </Text>
+              </Box>
+            )}
           </Box>
         </Box>
         <Box>
@@ -98,6 +104,31 @@ export function UserData({user_id, flower = false}: UserDataParams) {
           )}
         </Box>
       </Box>
+      {!flower && (
+        <Box flexDirection="row" gap="m" mt='l' alignItems='center' justifyContent='center'>
+           <Text variant="body" color="textBody" textAlign="center">
+            Treinos
+            {'\n'}
+            <Text variant="body" color="greenPrimary">
+              0
+            </Text>
+          </Text>
+          <Text variant="body" color="textBody" textAlign="center">
+            Seguidores
+            {'\n'}
+            <Text variant="body" color="greenPrimary">
+              0
+            </Text>
+          </Text>
+          <Text variant="body" color="textBody" textAlign="center">
+            Seguindo
+            {'\n'}
+            <Text variant="body" color="greenPrimary">
+              0
+            </Text>
+          </Text>
+        </Box>
+      )}
       {show && (
         <Modal
           animationType="slide"
