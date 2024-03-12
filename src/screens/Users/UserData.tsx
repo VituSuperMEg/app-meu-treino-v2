@@ -67,21 +67,33 @@ export function UserData({user_id, flower = false}: UserDataParams) {
             </Box>
           )}
 
-          <Box>
+          <Box flexDirection="row" gap="l">
             <Box>
               <Text variant="bold" color="shape">
                 {user.name}
               </Text>
-            </Box>
-            <Box
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="center"
-              gap="s">
               <Text variant="body" color="textBody">
                 {profile.focus}
               </Text>
             </Box>
+            {flower && (
+              <Box flexDirection="row" gap="m">
+                <Text variant="body" color="textBody" textAlign="center">
+                  Seguidores
+                  {'\n'}
+                  <Text variant="body" color="greenPrimary">
+                    0
+                  </Text>
+                </Text>
+                <Text variant="body" color="textBody" textAlign="center">
+                  Seguindo
+                  {'\n'}
+                  <Text variant="body" color="greenPrimary">
+                    0
+                  </Text>
+                </Text>
+              </Box>
+            )}
           </Box>
         </Box>
         <Box>
@@ -92,6 +104,31 @@ export function UserData({user_id, flower = false}: UserDataParams) {
           )}
         </Box>
       </Box>
+      {!flower && (
+        <Box flexDirection="row" gap="m" mt='l' alignItems='center' justifyContent='center'>
+           <Text variant="body" color="textBody" textAlign="center">
+            Treinos
+            {'\n'}
+            <Text variant="body" color="greenPrimary">
+              0
+            </Text>
+          </Text>
+          <Text variant="body" color="textBody" textAlign="center">
+            Seguidores
+            {'\n'}
+            <Text variant="body" color="greenPrimary">
+              0
+            </Text>
+          </Text>
+          <Text variant="body" color="textBody" textAlign="center">
+            Seguindo
+            {'\n'}
+            <Text variant="body" color="greenPrimary">
+              0
+            </Text>
+          </Text>
+        </Box>
+      )}
       {show && (
         <Modal
           animationType="slide"
