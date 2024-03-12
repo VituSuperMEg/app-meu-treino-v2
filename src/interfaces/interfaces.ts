@@ -33,6 +33,8 @@ export interface IProfile {
   level: string;
   description: string | null;
   private: string;
+  followers : string[];
+  following : string[];
 }
 export interface IImage {
   name: string;
