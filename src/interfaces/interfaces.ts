@@ -60,3 +60,10 @@ export interface INoticafion {
   }
   createdAt : string;
 }
+export interface IFriendRequest {
+  id : string;
+  receiverId : string;
+  senderId : string;
+  createdAt : string;
+  status : string;
+}

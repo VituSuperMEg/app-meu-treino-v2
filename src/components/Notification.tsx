@@ -3,8 +3,8 @@ import {Dimensions, Image, TouchableOpacity, View} from 'react-native';
 import {Text} from './Text';
 import {useEffect, useState} from 'react';
 import {useUser} from '@store/auth';
-import {api} from '@services/api';
-import {INoticafion} from 'src/interfaces/interfaces';
+import {api, submit} from '@services/api';
+import {IFriendRequest, INoticafion} from 'src/interfaces/interfaces';
 import {ModalComponent} from './Modal';
 import {Box} from './Box';
 import {Header} from './Header';
@@ -15,6 +15,7 @@ export function Notification() {
   const [count, setCount] = useState(0);
   const [nofications, setNofications] = useState<INoticafion[] | []>([]);
   const [enabledNotifications, setEnabledNotifications] = useState(false);
+  const [friendRequest, setFriendRequest] = useState({} as IFriendRequest);
   const user = useUser(u => u.user);
   const width = Dimensions.get('window').width;
 
@@ -23,9 +24,31 @@ export function Notification() {
     setCount(response.data.length);
     setNofications(response.data);
   }
+  async function getFriendRequest() {
+    const senderId = nofications.map(n => n.senderId);
+    const res = await api.get('users/add-friend', {
+      params: {
+        senderId: senderId,
+        receiverId: user.id,
+      },
+    });
+    setFriendRequest(res.data);
+  }
   useEffect(() => {
     getNotification();
-  }, [user]);
+    getFriendRequest();
+  }, [user, nofications]);
+
+  async function handleAccept(senderId : string) {
+    const res = await submit({
+      controller : 'users/accept-friend',
+      params : {
+        id : friendRequest.id,
+        senderId : senderId,
+        receiverId : user.id,
+      }
+    })
+  }
   return (
     <>
       <View>
@@ -106,7 +129,7 @@ export function Notification() {
                         </Text>
                       </Box>
                     </Box>
-                    <Button label="aceitar" marginRight="s" />
+                    <Button label="aceitar" marginRight="s" onPress={() => handleAccept(i.senderId)}/>
                   </Box>
                 </TouchableOpacity>
               ))}

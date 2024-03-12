@@ -93,9 +93,10 @@ export function FollowUser() {
           receiverId: id,
         },
       });
+      
       if(res) {
         setStopConfirmationModal(false);
-        setWait('pedir');
+        await getFriendRequest();
       }
     } catch (err) {
       console.log(err.message);
@@ -117,7 +118,10 @@ export function FollowUser() {
                   ? 'Aguardando confirmação'
                   : 'Seguindo'
               }
-              onPress={() => handlePedirParaSeguir(user.id)}
+              onPress={() => {
+                wait === 'pedir' ? 
+                handlePedirParaSeguir(user.id) : setStopConfirmationModal(true)
+              }}
               backgroundColor={
                 wait === 'pedir'
                   ? 'zinc'

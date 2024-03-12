@@ -13,7 +13,7 @@ interface IHeader {
   style : 'home' | 'menu';
   name?: string;
   favorite? : boolean;
-  isModal : boolean;
+  isModal? : boolean;
   setShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function Header({ style = 'home', name = '', favorite = false, setShow , isModal = false}:IHeader) {
