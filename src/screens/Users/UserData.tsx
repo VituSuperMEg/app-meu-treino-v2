@@ -131,6 +131,8 @@ export function UserData({user_id, flower = false}: UserDataParams) {
               {profile?.followers?.length}
             </Text>
           </Text>
+          <TouchableOpacity onPress={() => navigate('flowwing')}>
+
           <Text variant="body" color="textBody" textAlign="center">
             Seguindo
             {'\n'}
@@ -139,6 +141,7 @@ export function UserData({user_id, flower = false}: UserDataParams) {
 
             </Text>
           </Text>
+          </TouchableOpacity>
         </Box>
       )}
       {show && (

@@ -16,7 +16,8 @@ export declare global {
       NotDiet : undefined;
       follower : {
         id : string | '';
-      }
+      },
+      flowwing : undefined
     }
   }
 }

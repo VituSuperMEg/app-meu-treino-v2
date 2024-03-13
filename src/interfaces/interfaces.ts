@@ -69,3 +69,11 @@ export interface IFriendRequest {
   createdAt : string;
   status : string;
 }
+export interface IFlowwing {
+  id : string;
+  foto : string;
+  name : string;
+  profile  : {
+    private : string
+  }
+}

@@ -61,7 +61,7 @@ export function EditProfill() {
   useEffect(() => {
     getData();
   }, [])
- 
+   
   const width = Dimensions.get('window').width;
 
   return (
