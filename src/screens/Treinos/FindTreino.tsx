@@ -156,42 +156,6 @@ export function FindTreino() {
             ))}
           </ScrollView>
           <Box>
-            {/* <Box flexDirection="row" justifyContent="space-between">
-              <Button
-                label="Curtir"
-                onPress={() =>
-                  setThumbs({
-                    like: !thumbs.like,
-                    dislike: false,
-                  })
-                }
-                textColor={thumbs.like ? 'greenPrimary' : 'shape'}
-                padding="m"
-                flexDirection="row"
-                alignItems="center"
-                gap="m"
-                borderRadius={8}
-                icon={<ThumbsUp color={thumbs.like ? '#5ED25C' : '#fff'} />}
-              />
-              <Button
-                label="Não Gostei"
-                textColor={thumbs.dislike ? 'dangerPrimary' : 'shape'}
-                padding="m"
-                onPress={() =>
-                  setThumbs({
-                    like: false,
-                    dislike: !thumbs.dislike,
-                  })
-                }
-                flexDirection="row"
-                alignItems="center"
-                gap="m"
-                borderRadius={8}
-                icon={
-                  <ThumbsDown color={thumbs.dislike ? '#ef4444' : '#fff'} />
-                }
-              />
-            </Box> */}
             {showModalFeedBack && (
               <ModalFeedBack
                 show={showModalFeedBack}
@@ -201,6 +165,7 @@ export function FindTreino() {
             {i.usersId === String(user.id) ? (
               <Button
                 label="Adicionar ao Calendário"
+                onPress={() => navigate('TreinoInCalendar')}
                 backgroundColor="greenPrimary"
                 marginTop="m"
                 textColor="black"

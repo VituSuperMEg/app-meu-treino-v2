@@ -23,7 +23,7 @@ export function AddTreinoInCalendar() {
               Adicione o treino ao calendário e tenha maior controle em suas
               atividades físicas.
             </Text>
-            <Text variant="bodyMin" color="textBody" textAlign="justify">
+            <Text variant="bodyMin" color="textBody" textAlign="center">
               Marca o melhor dia para você está treinando...{'\n'}Vamos enviar
               uma notificação quando o treino estiver perto de acontecer.
             </Text>
