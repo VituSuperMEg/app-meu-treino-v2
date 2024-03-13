@@ -12,12 +12,15 @@ export declare global {
       User : {
         id: string | undefined;
       }
-      TreinoInCalendar : undefined;
+      TreinoInCalendar : {
+        id : string;
+      };
       NotDiet : undefined;
       follower : {
         id : string | '';
       },
-      flowwing : undefined
+      flowwing : undefined;
+      calendario :  undefined;
     }
   }
 }

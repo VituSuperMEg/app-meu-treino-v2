@@ -12,6 +12,7 @@ import { AddTreinoInCalendar } from "@screens/AddTreinoInCalendar";
 import { NotDiet } from "@screens/Diet/NotDiet";
 import { FollowUser } from "@screens/FollowUser";
 import { Flowwing } from "@screens/Users/Flowwing";
+import { Calendario } from "@screens/Calendario";
 
 const S = createStackNavigator();
 
@@ -33,7 +34,7 @@ export const Navigation = () => {
       <S.Screen name="NotDiet" component={NotDiet} />
       <S.Screen name="follower" component={FollowUser} />
       <S.Screen name="flowwing" component={Flowwing} />
-
+      <S.Screen name="calendario" component={Calendario} />
     </S.Navigator>
   );
 }

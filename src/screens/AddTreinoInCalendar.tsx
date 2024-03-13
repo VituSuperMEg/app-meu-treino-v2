@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Text} from '@components/Text';
 
 export function AddTreinoInCalendar() {
-  const {goBack} = useNavigation();
+  const {goBack,navigate} = useNavigation();
   return (
     <Box flex={1} backgroundColor="mainBackground">
       <Box
@@ -39,7 +39,7 @@ export function AddTreinoInCalendar() {
             alignItems="center"
             justifyContent="center"
             borderRadius={6}
-            onPress={() => goBack()}
+            onPress={() => navigate('calendario')}
           />
           <Button
             marginTop="s"

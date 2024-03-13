@@ -12,6 +12,7 @@ import {
   CalendarBlank,
   ChatCenteredDots,
   Download,
+  Pencil,
   ThumbsDown,
   ThumbsUp,
   Timer,
@@ -163,9 +164,28 @@ export function FindTreino() {
               />
             )}
             {i.usersId === String(user.id) ? (
+              <>
+              <Button
+                label="Editar Treino"
+                onPress={() => navigate('TreinoInCalendar', {
+                  id : i.id
+                })}
+                backgroundColor="shape"
+                marginTop="m"
+                textColor="black"
+                borderWidth={1}
+                height={55}
+                alignItems="center"
+                justifyContent="center"
+                borderRadius={8}
+                flexDirection="row"
+                gap="m"
+              />
               <Button
                 label="Adicionar ao Calendário"
-                onPress={() => navigate('TreinoInCalendar')}
+                onPress={() => navigate('TreinoInCalendar', {
+                  id : i.id
+                })}
                 backgroundColor="greenPrimary"
                 marginTop="m"
                 textColor="black"
@@ -178,6 +198,7 @@ export function FindTreino() {
                 gap="m"
                 icon={<CalendarBlank />}
               />
+              </>
             ) : (
               <>
                 <Button
