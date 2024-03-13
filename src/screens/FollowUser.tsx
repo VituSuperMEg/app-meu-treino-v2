@@ -6,17 +6,29 @@ import {useEffect, useState} from 'react';
 import {IParams, IProfile, IUserState} from 'src/interfaces/interfaces';
 import {UserData} from './Users/UserData';
 import {Button} from '@components/Button';
-import {Alert, Dimensions, Modal} from 'react-native';
-import {CheckCircle, Lock} from 'phosphor-react-native';
+import {Alert, Dimensions, Modal, TouchableOpacity, View} from 'react-native';
+import {
+  Barbell,
+  CheckCircle,
+  Factory,
+  Lock,
+  Stack,
+  Users,
+} from 'phosphor-react-native';
 import {Text} from '@components/Text';
 import {useToast} from 'react-native-toast-notifications';
 import {useUser} from '@store/auth';
+import {MyPosts} from './Users/MyPosts';
+import {MyMarkerPosts} from './Users/MyMarkerPosts';
+import {MyTreinos} from './Users/MyTreinos';
+import {MyGrupo} from './Users/MyGrupo';
 
 export function FollowUser() {
   const [user, setUser] = useState({} as IUserState);
   const [profile, setProfile] = useState({} as IProfile);
   const [seguir, setSeguir] = useState(false);
   const [wait, setWait] = useState('pedir');
+  const [tab, setTab] = useState('meus_posts');
   const [stopConfirmationModal, setStopConfirmationModal] = useState(false);
   const [idRequest, setIdRequest] = useState(0);
   const myUser = useUser(u => u.user);
@@ -51,7 +63,7 @@ export function FollowUser() {
         setWait('enviado');
       } else if (res.data.status === 'aceito') {
         setWait('aceito');
-      }else{
+      } else {
         setWait('pedir');
       }
     } catch (err) {
@@ -71,15 +83,14 @@ export function FollowUser() {
           receiverId: id,
         },
       });
-        toast.show('Solicitação enviada com sucesso', {
-          icon: <CheckCircle color="#fff" />,
-          type: 'success',
-          duration: 4000,
-          successColor: '#5ED25C',
-          placement: 'top',
-        });
-        setWait('enviado');
-      
+      toast.show('Solicitação enviada com sucesso', {
+        icon: <CheckCircle color="#fff" />,
+        type: 'success',
+        duration: 4000,
+        successColor: '#5ED25C',
+        placement: 'top',
+      });
+      setWait('enviado');
     }
   }
 
@@ -93,8 +104,8 @@ export function FollowUser() {
           receiverId: id,
         },
       });
-      
-      if(res) {
+
+      if (res) {
         setStopConfirmationModal(false);
         await getFriendRequest();
       }
@@ -119,8 +130,9 @@ export function FollowUser() {
                   : 'Seguindo'
               }
               onPress={() => {
-                wait === 'pedir' ? 
-                handlePedirParaSeguir(user.id) : setStopConfirmationModal(true)
+                wait === 'pedir'
+                  ? handlePedirParaSeguir(user.id)
+                  : setStopConfirmationModal(true);
               }}
               backgroundColor={
                 wait === 'pedir'
@@ -167,8 +179,10 @@ export function FollowUser() {
           )}
         </Box>
       </Box>
-      <Box width={width} backgroundColor="textBody" height={1} />
-      {profile.private !== 'public' ? (
+      {profile.private !== 'public' && wait !== 'aceito' && (
+        <Box width={width} backgroundColor="textBody" height={1} />
+      )}
+      {profile.private !== 'public' && wait !== 'aceito' ? (
         <Box flex={1} alignItems="center" justifyContent="center">
           <Text variant="bold" color="shape" textAlign="center">
             Essa conta é privada {'\n'}
@@ -179,7 +193,60 @@ export function FollowUser() {
           </Text>
         </Box>
       ) : (
-        <Box></Box>
+        <Box flex={1} pr='m' pl='m'>
+          <Box flexDirection="row" justifyContent="space-between">
+            <TouchableOpacity
+              onPress={() => setTab('meus_posts')}
+              style={{
+                padding: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 50,
+                borderBottomWidth: 3,
+                borderColor: tab === 'meus_posts' ? '#5ED25C' : 'transparent',
+              }}>
+              <Stack color={tab === 'meus_posts' ? '#5ED25C' : '#fff'} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setTab('meus_treinos')}
+              style={{
+                padding: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 50,
+                borderBottomWidth: 3,
+                borderColor: tab === 'meus_treinos' ? '#5ED25C' : 'transparent',
+              }}>
+              <Barbell color={tab === 'meus_treinos' ? '#5ED25C' : '#fff'} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setTab('meus_marcados')}
+              style={{
+                padding: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 50,
+                borderBottomWidth: 3,
+                borderColor:
+                  tab === 'meus_marcados' ? '#5ED25C' : 'transparent',
+              }}>
+              <Users color={tab === 'meus_marcados' ? '#5ED25C' : '#fff'} />
+            </TouchableOpacity>
+          </Box>
+          <View
+            style={{
+              width: 500,
+              backgroundColor: '#858585',
+              height: 1,
+              position: 'relative',
+              left: -20,
+            }}
+          />
+          {tab === 'meus_posts' && <MyPosts />}
+          {tab === 'meus_marcados' && <MyMarkerPosts />}
+          {tab === 'meus_treinos' && <MyTreinos id={params.id}/>}
+          {tab === 'meus_grupos' && <MyGrupo />}
+        </Box>
       )}
       <Modal visible={stopConfirmationModal} animationType="slide" transparent>
         <Box

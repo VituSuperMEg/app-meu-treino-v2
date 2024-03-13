@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Text} from '@components/Text';
 
 export function AddTreinoInCalendar() {
-  const {goBack} = useNavigation();
+  const {goBack,navigate} = useNavigation();
   return (
     <Box flex={1} backgroundColor="mainBackground">
       <Box
@@ -23,7 +23,7 @@ export function AddTreinoInCalendar() {
               Adicione o treino ao calendário e tenha maior controle em suas
               atividades físicas.
             </Text>
-            <Text variant="bodyMin" color="textBody" textAlign="justify">
+            <Text variant="bodyMin" color="textBody" textAlign="center">
               Marca o melhor dia para você está treinando...{'\n'}Vamos enviar
               uma notificação quando o treino estiver perto de acontecer.
             </Text>
@@ -39,7 +39,7 @@ export function AddTreinoInCalendar() {
             alignItems="center"
             justifyContent="center"
             borderRadius={6}
-            onPress={() => goBack()}
+            onPress={() => navigate('calendario')}
           />
           <Button
             marginTop="s"

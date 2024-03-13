@@ -12,6 +12,7 @@ import {
   CalendarBlank,
   ChatCenteredDots,
   Download,
+  Pencil,
   ThumbsDown,
   ThumbsUp,
   Timer,
@@ -156,42 +157,6 @@ export function FindTreino() {
             ))}
           </ScrollView>
           <Box>
-            {/* <Box flexDirection="row" justifyContent="space-between">
-              <Button
-                label="Curtir"
-                onPress={() =>
-                  setThumbs({
-                    like: !thumbs.like,
-                    dislike: false,
-                  })
-                }
-                textColor={thumbs.like ? 'greenPrimary' : 'shape'}
-                padding="m"
-                flexDirection="row"
-                alignItems="center"
-                gap="m"
-                borderRadius={8}
-                icon={<ThumbsUp color={thumbs.like ? '#5ED25C' : '#fff'} />}
-              />
-              <Button
-                label="Não Gostei"
-                textColor={thumbs.dislike ? 'dangerPrimary' : 'shape'}
-                padding="m"
-                onPress={() =>
-                  setThumbs({
-                    like: false,
-                    dislike: !thumbs.dislike,
-                  })
-                }
-                flexDirection="row"
-                alignItems="center"
-                gap="m"
-                borderRadius={8}
-                icon={
-                  <ThumbsDown color={thumbs.dislike ? '#ef4444' : '#fff'} />
-                }
-              />
-            </Box> */}
             {showModalFeedBack && (
               <ModalFeedBack
                 show={showModalFeedBack}
@@ -199,8 +164,28 @@ export function FindTreino() {
               />
             )}
             {i.usersId === String(user.id) ? (
+              <>
+              <Button
+                label="Editar Treino"
+                onPress={() => navigate('TreinoInCalendar', {
+                  id : i.id
+                })}
+                backgroundColor="shape"
+                marginTop="m"
+                textColor="black"
+                borderWidth={1}
+                height={55}
+                alignItems="center"
+                justifyContent="center"
+                borderRadius={8}
+                flexDirection="row"
+                gap="m"
+              />
               <Button
                 label="Adicionar ao Calendário"
+                onPress={() => navigate('TreinoInCalendar', {
+                  id : i.id
+                })}
                 backgroundColor="greenPrimary"
                 marginTop="m"
                 textColor="black"
@@ -213,6 +198,7 @@ export function FindTreino() {
                 gap="m"
                 icon={<CalendarBlank />}
               />
+              </>
             ) : (
               <>
                 <Button

@@ -33,6 +33,8 @@ export interface IProfile {
   level: string;
   description: string | null;
   private: string;
+  followers : string[];
+  following : string[];
 }
 export interface IImage {
   name: string;
@@ -66,4 +68,12 @@ export interface IFriendRequest {
   senderId : string;
   createdAt : string;
   status : string;
+}
+export interface IFlowwing {
+  id : string;
+  foto : string;
+  name : string;
+  profile  : {
+    private : string
+  }
 }

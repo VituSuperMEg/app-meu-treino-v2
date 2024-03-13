@@ -20,9 +20,10 @@ import {ButtonFocus} from '@components/ButtonFocus';
 import AgeScroll from '@components/ScroolAge';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {TextInputRestyle} from '@components/TextInput';
-import {submit} from '@services/api';
+import {submit, submitMultiPart} from '@services/api';
 import {useToast} from 'react-native-toast-notifications';
 import { IUserState } from 'src/interfaces/interfaces';
+import { ImagePickerComponent } from '@components/ImagePicker';
 
 export function CreateAccount() {
   const {goBack, navigate} = useNavigation();
@@ -45,7 +46,7 @@ export function CreateAccount() {
   const [selectedAge, setSelectedAge] = useState(18);
   const [selectedWeight, setSelectedWeight] = useState(50);
   const [selectedHeight, setSelectedHeight] = useState(100);
-
+  const [image, setImage] = useState(null);
   const [state, dispatch] = useReducer(createAccountReducer, {
     sexo: '',
     age: '',
@@ -63,15 +64,26 @@ export function CreateAccount() {
   };
 
   const onSubmit : SubmitHandler<IUserState>  = async data => {
-    const result = await submit({
-      controller: 'users',
-      params: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        foto: '',
-        premium: '',
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('premium', '');
+    
+    image.assets.forEach(
+      (asset: {uri: string; fileName: string; type: string}) => {
+        const file = {
+          uri: asset.uri,
+          name: asset.fileName,
+          type: asset.type,
+        };
+        formData.append('file', file);
       },
+    );
+
+   const result = await submitMultiPart({
+      controller: 'users',
+      params: formData,
     });
     if (!result) {
       toast.show('E-mail já existe!', {
@@ -80,24 +92,25 @@ export function CreateAccount() {
         duration: 4000,
       });
     }
-    await submit({
-      controller: 'profille',
-      params: {
-        user_id: result?.id,
-        sexo: state.sexo,
-        age: state.age,
-        height: state.height,
-        weight: state.weight,
-        focus: state.focus,
-        level: state.level,
-      },
-    });
-    toast.show('Conta Criada com Sucesso', {
-      type: 'success',
-      icon: <CheckCircle color="#fff" />,
-      duration: 4000,
-    });
-    navigate('Login');
+    console.log(result);
+     await submit({
+       controller: 'profille',
+       params: {
+         user_id: result?.id,
+         sexo: state.sexo,
+         age: state.age,
+         height: state.height,
+         weight: state.weight,
+         focus: state.focus,
+         level: state.level,
+       },
+     });
+     toast.show('Conta Criada com Sucesso', {
+       type: 'success',
+       icon: <CheckCircle color="#fff" />,
+       duration: 4000,
+     });
+     navigate('Login');
   };
 
   const isPasswordMatch = (value: string) => {
@@ -662,6 +675,9 @@ export function CreateAccount() {
             </Text>
           </Box>
           <Box padding='l'>
+            <Box alignItems='center'>
+            <ImagePickerComponent setImage={setImage} salvar={image} profile/>
+            </Box>
             <Controller
               control={control}
               rules={{

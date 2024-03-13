@@ -27,19 +27,25 @@ interface UserDataParams {
 }
 export function UserData({user_id, flower = false}: UserDataParams) {
   const [profile, setProfilleState] = useState<IProfile>({} as IProfile);
+  const [countTreino, setCountTreino] = useState(0);
   const [user, setUser] = useState({} as IUserState);
   const [show, setShow] = useState(false);
 
   const {navigate} = useNavigation();
 
+  async function getData() {
+    const user = await api.get(`users/${user_id}`);
+    const profile = await api.get(`profille/${user_id}`);
+    setProfilleState(profile.data);
+    setUser(user.data);
+  }
+  async function getTreino() {
+    const treinos = await api.get(`treinos/user/${user_id}`);
+    setCountTreino(treinos.data.length);
+  }
   useEffect(() => {
-    async function getData() {
-      const user = await api.get(`users/${user_id}`);
-      const profile = await api.get(`profille/${user_id}`);
-      setProfilleState(profile.data);
-      setUser(user.data);
-    }
     getData();
+    getTreino();
   }, [user_id]);
 
   return (
@@ -82,14 +88,14 @@ export function UserData({user_id, flower = false}: UserDataParams) {
                   Seguidores
                   {'\n'}
                   <Text variant="body" color="greenPrimary">
-                    0
+                    {profile?.followers?.length}
                   </Text>
                 </Text>
                 <Text variant="body" color="textBody" textAlign="center">
                   Seguindo
                   {'\n'}
                   <Text variant="body" color="greenPrimary">
-                    0
+                  {profile?.following?.length}
                   </Text>
                 </Text>
               </Box>
@@ -105,28 +111,37 @@ export function UserData({user_id, flower = false}: UserDataParams) {
         </Box>
       </Box>
       {!flower && (
-        <Box flexDirection="row" gap="m" mt='l' alignItems='center' justifyContent='center'>
-           <Text variant="body" color="textBody" textAlign="center">
+        <Box
+          flexDirection="row"
+          gap="m"
+          mt="l"
+          alignItems="center"
+          justifyContent="center">
+          <Text variant="body" color="textBody" textAlign="center">
             Treinos
             {'\n'}
             <Text variant="body" color="greenPrimary">
-              0
+              {countTreino}
             </Text>
           </Text>
           <Text variant="body" color="textBody" textAlign="center">
             Seguidores
             {'\n'}
             <Text variant="body" color="greenPrimary">
-              0
+              {profile?.followers?.length}
             </Text>
           </Text>
+          <TouchableOpacity onPress={() => navigate('flowwing')}>
+
           <Text variant="body" color="textBody" textAlign="center">
             Seguindo
             {'\n'}
             <Text variant="body" color="greenPrimary">
-              0
+            {profile?.following?.length}
+
             </Text>
           </Text>
+          </TouchableOpacity>
         </Box>
       )}
       {show && (

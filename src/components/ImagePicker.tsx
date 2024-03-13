@@ -51,7 +51,7 @@ export function ImagePickerComponent({
                 borderColor="textBody"
                 height={200}
                 width={200}
-                borderRadius={200}
+                borderRadius={profile ? 200 : 0}
                 alignItems="center"
                 justifyContent="center"
                 gap="s">
