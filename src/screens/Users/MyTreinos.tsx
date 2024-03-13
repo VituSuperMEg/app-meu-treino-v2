@@ -58,7 +58,7 @@ export function MyTreinos() {
         </Text>
       ))}
       <Button
-        onPress={() => navigate('Treino', { id: item.id })}
+        onPress={() => navigate('FindTreino', { id: item.id })}
         backgroundColor="greenPrimary"
         label="Visualizar"
         marginTop="xl"
