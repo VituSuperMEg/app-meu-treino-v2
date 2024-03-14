@@ -1,3 +1,5 @@
+import { ReservationListProps } from "react-native-calendars/src/agenda/reservation-list";
+
 export interface ITreinos {
   name: string;
   author: {
@@ -76,4 +78,7 @@ export interface IFlowwing {
   profile  : {
     private : string
   }
+}
+export interface ICalendarProps extends  ReservationListProps{
+
 }
