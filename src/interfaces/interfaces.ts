@@ -80,5 +80,5 @@ export interface IFlowwing {
   }
 }
 export interface ICalendarProps extends  ReservationListProps{
-
+  treinoId: string;
 }

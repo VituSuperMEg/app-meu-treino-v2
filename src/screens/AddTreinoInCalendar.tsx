@@ -2,11 +2,14 @@ import {Box} from '@components/Box';
 import weights from '@assets/weights.png';
 import {Image} from 'react-native';
 import {Button} from '@components/Button';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Text} from '@components/Text';
+import { IParams } from 'src/interfaces/interfaces';
 
 export function AddTreinoInCalendar() {
   const {goBack,navigate} = useNavigation();
+  const { params } = useRoute<IParams>();
+
   return (
     <Box flex={1} backgroundColor="mainBackground">
       <Box
@@ -39,7 +42,10 @@ export function AddTreinoInCalendar() {
             alignItems="center"
             justifyContent="center"
             borderRadius={6}
-            onPress={() => navigate('calendario')}
+            onPress={() => navigate('calendario', {
+              id : params?.id
+            }
+            )}
           />
           <Button
             marginTop="s"

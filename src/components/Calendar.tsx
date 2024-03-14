@@ -6,12 +6,16 @@ import { Box } from './Box';
 import { Text } from './Text';
 import { ICalendarProps } from 'src/interfaces/interfaces';
 
+interface ICalendar {
+  treinoId : string;
+}
 
-const List = (props: ICalendarProps) => {
+const List = (props: ICalendarProps, { treinoId }:ICalendar) => {
   const date = new Date(props.selectedDay);
-   
+  console.log(treinoId)
+  
   async function getCalendar() {
-    
+
   }
   console.log(date.getFullYear(), date.getMonth(), date.getDate())
   return (
@@ -20,7 +24,10 @@ const List = (props: ICalendarProps) => {
     </Box>
   )
 }
-export function CalendarC() {
+
+export function CalendarC({
+   treinoId
+}:ICalendar) {
   const [selected, setSelected] = useState('');
   LocaleConfig.locales['br'] = {
     monthNames: [
@@ -90,7 +97,7 @@ export function CalendarC() {
       onDayPress={day => {
         // console.log('selected day', day);
       }}
-      renderList={props => <List {...props}/>}
+      renderList={props => <List {...props} treinoId={treinoId}/>}
     />
   );
 }
