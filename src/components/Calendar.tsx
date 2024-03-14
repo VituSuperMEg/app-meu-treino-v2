@@ -10,8 +10,8 @@ interface ICalendar {
   treinoId : string;
 }
 
-const List = (props: ICalendarProps, { treinoId }:ICalendar) => {
-  const date = new Date(props.selectedDay);
+const List = ({ treinoId, selectedDay}:ICalendarProps) => {
+  const date = new Date(selectedDay);
   console.log(treinoId)
   
   async function getCalendar() {
@@ -28,6 +28,7 @@ const List = (props: ICalendarProps, { treinoId }:ICalendar) => {
 export function CalendarC({
    treinoId
 }:ICalendar) {
+  console.log(treinoId)
   const [selected, setSelected] = useState('');
   LocaleConfig.locales['br'] = {
     monthNames: [
@@ -97,7 +98,7 @@ export function CalendarC({
       onDayPress={day => {
         // console.log('selected day', day);
       }}
-      renderList={props => <List {...props} treinoId={treinoId}/>}
+      renderList={() => <List selectedDay={selected} treinoId={treinoId}/>}
     />
   );
 }

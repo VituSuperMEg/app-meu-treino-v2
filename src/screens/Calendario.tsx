@@ -8,7 +8,7 @@ import {IParams} from 'src/interfaces/interfaces';
 export function Calendario() {
   const {goBack} = useNavigation();
   const {params} = useRoute<IParams>();
-  console.log(params?.id);
+
   return (
     <Box
       flex={1}
