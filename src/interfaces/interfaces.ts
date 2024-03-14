@@ -82,3 +82,13 @@ export interface IFlowwing {
 export interface ICalendarProps extends  ReservationListProps{
   treinoId: string;
 }
+export interface ITreinoCalendar{
+  id: string;
+  day : string;
+  month : string;
+  year : string;
+  treino_id: ITreinos;
+  userId : string;
+  status : string;
+  created_at : string;
+}
