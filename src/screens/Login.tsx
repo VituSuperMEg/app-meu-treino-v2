@@ -10,18 +10,18 @@ import {useNavigation} from '@react-navigation/native';
 import cover from '../assets/cover.png';
 import {submit} from '@services/api';
 import {useUser} from '../store/auth';
-import React, {useRef, useState} from 'react'; 
+import React, {useRef, useState} from 'react';
 
 export function Login() {
   const setUser = useUser(state => state.setUser);
   const setToken = useUser(state => state.setToken);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const {navigate} = useNavigation();
   const {
     control,
     handleSubmit,
     formState: {errors},
-    reset, 
+    reset,
   } = useForm({
     defaultValues: {
       email: '',
@@ -32,7 +32,6 @@ export function Login() {
   const formRef = useRef();
 
   const onSubmit = async data => {
-    
     const result = await submit({
       controller: 'auth/login',
       params: {
@@ -40,58 +39,58 @@ export function Login() {
         password: data.password,
       },
     });
-    if(!result) {
-      return setError("Usuário ou senha inválidos");
+    if (!result) {
+      return setError('Usuário ou senha inválidos');
     }
     setUser(result.user);
     setToken(result.access_token);
-    setError("");
+    setError('');
     reset();
   };
-  
+
   return (
     <Box flex={1} paddingTop="l" backgroundColor="mainBackground" ref={formRef}>
       <Image source={cover} style={{width: '100%', height: 300}} />
-      <Box padding="s" marginTop="l">
+      <Box padding="m" marginTop="l" flex={1}>
         <Text variant="body" color="shape">
           Comece seu treino 🏅
         </Text>
         <Text variant="ligth" color="shape">
           Crie um login para começar a treinar.
         </Text>
-        <Box padding="s">
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, onBlur, value}}) => (
-              <TextInputRestyle
-                marginTop="m"
-                placeholder="E-mail"
-                placeholderTextColor="#858585"
-                paddingLeft="m"
-                borderColor="textBody"
-                style={{color: '#fff'}}
-                borderWidth={1}
-                borderRadius={6}
-                height={50}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry={false}
-                icon={<Envelope color="#858585" />}
-                erros={
-                  errors.email && (
-                    <Text variant="body" color="danger">
-                      Informe seu e-mail
-                    </Text>
-                  )
-                }
-              />
-            )}
-            name="email"
-          />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <TextInputRestyle
+              marginTop="m"
+              placeholder="E-mail"
+              placeholderTextColor="#858585"
+              paddingLeft="m"
+              borderColor="textBody"
+              style={{color: '#fff'}}
+              borderWidth={1}
+              borderRadius={6}
+              height={50}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry={false}
+              icon={<Envelope color="#858585" />}
+              erros={
+                errors.email && (
+                  <Text variant="body" color="danger">
+                    Informe seu e-mail
+                  </Text>
+                )
+              }
+            />
+          )}
+          name="email"
+        />
+        <Box>
           <Controller
             control={control}
             rules={{
@@ -123,7 +122,6 @@ export function Login() {
             )}
             name="password"
           />
-
           <Box alignItems="flex-end" marginTop="s">
             <Button
               onPress={() => navigate('SendCode')}
@@ -132,30 +130,33 @@ export function Login() {
               textColor="textBody"
             />
           </Box>
-          <Box justifyContent='center' alignItems='center'>
-          <Text variant='body' color='danger'>
+        </Box>
+        <Box justifyContent="center" alignItems="center">
+          <Text variant="body" color="danger">
             {error}
           </Text>
-          </Box>
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            backgroundColor="greenPrimary"
-            label="Entrar"
-            marginTop="xl"
-            borderRadius={6}
-            height={50}
-            alignItems="center"
-            justifyContent="center"
-            color="shape"
-          />
-          <Box alignItems="center" marginTop="m">
-            <Text variant="body" color="textBody">
-              Não tem conta ?{' '}
-              <Text variant="bold" color="greenPrimary" onPress={() => navigate("Create")}>
-                Crie uma.
-              </Text>
+        </Box>
+        <Button
+          onPress={handleSubmit(onSubmit)}
+          backgroundColor="greenPrimary"
+          label="Entrar"
+          marginTop="xl"
+          borderRadius={6}
+          height={50}
+          alignItems="center"
+          justifyContent="center"
+          color="shape"
+        />
+        <Box alignItems="center" marginTop="m">
+          <Text variant="body" color="textBody">
+            Não tem conta ?{' '}
+            <Text
+              variant="bold"
+              color="greenPrimary"
+              onPress={() => navigate('Create')}>
+              Crie uma.
             </Text>
-          </Box>
+          </Text>
         </Box>
       </Box>
     </Box>

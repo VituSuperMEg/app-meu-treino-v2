@@ -20,7 +20,9 @@ export declare global {
         id : string | '';
       },
       flowwing : undefined;
-      calendario :  undefined;
+      calendario :  {
+        id : string | undefined;
+      };
     }
   }
 }
