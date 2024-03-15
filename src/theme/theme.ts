@@ -14,6 +14,7 @@ const pallete = {
   zinc400 : '#3f3f46',
 
   trasnparent : 'rgba(0,0,0,0.8)',
+  parent: 'rgba(0,0,0,0.1)',
 }
 
 const theme = createTheme({
@@ -28,6 +29,7 @@ const theme = createTheme({
     dangerPrimary : pallete.dangerPrimary,
     zinc400 : pallete.zinc400,
     transparent : pallete.trasnparent,
+    parent : pallete.parent
   },
   spacing : {
     s : 8,
