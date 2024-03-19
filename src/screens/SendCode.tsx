@@ -37,7 +37,6 @@ export function SendCode() {
   const [email, setEmail] = useState('');
   const toast = useToast();
   const handleEnviarToken = async (data: ISendCode) => {
-    // Primeiro passo é validar se o usuário existe na base de dados!
     const user = await api.get(`users/email?email=${data.email}`);
     if (!user.data.success) {
       return toast.show("Esse e-mail não corresponde a nenhum usuário!", {

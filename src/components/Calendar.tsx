@@ -1,33 +1,10 @@
-import {useState} from 'react';
-import { ActivityIndicator } from 'react-native';
-import {Agenda, Calendar} from 'react-native-calendars';
-import {LocaleConfig} from 'react-native-calendars';
-import { Box } from './Box';
-import { Text } from './Text';
-import { ICalendarProps } from 'src/interfaces/interfaces';
-
-interface ICalendar {
-  treinoId : string;
-}
-
-const List = ({ treinoId, selectedDay}:ICalendarProps) => {
-  const date = new Date(selectedDay);
-  console.log(treinoId)
-  
-  async function getCalendar() {
-
-  }
-  console.log(date.getFullYear(), date.getMonth(), date.getDate())
-  return (
-    <Box>
-      <Text variant='body'>Lista</Text>
-    </Box>
-  )
-}
 
 export function CalendarC({
    treinoId
 }:ICalendar) {
+
+export function CalendarC({treinoId}: ICalendar) {
+  console.log(treinoId);
   const [selected, setSelected] = useState('');
   LocaleConfig.locales['br'] = {
     monthNames: [
@@ -97,7 +74,9 @@ export function CalendarC({
       onDayPress={day => {
         // console.log('selected day', day);
       }}
-      renderList={() => <List selectedDay={selected} treinoId={treinoId}/>}
+      renderList={({selectedDay}) => (
+        <List selectedDay={selectedDay} treinoId={treinoId} />
+      )}
     />
   );
 }
