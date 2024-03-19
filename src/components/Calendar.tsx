@@ -28,7 +28,6 @@ const List = ({ treinoId, selectedDay}:ICalendarProps) => {
 export function CalendarC({
    treinoId
 }:ICalendar) {
-  console.log(treinoId)
   const [selected, setSelected] = useState('');
   LocaleConfig.locales['br'] = {
     monthNames: [
